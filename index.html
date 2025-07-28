@@ -279,18 +279,7 @@
         audioPlayer.src = song.preview;
         audioPlayer.volume = 0;
         audioPlayer.play().catch(e => console.error("Erro ao tocar áudio:", e));
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: song.title,
-                artist: song.artist,
-                album: 'Qual é a Melhor?',
-                artwork: [{ src: song.cover, sizes: '300x300', type: 'image/jpeg' }]
-            });
-            navigator.mediaSession.setActionHandler('play', null);
-            navigator.mediaSession.setActionHandler('pause', null);
-            navigator.mediaSession.setActionHandler('previoustrack', null);
-            navigator.mediaSession.setActionHandler('nexttrack', null);
-        }
+        
         let currentVolume = 0;
         fadeInterval = setInterval(() => {
             currentVolume += 0.1;
@@ -300,6 +289,7 @@
             }
             audioPlayer.volume = currentVolume;
         }, 100);
+
         stopAudioTimeoutId = setTimeout(() => {
             clearInterval(fadeInterval);
             currentVolume = 1;
