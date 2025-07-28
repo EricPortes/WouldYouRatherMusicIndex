@@ -279,6 +279,27 @@
         audioPlayer.src = song.preview;
         audioPlayer.volume = 0;
         audioPlayer.play().catch(e => console.error("Erro ao tocar áudio:", e));
+
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: song.title,
+                artist: song.artist,
+                album: 'Qual é a Melhor?',
+                artwork: [{
+                    src: song.cover,
+                    sizes: '300x300',
+                    type: 'image/jpeg'
+                }]
+            });
+
+            navigator.mediaSession.setActionHandler('play', () => { /* Ignorar */ });
+            navigator.mediaSession.setAction-Handler('pause', () => { /* Ignorar */ });
+            navigator.mediaSession.setActionHandler('previoustrack', () => { /* Ignorar */ });
+            navigator.mediaSession.setActionHandler('nexttrack', () => { /* Ignorar */ });
+            navigator.mediaSession.setActionHandler('stop', () => { /* Ignorar */ });
+            navigator.mediaSession.setActionHandler('seekbackward', () => { /* Ignorar */ });
+            navigator.mediaSession.setActionHandler('seekforward', () => { /* Ignorar */ });
+        }
         
         let currentVolume = 0;
         fadeInterval = setInterval(() => {
