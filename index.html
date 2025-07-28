@@ -157,7 +157,7 @@
     </button>
 
     <nav id="side-menu">
-        <h2>Opções</h2>
+        <h2>id="menu-title">Opções</h2>
         <ul id="lang-switcher">
             <li><a href="#" data-lang="pt">English</a></li>
             <li><a href="#" data-lang="en">Español</a></li>
@@ -187,6 +187,7 @@
 
     const translations = {
         "pt": {
+            menu_title: "Opções",
             lang_code: "pt-br",
             start_game: "▶ Iniciar Jogo",
             next_round: "Próxima Rodada",
@@ -196,6 +197,7 @@
             error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor."
         },
         "en": {
+            menu_title: "Options",
             lang_code: "en",
             start_game: "▶ Start Game",
             next_round: "Next Round",
@@ -205,6 +207,7 @@
             error_loading_songs: "Couldn't load songs. Please check the server connection."
         },
         "es": {
+            menu_title: "Opciones",
             lang_code: "es",
             start_game: "▶ Iniciar Juego",
             next_round: "Siguiente Ronda",
@@ -220,6 +223,7 @@
     const startButton = document.getElementById("start-button");
     const nextRoundButton = document.getElementById("next-round-button");
     const vsCircle = document.getElementById("vs-circle");
+    const menuTitle = document.getElementById("menu-title");
 
     function setLanguage(lang) {
         currentTexts = translations[lang] || translations['pt'];
@@ -227,6 +231,7 @@
         startButton.innerText = currentTexts.start_game;
         nextRoundButton.innerText = currentTexts.next_round;
         vsCircle.innerText = currentTexts.vs;
+        menuTitle.innerText = currentTexts.menu_title;
     }
 
     // Lógica para abrir/fechar o menu
