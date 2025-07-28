@@ -272,59 +272,59 @@
         isChoiceEnabled = false,
         fadeInterval, stopAudioTimeoutId;
 
-    function playAudio(song, durationInSeconds) {
-        if (!song || !song.preview) return console.error("Música ou preview não encontrado!");
-        clearInterval(fadeInterval);
-        clearTimeout(stopAudioTimeoutId);
-        audioPlayer.src = song.preview;
-        audioPlayer.volume = 0;
-        audioPlayer.play().catch(e => console.error("Erro ao tocar áudio:", e));
+function playAudio(song, durationInSeconds) {
+    if (!song || !song.preview) return console.error("Música ou preview não encontrado!");
+    clearInterval(fadeInterval);
+    clearTimeout(stopAudioTimeoutId);
+    audioPlayer.src = song.preview;
+    audioPlayer.volume = 0;
+    audioPlayer.play().catch(e => console.error("Erro ao tocar áudio:", e));
 
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: song.title,
-                artist: song.artist,
-                album: 'Qual é a Melhor?',
-                artwork: [{
-                    src: song.cover,
-                    sizes: '300x300',
-                    type: 'image/jpeg'
-                }]
-            });
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: song.title,
+            artist: song.artist,
+            album: 'Qual é a Melhor?',
+            artwork: [{
+                src: song.cover,
+                sizes: '300x300',
+                type: 'image/jpeg'
+            }]
+        });
 
-            navigator.mediaSession.setActionHandler('play', () => { /* Ignorar */ });
-            navigator.mediaSession.setAction-Handler('pause', () => { /* Ignorar */ });
-            navigator.mediaSession.setActionHandler('previoustrack', () => { /* Ignorar */ });
-            navigator.mediaSession.setActionHandler('nexttrack', () => { /* Ignorar */ });
-            navigator.mediaSession.setActionHandler('stop', () => { /* Ignorar */ });
-            navigator.mediaSession.setActionHandler('seekbackward', () => { /* Ignorar */ });
-            navigator.mediaSession.setActionHandler('seekforward', () => { /* Ignorar */ });
+        navigator.mediaSession.setActionHandler('play', () => {});
+        navigator.mediaSession.setActionHandler('pause', () => {});
+        navigator.mediaSession.setActionHandler('previoustrack', () => {});
+        navigator.mediaSession.setActionHandler('nexttrack', () => {});
+        navigator.mediaSession.setActionHandler('stop', () => {});
+        navigator.mediaSession.setActionHandler('seekbackward', () => {});
+        navigator.mediaSession.setActionHandler('seekforward', () => {});
+    }
+
+    let currentVolume = 0;
+    fadeInterval = setInterval(() => {
+        currentVolume += 0.1;
+        if (currentVolume >= 1) {
+            currentVolume = 1;
+            clearInterval(fadeInterval);
         }
-        
-        let currentVolume = 0;
+        audioPlayer.volume = currentVolume;
+    }, 100);
+
+    stopAudioTimeoutId = setTimeout(() => {
+        clearInterval(fadeInterval);
+        currentVolume = 1;
         fadeInterval = setInterval(() => {
-            currentVolume += 0.1;
-            if (currentVolume >= 1) {
-                currentVolume = 1;
+            currentVolume -= 0.1;
+            if (currentVolume <= 0) {
+                currentVolume = 0;
                 clearInterval(fadeInterval);
+                audioPlayer.pause();
             }
             audioPlayer.volume = currentVolume;
         }, 100);
-
-        stopAudioTimeoutId = setTimeout(() => {
-            clearInterval(fadeInterval);
-            currentVolume = 1;
-            fadeInterval = setInterval(() => {
-                currentVolume -= 0.1;
-                if (currentVolume <= 0) {
-                    currentVolume = 0;
-                    clearInterval(fadeInterval);
-                    audioPlayer.pause();
-                }
-                audioPlayer.volume = currentVolume;
-            }, 100);
-        }, (durationInSeconds - 1) * 1000);
-    }
+    }, (durationInSeconds - 1) * 1000);
+}
 
     async function startRound() {
         roundOver = false;
