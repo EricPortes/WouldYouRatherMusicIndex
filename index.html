@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="/static/favicon.png">
 
     <style>
-        /* ESTILOS PRINCIPAIS PARA DESKTOP */
+        /* CSS ANTIGO (COM AJUSTES) */
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; }
         .game-container { display: flex; flex-direction: row; width: 100%; height: 100%; position: relative; }
         .divider { width: 10px; height: 100%; background-color: black; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }
@@ -32,17 +32,7 @@
         @media (max-width: 768px) and (orientation: portrait) {
             .game-container { flex-direction: column; }
             .side { width: 100%; height: 50%; }
-            /* --- DIVISÓRIA MELHORADA --- */
-            .divider {
-                width: 100%;
-                height: 8px; /* Um pouco mais grossa */
-                background-color: black;
-                border-top: 1px solid #333; /* Adiciona um efeito de borda sutil */
-                border-bottom: 1px solid #333;
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%);
-            }
+            .divider { width: 100%; height: 8px; background-color: black; border-top: 1px solid #333; border-bottom: 1px solid #333; top: 50%; left: 0; transform: translateY(-50%); }
             .vs-circle { width: 60px; height: 60px; font-size: 28px; border-width: 3px; }
             .album-cover { width: 120px; height: 120px; margin-bottom: 10px; }
             .song-title { font-size: 18px; }
@@ -50,31 +40,225 @@
             .approval-rating { font-size: 16px; margin-top: 8px; }
             #start-button, #next-round-button { font-size: 16px; padding: 10px 20px; bottom: 20px; }
         }
+
+        /* --- NOVO CSS --- */
+
+        /* AJUSTE PARA CELULAR NA HORIZONTAL (LANDSCAPE) */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .vs-circle { width: 60px; height: 60px; font-size: 28px; border-width: 3px; }
+            .album-cover { width: 120px; height: 120px; margin-bottom: 10px; }
+            .song-title { font-size: 18px; }
+            .song-artist { font-size: 14px; }
+            .approval-rating { font-size: 16px; margin-top: 8px; }
+            #start-button, #next-round-button { font-size: 14px; padding: 8px 16px; bottom: 15px; }
+        }
+
+        /* BOTÃO DO MENU (HAMBURGER) */
+        #menu-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+        #menu-toggle .bar {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+
+        /* PAINEL DO MENU LATERAL */
+        #side-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background-color: #181818;
+            z-index: 1000;
+            transform: translateX(-100%); /* Começa escondido à esquerda */
+            transition: transform 0.3s ease-in-out;
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        #side-menu.open {
+            transform: translateX(0); /* Fica visível */
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        /* ESTILO DO CONTEÚDO DO MENU */
+        #side-menu h2 {
+            margin-top: 40px;
+        }
+        #side-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+        #side-menu ul li a {
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 0;
+            display: block;
+            transition: color 0.2s;
+        }
+        #side-menu ul li a:hover {
+            color: white;
+        }
+        .deezer-credit {
+            margin-top: auto; /* Empurra para o final */
+            font-size: 12px;
+            color: #888;
+        }
+        .deezer-credit a {
+            color: #888;
+        }
+
+        /* OVERLAY ESCURO NO FUNDO */
+        #menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        #menu-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* AJUSTE MENU PARA CELULAR */
+        @media (max-width: 768px) {
+            #side-menu {
+                width: 85%; /* Ocupa mais espaço no celular */
+            }
+        }
     </style>
 </head>
 <body>
+    <button id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <nav id="side-menu">
+        <h2>Opções</h2>
+        <ul id="lang-switcher">
+            <li><a href="#" data-lang="pt">Português</a></li>
+            <li><a href="#" data-lang="en">English</a></li>
+            <li><a href="#" data-lang="es">Español</a></li>
+        </ul>
+        <div class="deezer-credit">
+            <p>Music data provided by</p>
+            <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer">
+                <img src="https://e-cdns-files.dzcdn.net/cache/slash/images/common/logos/deezer.d26992c908518382b643a18a4a1b088b.png" alt="Deezer Logo" height="20">
+            </a>
+        </div>
+    </nav>
+    <div id="menu-overlay"></div>
+
+
     <div class="game-container">
         <div class="side left" id="side-left"><div class="song-content" id="song-left"><img class="album-cover" id="cover-left" alt=""><h2 class="song-title" id="title-left"></h2><p class="song-artist" id="artist-left"></p><div class="approval-rating" id="approval-left"></div></div></div>
-        <div class="vs-circle">VS</div>
+        <div class="vs-circle" id="vs-circle">VS</div>
         <div class="side right" id="side-right"><div class="song-content" id="song-right"><img class="album-cover" id="cover-right" alt=""><h2 class="song-title" id="title-right"></h2><p class="song-artist" id="artist-right"></p><div class="approval-rating" id="approval-right"></div></div></div>
     </div>
     <button id="start-button">▶ Iniciar Jogo</button>
     <button id="next-round-button">Próxima Rodada</button>
     <audio id="audio-player"></audio>
+
     <script>
-    // ** MUDANÇA 1: Os textos agora são fixos em português **
-    const TEXTS = {
-        approval_of: "Aprovação de",
-        approval_error: "Aprovação: Tente Novamente",
-        error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor."
+    // --- NOVO JAVASCRIPT: Lógica do Menu e Traduções ---
+
+    const translations = {
+        "pt": {
+            lang_code: "pt-br",
+            start_game: "▶ Iniciar Jogo",
+            next_round: "Próxima Rodada",
+            approval_of: "Aprovação de",
+            vs: "VS",
+            approval_error: "Aprovação: Tente Novamente",
+            error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor."
+        },
+        "en": {
+            lang_code: "en",
+            start_game: "▶ Start Game",
+            next_round: "Next Round",
+            approval_of: "Approval Rating",
+            vs: "VS",
+            approval_error: "Approval: Try Again Later",
+            error_loading_songs: "Couldn't load songs. Please check the server connection."
+        },
+        "es": {
+            lang_code: "es",
+            start_game: "▶ Iniciar Juego",
+            next_round: "Siguiente Ronda",
+            approval_of: "Índice de Aprobación",
+            vs: "VS",
+            approval_error: "Aprobación: Inténtalo más tarde",
+            error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor."
+        }
     };
+
+    let currentTexts = {};
+
+    const startButton = document.getElementById("start-button");
+    const nextRoundButton = document.getElementById("next-round-button");
+    const vsCircle = document.getElementById("vs-circle");
+
+    function setLanguage(lang) {
+        currentTexts = translations[lang] || translations['pt'];
+        document.documentElement.lang = currentTexts.lang_code;
+        startButton.innerText = currentTexts.start_game;
+        nextRoundButton.innerText = currentTexts.next_round;
+        vsCircle.innerText = currentTexts.vs;
+    }
+
+    // Lógica para abrir/fechar o menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const sideMenu = document.getElementById('side-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    function toggleMenu() {
+        sideMenu.classList.toggle('open');
+        menuOverlay.classList.toggle('visible');
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+    menuOverlay.addEventListener('click', toggleMenu);
+
+    // Lógica para trocar de idioma
+    const langSwitcher = document.getElementById('lang-switcher');
+    langSwitcher.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+            const selectedLang = event.target.getAttribute('data-lang');
+            // Recarrega a página com o novo idioma no parâmetro da URL
+            window.location.href = window.location.pathname + '?lang=' + selectedLang;
+        }
+    });
+
+    // --- CÓDIGO ANTIGO DO JOGO (COM AJUSTES) ---
 
     const sideLeft = document.getElementById("side-left"),
         sideRight = document.getElementById("side-right"),
         songLeft = document.getElementById("song-left"),
         songRight = document.getElementById("song-right"),
-        startButton = document.getElementById("start-button"),
-        nextRoundButton = document.getElementById("next-round-button"),
         audioPlayer = document.getElementById("audio-player"),
         approvalLeft = document.getElementById("approval-left"),
         approvalRight = document.getElementById("approval-right");
@@ -95,11 +279,7 @@
                 title: song.title,
                 artist: song.artist,
                 album: 'Qual é a Melhor?',
-                artwork: [{
-                    src: song.cover,
-                    sizes: '300x300',
-                    type: 'image/jpeg'
-                }]
+                artwork: [{ src: song.cover, sizes: '300x300', type: 'image/jpeg' }]
             });
             navigator.mediaSession.setActionHandler('play', null);
             navigator.mediaSession.setActionHandler('pause', null);
@@ -129,6 +309,7 @@
             }, 100);
         }, (durationInSeconds - 1) * 1000);
     }
+
     async function startRound() {
         roundOver = false;
         isChoiceEnabled = false;
@@ -140,11 +321,10 @@
         approvalLeft.style.opacity = 0;
         approvalRight.style.opacity = 0;
         try {
-            // ** MUDANÇA 2: URL completa da API no PythonAnywhere **
             const response = await fetch("https://wouldyourathermusic.pythonanywhere.com/get-songs");
             const data = await response.json();
             if (data.error) {
-                return alert(TEXTS.error_loading_songs);
+                return alert(currentTexts.error_loading_songs);
             }
             currentSongs.left = data[0];
             currentSongs.right = data[1];
@@ -155,7 +335,7 @@
             }, 100);
         } catch (error) {
             console.error("Não foi possível buscar as músicas:", error);
-            alert(TEXTS.error_loading_songs);
+            alert(currentTexts.error_loading_songs);
         }
     }
 
@@ -178,9 +358,7 @@
         songRight.classList.add("visible");
         playAudio(currentSongs.right, 5);
         setTimeout(() => {
-            if (!roundOver) {
-                isChoiceEnabled = true;
-            }
+            if (!roundOver) { isChoiceEnabled = true; }
         }, 5000);
     }
 
@@ -192,7 +370,7 @@
         const steps = duration / stepTime;
         let increment = finalValue === 0 ? 0 : finalValue / steps;
 
-        element.innerText = `${TEXTS.approval_of} 0%`;
+        element.innerText = `${currentTexts.approval_of} 0%`;
         if (finalValue === 0) return;
 
         const timer = setInterval(() => {
@@ -201,9 +379,10 @@
                 startValue = finalValue;
                 clearInterval(timer);
             }
-            element.innerText = `${TEXTS.approval_of} ${Math.floor(startValue)}%`;
+            element.innerText = `${currentTexts.approval_of} ${Math.floor(startValue)}%`;
         }, stepTime);
     }
+
     async function handleChoice(side) {
         if (!roundOver && isChoiceEnabled) {
             roundOver = true;
@@ -215,7 +394,6 @@
             document.getElementById(`side-${loserSide}`).classList.add("loser");
             playAudio(winnerSong, 10);
             try {
-                // ** MUDANÇA 3: URL completa da API no PythonAnywhere **
                 const response = await fetch('https://wouldyourathermusic.pythonanywhere.com/vote', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -236,8 +414,8 @@
 
             } catch (error) {
                 console.error("Erro ao registrar voto:", error);
-                approvalLeft.innerText = TEXTS.approval_error;
-                approvalRight.innerText = TEXTS.approval_error;
+                approvalLeft.innerText = currentTexts.approval_error;
+                approvalRight.innerText = currentTexts.approval_error;
                 approvalLeft.style.opacity = 1;
                 approvalRight.style.opacity = 1;
             }
@@ -246,12 +424,27 @@
             }, 1500);
         }
     }
+
     sideLeft.addEventListener("click", () => handleChoice("left"));
     sideRight.addEventListener("click", () => handleChoice("right"));
     nextRoundButton.addEventListener("click", startRound);
     startButton.addEventListener("click", () => {
         startButton.style.display = "none";
-        startRound()
+        startRound();
+    });
+
+    // Função que roda assim que a página carrega
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let lang = urlParams.get('lang');
+
+        if (!translations[lang]) {
+            // Tenta detectar o idioma do navegador
+            const browserLang = navigator.language.split('-')[0];
+            lang = translations[browserLang] ? browserLang : 'pt';
+        }
+
+        setLanguage(lang);
     });
     </script>
 </body>
