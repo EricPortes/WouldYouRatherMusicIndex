@@ -94,8 +94,9 @@
         <div class="vs-circle" id="vs-circle">VS</div>
         <div class="side right" id="side-right"><div class="song-content" id="song-right"><img class="album-cover" id="cover-right" alt=""><h2 class="song-title" id="title-right"></h2><p class="song-artist" id="artist-right"></p><div class="approval-rating" id="approval-right"></div></div></div>
     </div>
-    <button id="start-button">▶ Iniciar Jogo</button>
-    <button id="next-round-button">Próxima Rodada</button>
+    <button id="start-button"></button>
+    <button id="next-round-button"></button>
+    
     <audio id="audio-player"></audio>
 
     <script>
@@ -106,11 +107,71 @@
     };
 
     let currentTexts = {};
-
     const startButton = document.getElementById("start-button");
     const nextRoundButton = document.getElementById("next-round-button");
     const vsCircle = document.getElementById("vs-circle");
     const menuTitle = document.getElementById("menu-title");
+    const menuToggle = document.getElementById('menu-toggle');
+    const sideMenu = document.getElementById('side-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const langSwitcher = document.getElementById('lang-switcher');
+    const sideLeft = document.getElementById("side-left");
+    const sideRight = document.getElementById("side-right");
+    const songLeft = document.getElementById("song-left");
+    const songRight = document.getElementById("song-right");
+    const approvalLeft = document.getElementById("approval-left");
+    const approvalRight = document.getElementById("approval-right");
+    
+    let currentSongs = {};
+    let roundOver = false;
+    let isChoiceEnabled = false;
+
+    // --- CORREÇÃO 2: Lógica de áudio refeita com Web Audio API ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContext();
+    let currentAudioSource = null;
+    let currentGainNode = null;
+
+    function playAudio(song, durationInSeconds) {
+        if (currentAudioSource) {
+            try {
+                currentAudioSource.stop();
+            } catch (e) {
+                // ignora o erro caso a fonte já tenha sido parada
+            }
+        }
+        
+        if (!song || !song.preview) {
+            return console.error("Música ou preview não encontrado!");
+        }
+
+        fetch(song.preview)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+            .then(audioBuffer => {
+                currentAudioSource = audioContext.createBufferSource();
+                currentGainNode = audioContext.createGain();
+                
+                currentAudioSource.buffer = audioBuffer;
+                currentAudioSource.connect(currentGainNode);
+                currentGainNode.connect(audioContext.destination);
+
+                // Fade in
+                currentGainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                currentGainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 1);
+
+                currentAudioSource.start();
+
+                // Fade out
+                const fadeOutTime = audioContext.currentTime + durationInSeconds - 1;
+                currentGainNode.gain.setValueAtTime(1, fadeOutTime);
+                currentGainNode.gain.linearRampToValueAtTime(0, fadeOutTime + 1);
+                
+                currentAudioSource.stop(fadeOutTime + 1.1);
+            })
+            .catch(e => console.error("Erro ao processar áudio:", e));
+    }
+    // --- FIM DA NOVA LÓGICA DE ÁUDIO ---
 
     function setLanguage(lang) {
         currentTexts = translations[lang] || translations['pt'];
@@ -121,89 +182,9 @@
         menuTitle.innerText = currentTexts.menu_title;
     }
 
-    const menuToggle = document.getElementById('menu-toggle');
-    const sideMenu = document.getElementById('side-menu');
-    const menuOverlay = document.getElementById('menu-overlay');
-
     function toggleMenu() {
         sideMenu.classList.toggle('open');
         menuOverlay.classList.toggle('visible');
-    }
-
-    menuToggle.addEventListener('click', toggleMenu);
-    menuOverlay.addEventListener('click', toggleMenu);
-
-    const langSwitcher = document.getElementById('lang-switcher');
-    langSwitcher.addEventListener('click', (event) => {
-        if (event.target.tagName === 'A') {
-            event.preventDefault();
-            const selectedLang = event.target.getAttribute('data-lang');
-            window.location.href = window.location.pathname + '?lang=' + selectedLang;
-        }
-    });
-
-    const sideLeft = document.getElementById("side-left");
-    const sideRight = document.getElementById("side-right");
-    const songLeft = document.getElementById("song-left");
-    const songRight = document.getElementById("song-right");
-    const audioPlayer = document.getElementById("audio-player");
-    const approvalLeft = document.getElementById("approval-left");
-    const approvalRight = document.getElementById("approval-right");
-    
-    let currentSongs = {};
-    let roundOver = false;
-    let isChoiceEnabled = false;
-    let fadeInterval, stopAudioTimeoutId;
-    let isGamePausing = false; // <-- ADIÇÃO 1: Variável de controle
-
-    function playAudio(song, durationInSeconds) {
-        if (!song || !song.preview) return console.error("Música ou preview não encontrado!");
-        clearInterval(fadeInterval);
-        clearTimeout(stopAudioTimeoutId);
-        audioPlayer.src = song.preview;
-        audioPlayer.volume = 0;
-        audioPlayer.play().catch(e => console.error("Erro ao tocar áudio:", e));
-
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: song.title,
-                artist: song.artist,
-                album: 'Qual é a Melhor?',
-                artwork: [{ src: song.cover, sizes: '300x300', type: 'image/jpeg' }]
-            });
-            navigator.mediaSession.setActionHandler('play', () => {});
-            navigator.mediaSession.setActionHandler('pause', () => {});
-            navigator.mediaSession.setActionHandler('previoustrack', () => {});
-            navigator.mediaSession.setActionHandler('nexttrack', () => {});
-            navigator.mediaSession.setActionHandler('stop', () => {});
-            navigator.mediaSession.setActionHandler('seekbackward', () => {});
-            navigator.mediaSession.setActionHandler('seekforward', () => {});
-        }
-
-        let currentVolume = 0;
-        fadeInterval = setInterval(() => {
-            currentVolume += 0.1;
-            if (currentVolume >= 1) {
-                currentVolume = 1;
-                clearInterval(fadeInterval);
-            }
-            audioPlayer.volume = currentVolume;
-        }, 100);
-
-        stopAudioTimeoutId = setTimeout(() => {
-            clearInterval(fadeInterval);
-            currentVolume = 1;
-            fadeInterval = setInterval(() => {
-                currentVolume -= 0.1;
-                if (currentVolume <= 0) {
-                    currentVolume = 0;
-                    clearInterval(fadeInterval);
-                    isGamePausing = true; // <-- ADIÇÃO 2: Avisa que a pausa é intencional
-                    audioPlayer.pause();
-                }
-                audioPlayer.volume = currentVolume;
-            }, 100);
-        }, (durationInSeconds - 1) * 1000);
     }
 
     async function startRound() {
@@ -319,10 +300,23 @@
         }
     }
     
+    menuToggle.addEventListener('click', toggleMenu);
+    menuOverlay.addEventListener('click', toggleMenu);
+    langSwitcher.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+            const selectedLang = event.target.getAttribute('data-lang');
+            window.location.href = window.location.pathname + '?lang=' + selectedLang;
+        }
+    });
     sideLeft.addEventListener("click", () => handleChoice("left"));
     sideRight.addEventListener("click", () => handleChoice("right"));
     nextRoundButton.addEventListener("click", startRound);
     startButton.addEventListener("click", () => {
+        // Inicializa o AudioContext no primeiro clique do usuário
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
         startButton.style.display = "none";
         startRound();
     });
@@ -335,21 +329,6 @@
             lang = translations[browserLang] ? browserLang : 'pt';
         }
         setLanguage(lang);
-    });
-
-    document.addEventListener('keydown', function(event) {
-        const mediaKeys = [ 'MediaPlayPause', 'MediaTrackNext', 'MediaTrackPrevious', 'MediaStop', 'AudioPlay', 'AudioPause' ];
-        if (mediaKeys.includes(event.key)) {
-            event.preventDefault();
-        }
-    });
-
-    // ADIÇÃO 3: O "Guarda" que impede pausas externas
-    audioPlayer.addEventListener('pause', () => {
-        if (!isGamePausing) {
-            audioPlayer.play();
-        }
-        isGamePausing = false;
     });
     </script>
 </body>
