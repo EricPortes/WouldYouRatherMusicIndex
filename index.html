@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" href="/static/favicon.png">
 
     <style>
-        /* CSS ANTIGO (COM AJUSTES) */
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; }
         .game-container { display: flex; flex-direction: row; width: 100%; height: 100%; position: relative; }
         .divider { width: 10px; height: 100%; background-color: black; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }
@@ -28,7 +27,6 @@
         #start-button, #next-round-button { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; font-size: 20px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer; z-index: 5; }
         #next-round-button { display: none; }
 
-        /* LAYOUT PARA TELAS VERTICAIS (CELULAR) */
         @media (max-width: 768px) and (orientation: portrait) {
             .game-container { flex-direction: column; }
             .side { width: 100%; height: 50%; }
@@ -41,9 +39,6 @@
             #start-button, #next-round-button { font-size: 16px; padding: 10px 20px; bottom: 20px; }
         }
 
-        /* --- NOVO CSS --- */
-
-        /* AJUSTE PARA CELULAR NA HORIZONTAL (LANDSCAPE) */
         @media (max-height: 500px) and (orientation: landscape) {
             .vs-circle { width: 60px; height: 60px; font-size: 28px; border-width: 3px; }
             .album-cover { width: 120px; height: 120px; margin-bottom: 10px; }
@@ -53,99 +48,21 @@
             #start-button, #next-round-button { font-size: 14px; padding: 8px 16px; bottom: 15px; }
         }
 
-        /* BOTÃO DO MENU (HAMBURGER) */
-        #menu-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 10px;
-        }
-        #menu-toggle .bar {
-            display: block;
-            width: 30px;
-            height: 3px;
-            background-color: white;
-            margin: 6px 0;
-            transition: 0.4s;
-        }
-
-        /* PAINEL DO MENU LATERAL */
-        #side-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 280px;
-            background-color: #181818;
-            z-index: 1000;
-            transform: translateX(-100%); /* Começa escondido à esquerda */
-            transition: transform 0.3s ease-in-out;
-            padding: 20px;
-            box-sizing: border-box;
-            color: white;
-            display: flex;
-            flex-direction: column;
-        }
-        #side-menu.open {
-            transform: translateX(0); /* Fica visível */
-            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
-        }
-
-        /* ESTILO DO CONTEÚDO DO MENU */
-        #side-menu h2 {
-            margin-top: 40px;
-        }
-        #side-menu ul {
-            list-style: none;
-            padding: 0;
-        }
-        #side-menu ul li a {
-            color: #b3b3b3;
-            text-decoration: none;
-            font-size: 18px;
-            padding: 10px 0;
-            display: block;
-            transition: color 0.2s;
-        }
-        #side-menu ul li a:hover {
-            color: white;
-        }
-        .deezer-credit {
-            margin-top: auto; /* Empurra para o final */
-            font-size: 12px;
-            color: #888;
-        }
-        .deezer-credit a {
-            color: #888;
-        }
-
-        /* OVERLAY ESCURO NO FUNDO */
-        #menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-        #menu-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* AJUSTE MENU PARA CELULAR */
+        #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 10; cursor: pointer; background: none; border: none; padding: 10px; }
+        #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
+        #side-menu { position: fixed; top: 0; left: 0; height: 100%; width: 280px; background-color: #181818; z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease-in-out; padding: 20px; box-sizing: border-box; color: white; display: flex; flex-direction: column; }
+        #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+        #side-menu h2 { margin-top: 40px; }
+        #side-menu ul { list-style: none; padding: 0; }
+        #side-menu ul li a { color: #b3b3b3; text-decoration: none; font-size: 18px; padding: 10px 0; display: block; transition: color 0.2s; }
+        #side-menu ul li a:hover { color: white; }
+        .deezer-credit { margin-top: auto; font-size: 12px; color: #888; }
+        .deezer-credit a { color: #888; }
+        #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
+        #menu-overlay.visible { opacity: 1; visibility: visible; }
+        
         @media (max-width: 768px) {
-            #side-menu {
-                width: 85%; /* Ocupa mais espaço no celular */
-            }
+            #side-menu { width: 85%; }
         }
     </style>
 </head>
@@ -166,12 +83,11 @@
         <div class="deezer-credit">
             <p>Music data provided by</p>
             <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer">
-                <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo" height="20">
+                <img src="https://e-cdns-files.dzcdn.net/cache/slash/images/common/logos/deezer-logo-white.png" alt="Deezer Logo" height="20">
             </a>
         </div>
     </nav>
     <div id="menu-overlay"></div>
-
 
     <div class="game-container">
         <div class="side left" id="side-left"><div class="song-content" id="song-left"><img class="album-cover" id="cover-left" alt=""><h2 class="song-title" id="title-left"></h2><p class="song-artist" id="artist-left"></p><div class="approval-rating" id="approval-left"></div></div></div>
@@ -183,39 +99,10 @@
     <audio id="audio-player"></audio>
 
     <script>
-    // --- NOVO JAVASCRIPT: Lógica do Menu e Traduções ---
-
     const translations = {
-        "pt": {
-            menu_title: "Opções",
-            lang_code: "pt-br",
-            start_game: "▶ Iniciar Jogo",
-            next_round: "Próxima Rodada",
-            approval_of: "Aprovação de",
-            vs: "VS",
-            approval_error: "Aprovação: Tente Novamente",
-            error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor."
-        },
-        "en": {
-            menu_title: "Options",
-            lang_code: "en",
-            start_game: "▶ Start Game",
-            next_round: "Next Round",
-            approval_of: "Approval Rating",
-            vs: "VS",
-            approval_error: "Approval: Try Again Later",
-            error_loading_songs: "Couldn't load songs. Please check the server connection."
-        },
-        "es": {
-            menu_title: "Opciones",
-            lang_code: "es",
-            start_game: "▶ Iniciar Juego",
-            next_round: "Siguiente Ronda",
-            approval_of: "Índice de Aprobación",
-            vs: "VS",
-            approval_error: "Aprobación: Inténtalo más tarde",
-            error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor."
-        }
+        "pt": { menu_title: "Opções", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor." },
+        "en": { menu_title: "Options", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection." },
+        "es": { menu_title: "Opciones", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor." }
     };
 
     let currentTexts = {};
@@ -234,7 +121,6 @@
         menuTitle.innerText = currentTexts.menu_title;
     }
 
-    // Lógica para abrir/fechar o menu
     const menuToggle = document.getElementById('menu-toggle');
     const sideMenu = document.getElementById('side-menu');
     const menuOverlay = document.getElementById('menu-overlay');
@@ -247,84 +133,78 @@
     menuToggle.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', toggleMenu);
 
-    // Lógica para trocar de idioma
     const langSwitcher = document.getElementById('lang-switcher');
     langSwitcher.addEventListener('click', (event) => {
         if (event.target.tagName === 'A') {
             event.preventDefault();
             const selectedLang = event.target.getAttribute('data-lang');
-            // Recarrega a página com o novo idioma no parâmetro da URL
             window.location.href = window.location.pathname + '?lang=' + selectedLang;
         }
     });
 
-    // --- CÓDIGO ANTIGO DO JOGO (COM AJUSTES) ---
+    const sideLeft = document.getElementById("side-left");
+    const sideRight = document.getElementById("side-right");
+    const songLeft = document.getElementById("song-left");
+    const songRight = document.getElementById("song-right");
+    const audioPlayer = document.getElementById("audio-player");
+    const approvalLeft = document.getElementById("approval-left");
+    const approvalRight = document.getElementById("approval-right");
+    
+    let currentSongs = {};
+    let roundOver = false;
+    let isChoiceEnabled = false;
+    let fadeInterval, stopAudioTimeoutId;
+    let isGamePausing = false; // <-- ADIÇÃO 1: Variável de controle
 
-    const sideLeft = document.getElementById("side-left"),
-        sideRight = document.getElementById("side-right"),
-        songLeft = document.getElementById("song-left"),
-        songRight = document.getElementById("song-right"),
-        audioPlayer = document.getElementById("audio-player"),
-        approvalLeft = document.getElementById("approval-left"),
-        approvalRight = document.getElementById("approval-right");
-    let currentSongs = {},
-        roundOver = false,
-        isChoiceEnabled = false,
-        fadeInterval, stopAudioTimeoutId;
-
-function playAudio(song, durationInSeconds) {
-    if (!song || !song.preview) return console.error("Música ou preview não encontrado!");
-    clearInterval(fadeInterval);
-    clearTimeout(stopAudioTimeoutId);
-    audioPlayer.src = song.preview;
-    audioPlayer.volume = 0;
-    audioPlayer.play().catch(e => console.error("Erro ao tocar áudio:", e));
-
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: song.title,
-            artist: song.artist,
-            album: 'Qual é a Melhor?',
-            artwork: [{
-                src: song.cover,
-                sizes: '300x300',
-                type: 'image/jpeg'
-            }]
-        });
-
-        navigator.mediaSession.setActionHandler('play', () => {});
-        navigator.mediaSession.setActionHandler('pause', () => {});
-        navigator.mediaSession.setActionHandler('previoustrack', () => {});
-        navigator.mediaSession.setActionHandler('nexttrack', () => {});
-        navigator.mediaSession.setActionHandler('stop', () => {});
-        navigator.mediaSession.setActionHandler('seekbackward', () => {});
-        navigator.mediaSession.setActionHandler('seekforward', () => {});
-    }
-
-    let currentVolume = 0;
-    fadeInterval = setInterval(() => {
-        currentVolume += 0.1;
-        if (currentVolume >= 1) {
-            currentVolume = 1;
-            clearInterval(fadeInterval);
-        }
-        audioPlayer.volume = currentVolume;
-    }, 100);
-
-    stopAudioTimeoutId = setTimeout(() => {
+    function playAudio(song, durationInSeconds) {
+        if (!song || !song.preview) return console.error("Música ou preview não encontrado!");
         clearInterval(fadeInterval);
-        currentVolume = 1;
+        clearTimeout(stopAudioTimeoutId);
+        audioPlayer.src = song.preview;
+        audioPlayer.volume = 0;
+        audioPlayer.play().catch(e => console.error("Erro ao tocar áudio:", e));
+
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: song.title,
+                artist: song.artist,
+                album: 'Qual é a Melhor?',
+                artwork: [{ src: song.cover, sizes: '300x300', type: 'image/jpeg' }]
+            });
+            navigator.mediaSession.setActionHandler('play', () => {});
+            navigator.mediaSession.setActionHandler('pause', () => {});
+            navigator.mediaSession.setActionHandler('previoustrack', () => {});
+            navigator.mediaSession.setActionHandler('nexttrack', () => {});
+            navigator.mediaSession.setActionHandler('stop', () => {});
+            navigator.mediaSession.setActionHandler('seekbackward', () => {});
+            navigator.mediaSession.setActionHandler('seekforward', () => {});
+        }
+
+        let currentVolume = 0;
         fadeInterval = setInterval(() => {
-            currentVolume -= 0.1;
-            if (currentVolume <= 0) {
-                currentVolume = 0;
+            currentVolume += 0.1;
+            if (currentVolume >= 1) {
+                currentVolume = 1;
                 clearInterval(fadeInterval);
-                audioPlayer.pause();
             }
             audioPlayer.volume = currentVolume;
         }, 100);
-    }, (durationInSeconds - 1) * 1000);
-}
+
+        stopAudioTimeoutId = setTimeout(() => {
+            clearInterval(fadeInterval);
+            currentVolume = 1;
+            fadeInterval = setInterval(() => {
+                currentVolume -= 0.1;
+                if (currentVolume <= 0) {
+                    currentVolume = 0;
+                    clearInterval(fadeInterval);
+                    isGamePausing = true; // <-- ADIÇÃO 2: Avisa que a pausa é intencional
+                    audioPlayer.pause();
+                }
+                audioPlayer.volume = currentVolume;
+            }, 100);
+        }, (durationInSeconds - 1) * 1000);
+    }
 
     async function startRound() {
         roundOver = false;
@@ -385,7 +265,7 @@ function playAudio(song, durationInSeconds) {
         const stepTime = 20;
         const steps = duration / stepTime;
         let increment = finalValue === 0 ? 0 : finalValue / steps;
-
+        
         element.innerText = `${currentTexts.approval_of} 0%`;
         if (finalValue === 0) return;
 
@@ -424,10 +304,8 @@ function playAudio(song, durationInSeconds) {
                 });
                 if (!response.ok) throw new Error('Falha na resposta do servidor');
                 const approvalData = await response.json();
-
                 animateApprovalRating(approvalLeft, approvalData[String(currentSongs.left.id)].approval);
                 animateApprovalRating(approvalRight, approvalData[String(currentSongs.right.id)].approval);
-
             } catch (error) {
                 console.error("Erro ao registrar voto:", error);
                 approvalLeft.innerText = currentTexts.approval_error;
@@ -440,7 +318,7 @@ function playAudio(song, durationInSeconds) {
             }, 1500);
         }
     }
-
+    
     sideLeft.addEventListener("click", () => handleChoice("left"));
     sideRight.addEventListener("click", () => handleChoice("right"));
     nextRoundButton.addEventListener("click", startRound);
@@ -449,33 +327,30 @@ function playAudio(song, durationInSeconds) {
         startRound();
     });
 
-    // Função que roda assim que a página carrega
     document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         let lang = urlParams.get('lang');
-
         if (!translations[lang]) {
-            // Tenta detectar o idioma do navegador
             const browserLang = navigator.language.split('-')[0];
             lang = translations[browserLang] ? browserLang : 'pt';
         }
-
         setLanguage(lang);
     });
-document.addEventListener('keydown', function(event) {
-    const mediaKeys = [
-        'MediaPlayPause',
-        'MediaTrackNext',
-        'MediaTrackPrevious',
-        'MediaStop',
-        'AudioPlay',
-        'AudioPause'
-    ];
 
-    if (mediaKeys.includes(event.key)) {
-        event.preventDefault();
-    }
-});
+    document.addEventListener('keydown', function(event) {
+        const mediaKeys = [ 'MediaPlayPause', 'MediaTrackNext', 'MediaTrackPrevious', 'MediaStop', 'AudioPlay', 'AudioPause' ];
+        if (mediaKeys.includes(event.key)) {
+            event.preventDefault();
+        }
+    });
+
+    // ADIÇÃO 3: O "Guarda" que impede pausas externas
+    audioPlayer.addEventListener('pause', () => {
+        if (!isGamePausing) {
+            audioPlayer.play();
+        }
+        isGamePausing = false;
+    });
     </script>
 </body>
 </html>
