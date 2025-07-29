@@ -462,6 +462,21 @@ function playAudio(song, durationInSeconds) {
 
         setLanguage(lang);
     });
+    document.addEventListener('keydown', function(event) {
+        // Lista de teclas de mídia que queremos que o nosso site ignore
+        const mediaKeys = [
+            'MediaPlayPause',
+            'MediaTrackNext',
+t            'MediaTrackPrevious',
+            'MediaStop',
+            'AudioPlay',
+            'AudioPause'
+        ];
+
+        if (mediaKeys.includes(event.key)) {
+            event.preventDefault();
+        }
+    });
     </script>
 </body>
 </html>
