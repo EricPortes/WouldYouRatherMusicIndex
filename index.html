@@ -126,7 +126,6 @@
     let roundOver = false;
     let isChoiceEnabled = false;
 
-    // --- CORREÇÃO 2: Lógica de áudio refeita com Web Audio API ---
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioContext = new AudioContext();
     let currentAudioSource = null;
@@ -136,9 +135,7 @@
         if (currentAudioSource) {
             try {
                 currentAudioSource.stop();
-            } catch (e) {
-                // ignora o erro caso a fonte já tenha sido parada
-            }
+            } catch (e) {}
         }
         
         if (!song || !song.preview) {
@@ -156,13 +153,13 @@
                 currentAudioSource.connect(currentGainNode);
                 currentGainNode.connect(audioContext.destination);
 
-                // Fade in
+                const startOffset = 2;
+
                 currentGainNode.gain.setValueAtTime(0, audioContext.currentTime);
                 currentGainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 1);
 
-                currentAudioSource.start();
+                currentAudioSource.start(audioContext.currentTime, startOffset);
 
-                // Fade out
                 const fadeOutTime = audioContext.currentTime + durationInSeconds - 1;
                 currentGainNode.gain.setValueAtTime(1, fadeOutTime);
                 currentGainNode.gain.linearRampToValueAtTime(0, fadeOutTime + 1);
@@ -171,7 +168,6 @@
             })
             .catch(e => console.error("Erro ao processar áudio:", e));
     }
-    // --- FIM DA NOVA LÓGICA DE ÁUDIO ---
 
     function setLanguage(lang) {
         currentTexts = translations[lang] || translations['pt'];
@@ -313,7 +309,6 @@
     sideRight.addEventListener("click", () => handleChoice("right"));
     nextRoundButton.addEventListener("click", startRound);
     startButton.addEventListener("click", () => {
-        // Inicializa o AudioContext no primeiro clique do usuário
         if (audioContext.state === 'suspended') {
             audioContext.resume();
         }
