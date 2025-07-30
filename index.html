@@ -381,16 +381,25 @@
         }
     });
 
-    gameModesList.addEventListener('click', (event) => {
-        event.preventDefault();
-        const target = event.target.closest('a');
-        if (target) {
-            currentGameMode = target.dataset.mode;
+gameModesList.addEventListener('click', (event) => {
+    event.preventDefault();
+    const target = event.target.closest('a');
+    if (target) {
+        const newMode = target.dataset.mode;
+
+        if (newMode !== currentGameMode) {
+            currentGameMode = newMode;
             localStorage.setItem('gameMode', currentGameMode);
             updateSelectedModeUI();
-            toggleMenu();
+            
+            startButton.style.display = "none";
+            
+            startRound();
         }
-    });
+
+        toggleMenu();
+    }
+});
 
     volumeSlider.addEventListener('input', (event) => {
         const volumeValue = parseInt(event.target.value, 10);
