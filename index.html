@@ -48,12 +48,11 @@
             #start-button, #next-round-button { font-size: 14px; padding: 8px 16px; bottom: 15px; }
         }
 
-        /* --- Menu Styles --- */
         #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 10; cursor: pointer; background: none; border: none; padding: 10px; }
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%;
-            width: 250px; /* Largura reduzida no desktop */
+            width: 250px;
             background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             padding: 20px; box-sizing: border-box; color: white;
@@ -76,31 +75,19 @@
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
         
-        /* Volume Slider Styles */
         .volume-control { display: flex; align-items: center; padding: 10px 0; }
         .volume-icon { margin-right: 15px; font-size: 20px; }
         .volume-slider-container { flex-grow: 1; }
         #volume-slider { width: 100%; -webkit-appearance: none; background: transparent; }
         #volume-slider:focus { outline: none; }
-        #volume-slider::-webkit-slider-runnable-track {
-            width: 100%; height: 5px; cursor: pointer; background: #535353; border-radius: 5px;
-        }
-        #volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
-            background: #fff; cursor: pointer; margin-top: -5.5px;
-            box-shadow: 0 0 2px rgba(0,0,0,0.5);
-        }
-        #volume-slider::-moz-range-track {
-             width: 100%; height: 5px; cursor: pointer; background: #535353; border-radius: 5px;
-        }
-        #volume-slider::-moz-range-thumb {
-            height: 16px; width: 16px; border-radius: 50%;
-            background: #fff; cursor: pointer; border: none;
-        }
+        #volume-slider::-webkit-slider-runnable-track { width: 100%; height: 5px; cursor: pointer; background: #535353; border-radius: 5px; }
+        #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; margin-top: -5.5px; box-shadow: 0 0 2px rgba(0,0,0,0.5); }
+        #volume-slider::-moz-range-track { width: 100%; height: 5px; cursor: pointer; background: #535353; border-radius: 5px; }
+        #volume-slider::-moz-range-thumb { height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; border: none; }
         .volume-value { margin-left: 15px; font-size: 16px; min-width: 25px; text-align: right; }
 
         @media (max-width: 768px) {
-            #side-menu { width: 70%; } /* Largura bem reduzida no celular */
+            #side-menu { width: 70%; }
         }
     </style>
 </head>
@@ -164,9 +151,9 @@
 
     <script>
     const translations = {
-        "pt": { menu_mode: "Modo de Jogo", menu_options: "Opções", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor." },
-        "en": { menu_mode: "Game Mode", menu_options: "Options", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection." },
-        "es": { menu_mode: "Modo de Juego", menu_options: "Opciones", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor." }
+        "pt": { menu_mode: "Modo de Jogo", menu_options: "Opções", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
+        "en": { menu_mode: "Game Mode", menu_options: "Options", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
+        "es": { menu_mode: "Modo de Juego", menu_options: "Opciones", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" }
     };
 
     let currentTexts = {};
@@ -186,7 +173,6 @@
     const approvalLeft = document.getElementById("approval-left");
     const approvalRight = document.getElementById("approval-right");
     
-    // --- New elements for Game Modes and Volume ---
     const gameModesList = document.getElementById('game-modes-list');
     const volumeSlider = document.getElementById('volume-slider');
     const volumeValueDisplay = document.getElementById('volume-value-display');
@@ -194,7 +180,6 @@
     let currentSongs = {};
     let roundOver = false;
     let isChoiceEnabled = false;
-    // --- New global state variables ---
     let currentGameMode = 'geral'; 
     let currentVolume = 1.0;
 
@@ -247,6 +232,14 @@
         vsCircle.innerText = currentTexts.vs;
         menuTitleMode.innerText = currentTexts.menu_mode;
         menuTitleOptions.innerText = currentTexts.menu_options;
+
+        document.querySelectorAll('#game-modes-list a').forEach(link => {
+            const mode = link.dataset.mode;
+            const translationKey = `mode_${mode}`;
+            if (currentTexts[translationKey]) {
+                link.innerText = currentTexts[translationKey];
+            }
+        });
     }
     
     function updateSelectedModeUI() {
@@ -275,7 +268,6 @@
         approvalLeft.style.opacity = 0;
         approvalRight.style.opacity = 0;
         try {
-            // --- MODIFIED FETCH URL ---
             const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/get-songs?mode=${currentGameMode}`);
             const data = await response.json();
             if (data.error) {
@@ -349,7 +341,6 @@
             document.getElementById(`side-${loserSide}`).classList.add("loser");
             playAudio(winnerSong, 10);
             try {
-                // --- MODIFIED FETCH URL ---
                 const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/vote?mode=${currentGameMode}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -379,7 +370,6 @@
         }
     }
     
-    // --- Event Listeners ---
     menuToggle.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', toggleMenu);
 
@@ -424,7 +414,6 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Load language preference
         const urlParams = new URLSearchParams(window.location.search);
         let lang = urlParams.get('lang');
         if (!translations[lang]) {
@@ -433,14 +422,12 @@
         }
         setLanguage(lang);
 
-        // Load game mode preference
         const savedMode = localStorage.getItem('gameMode');
         if (savedMode) {
             currentGameMode = savedMode;
         }
         updateSelectedModeUI();
 
-        // Load volume preference
         const savedVolume = localStorage.getItem('gameVolume');
         if (savedVolume !== null) {
             currentVolume = parseFloat(savedVolume);
