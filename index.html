@@ -172,7 +172,6 @@
     const songRight = document.getElementById("song-right");
     const approvalLeft = document.getElementById("approval-left");
     const approvalRight = document.getElementById("approval-right");
-    
     const gameModesList = document.getElementById('game-modes-list');
     const volumeSlider = document.getElementById('volume-slider');
     const volumeValueDisplay = document.getElementById('volume-value-display');
@@ -182,6 +181,7 @@
     let isChoiceEnabled = false;
     let currentGameMode = 'geral'; 
     let currentVolume = 1.0;
+    let revealTimeoutId = null;
 
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioContext = new AudioContext();
@@ -193,7 +193,7 @@
             try { currentAudioSource.stop(); } catch (e) {}
         }
         if (!song || !song.preview) {
-            return console.error("Música ou preview não encontrado!");
+            return;
         }
 
         fetch(song.preview)
@@ -202,7 +202,6 @@
             .then(audioBuffer => {
                 currentAudioSource = audioContext.createBufferSource();
                 currentGainNode = audioContext.createGain();
-                
                 currentAudioSource.buffer = audioBuffer;
                 currentAudioSource.connect(currentGainNode);
                 currentGainNode.connect(audioContext.destination);
@@ -212,13 +211,11 @@
 
                 currentGainNode.gain.setValueAtTime(0, audioContext.currentTime);
                 currentGainNode.gain.linearRampToValueAtTime(initialVolume, audioContext.currentTime + 1);
-
                 currentAudioSource.start(audioContext.currentTime, startOffset);
 
                 const fadeOutTime = audioContext.currentTime + durationInSeconds - 1;
                 currentGainNode.gain.setValueAtTime(initialVolume, fadeOutTime);
                 currentGainNode.gain.linearRampToValueAtTime(0, fadeOutTime + 1);
-                
                 currentAudioSource.stop(fadeOutTime + 1.1);
             })
             .catch(e => console.error("Erro ao processar áudio:", e));
@@ -258,6 +255,7 @@
     }
 
     async function startRound() {
+        clearTimeout(revealTimeoutId);
         roundOver = false;
         isChoiceEnabled = false;
         nextRoundButton.style.display = "none";
@@ -275,11 +273,9 @@
             }
             currentSongs.left = data[0];
             currentSongs.right = data[1];
-            setTimeout(() => {
-                prepareSide("left", currentSongs.left);
-                prepareSide("right", currentSongs.right);
-                revealLeft();
-            }, 100);
+            prepareSide("left", currentSongs.left);
+            prepareSide("right", currentSongs.right);
+            revealLeft();
         } catch (error) {
             console.error("Não foi possível buscar as músicas:", error);
             alert(currentTexts.error_loading_songs);
@@ -297,14 +293,14 @@
     function revealLeft() {
         songLeft.classList.add("visible");
         playAudio(currentSongs.left, 5);
-        setTimeout(revealRight, 5500);
+        revealTimeoutId = setTimeout(revealRight, 5500);
     }
 
     function revealRight() {
         if (roundOver) return;
         songRight.classList.add("visible");
         playAudio(currentSongs.right, 5);
-        setTimeout(() => {
+        revealTimeoutId = setTimeout(() => {
             if (!roundOver) { isChoiceEnabled = true; }
         }, 5000);
     }
@@ -381,25 +377,21 @@
         }
     });
 
-gameModesList.addEventListener('click', (event) => {
-    event.preventDefault();
-    const target = event.target.closest('a');
-    if (target) {
-        const newMode = target.dataset.mode;
-
-        if (newMode !== currentGameMode) {
-            currentGameMode = newMode;
-            localStorage.setItem('gameMode', currentGameMode);
-            updateSelectedModeUI();
-            
-            startButton.style.display = "none";
-            
-            startRound();
+    gameModesList.addEventListener('click', (event) => {
+        event.preventDefault();
+        const target = event.target.closest('a');
+        if (target) {
+            const newMode = target.dataset.mode;
+            if (newMode !== currentGameMode) {
+                currentGameMode = newMode;
+                localStorage.setItem('gameMode', currentGameMode);
+                updateSelectedModeUI();
+                startButton.style.display = "none";
+                startRound();
+            }
+            toggleMenu();
         }
-
-        toggleMenu();
-    }
-});
+    });
 
     volumeSlider.addEventListener('input', (event) => {
         const volumeValue = parseInt(event.target.value, 10);
