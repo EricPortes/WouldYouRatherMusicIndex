@@ -57,7 +57,7 @@
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             padding: 20px; box-sizing: border-box; color: white;
             display: flex; flex-direction: column;
-            overflow-y: auto; /* <-- CORREÇÃO APLICADA AQUI */
+            overflow-y: auto;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         .menu-section h2 { margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;}
@@ -126,7 +126,8 @@
             <h3 id="menu-title-language" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Idioma</h3>
             <ul id="lang-switcher">
                 <li><a href="#" data-lang="en">English</a></li>
-                <li><a href="#" data-lang="fr">Français</a></li> <li><a href="#" data-lang="es">Español</a></li>
+                <li><a href="#" data-lang="es">Español</a></li>
+                <li><a href="#" data-lang="fr">Français</a></li>
                 <li><a href="#" data-lang="pt">Português</a></li>
             </ul>
         </div>
@@ -152,18 +153,10 @@
 
     <script>
     const translations = {
-        "pt": {
-            menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica"
-        },
-        "en": {
-            menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical"
-        },
-        "es": {
-            menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica"
-        },
-        "fr": { // <-- TRADUÇÃO PARA FRANCÊS ADICIONADA
-            menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons. Vérifiez la connexion au serveur.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique"
-        }
+        "pt": { menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
+        "en": { menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
+        "es": { menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
+        "fr": { menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons. Vérifiez la connexion au serveur.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
     };
 
     let currentTexts = {};
