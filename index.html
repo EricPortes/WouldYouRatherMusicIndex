@@ -23,8 +23,7 @@
 
         .song-content { text-align: center; color: white; position: relative; z-index: 1; opacity: 0; transform: scale(0.8); transition: opacity 0.4s ease-out, transform 0.4s ease-out; }
         .song-content.visible { opacity: 1; transform: scale(1); }
-
-        /* DESTAQUE PARA MÚSICA TOCANDO E VENCEDORA */
+        
         .side.playing .song-content,
         .side.winner .song-content { 
             transform: scale(1.05); 
@@ -68,36 +67,64 @@
             width: 250px;
             background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
-            padding: 20px; box-sizing: border-box; color: white;
+            padding: 2.2vh 20px; /* Padding vertical em VH */
+            box-sizing: border-box; color: white;
             display: flex; flex-direction: column;
-            overflow-y: hidden;
+            overflow: hidden; /* Proíbe a rolagem em desktops */
         }
 
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+        
+        /* Títulos H2 fluidos */
+        .menu-section h2 { 
+            margin-top: 2.2vh; 
+            margin-bottom: 1.1vh; 
+            font-size: 2vh; /* Tamanho da fonte em VH */
+            color: #fff; 
+            border-bottom: 1px solid #444; 
+            padding-bottom: 0.9vh;
+        }
+        .menu-section:first-child h2 { 
+            margin-top: 4.4vh; 
+        }
 
-        .menu-section h2 { margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;}
-        .menu-section:first-child h2 { margin-top: 40px; }
+        /* Itens da lista fluidos */
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a {
-            color: #b3b3b3; text-decoration: none; font-size: 16px;
-            padding: 12px 10px; display: block; transition: color 0.2s, background-color 0.2s;
+            color: #b3b3b3; text-decoration: none; 
+            font-size: 1.8vh; /* Tamanho da fonte em VH */
+            padding: 1.3vh 10px; /* Padding vertical em VH */
+            display: block; transition: color 0.2s, background-color 0.2s;
             border-radius: 5px;
         }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
         #side-menu ul li a.selected { color: white; font-weight: bold; background-color: #333; }
         
+        /* Rodapé Deezer fluido */
         .deezer-credit {
             margin-top: auto; 
-            font-size: 12px; color: #888; padding-top: 20px;
+            font-size: 1.3vh; /* Tamanho da fonte em VH */
+            color: #888; 
+            padding-top: 2.2vh;
         }
         .deezer-credit a { color: #888; }
-        .deezer-credit img { height: 20px; transition: height 0.2s ease-in-out; }
+        .deezer-credit img { 
+            height: 2.2vh; /* Altura da imagem em VH */
+        }
         
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
         
-        .volume-control { display: flex; align-items: center; padding: 10px 0; }
-        .volume-icon { margin-right: 15px; font-size: 20px; }
+        /* Sub-títulos e volume fluidos */
+        #menu-title-volume, #menu-title-language {
+            color:#b3b3b3; 
+            font-size: 1.5vh; 
+            margin-top: 1.6vh;
+        }
+        .volume-control { display: flex; align-items: center; padding: 1.1vh 0; }
+        .volume-icon { margin-right: 15px; font-size: 2.2vh; }
+        .volume-value { margin-left: 15px; font-size: 1.8vh; min-width: 25px; text-align: right; }
+        /* ... CSS do volume slider (não precisa de VH) ... */
         .volume-slider-container { flex-grow: 1; }
         #volume-slider { width: 100%; -webkit-appearance: none; background: transparent; }
         #volume-slider:focus { outline: none; }
@@ -105,57 +132,35 @@
         #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; margin-top: -5.5px; box-shadow: 0 0 2px rgba(0,0,0,0.5); }
         #volume-slider::-moz-range-track { width: 100%; height: 5px; cursor: pointer; background: #535353; border-radius: 5px; }
         #volume-slider::-moz-range-thumb { height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; border: none; }
-        .volume-value { margin-left: 15px; font-size: 16px; min-width: 25px; text-align: right; }
+
+        /* SOBRESCREVE PARA MOBILE: Volta para PX e ativa rolagem */
+        @media (max-width: 1024px) {
+            #side-menu {
+                overflow-y: auto; /* Ativa a rolagem */
+                padding: 20px; /* Volta para padding fixo */
+            }
+            .menu-section h2 { font-size: 18px; margin-top: 20px; margin-bottom: 10px; padding-bottom: 8px;}
+            .menu-section:first-child h2 { margin-top: 40px; }
+            #side-menu ul li a { font-size: 16px; padding: 12px 10px; }
+            #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; }
+            .volume-control { padding: 10px 0; }
+            .volume-icon { font-size: 20px; }
+            .volume-value { font-size: 16px; }
+            .deezer-credit { font-size: 12px; padding-top: 20px; margin-top: 20px; }
+            .deezer-credit img { height: 20px; }
+
+            /* Estilo da barra de rolagem VISÍVEL para mobile */
+            #side-menu { scrollbar-width: thin; }
+            #side-menu::-webkit-scrollbar { display: block; width: 8px; }
+            #side-menu::-webkit-scrollbar-track { background: #181818; }
+            #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
+            #side-menu::-webkit-scrollbar-thumb:hover { background-color: #777; }
+        }
 
         @media (max-width: 768px) {
             #side-menu { width: 70%; }
         }
 
-        @media (max-height: 750px) {
-            #side-menu ul li a { padding: 9px 10px; font-size: 15px; }
-            .menu-section h2 { margin-top: 15px; margin-bottom: 8px; font-size: 17px; }
-            .menu-section:first-child h2 { margin-top: 25px; }
-            .deezer-credit { padding-top: 15px; }
-        }
-        
-        @media (max-height: 680px) {
-            #side-menu ul li a { padding: 7px 10px; font-size: 14px; }
-            .menu-section h2 { margin-top: 12px; margin-bottom: 6px; font-size: 16px; padding-bottom: 6px; }
-            .menu-section:first-child h2 { margin-top: 20px; }
-            #menu-title-volume, #menu-title-language { font-size: 13px; margin-top: 10px; }
-            .volume-control { padding: 5px 0; }
-            .deezer-credit { padding-top: 10px; font-size: 11px; }
-            .deezer-credit img { height: 15px; }
-        }
-
-        /* NOVA REGRA PARA TELAS EXTREMAMENTE BAIXAS */
-        @media (max-height: 640px) {
-            .deezer-credit { padding-top: 8px; font-size: 10px; }
-            .deezer-credit img { height: 12px; }
-        }
-
-        @media (max-width: 1024px) {
-            #side-menu {
-                overflow-y: auto;
-            }
-            .deezer-credit {
-                margin-top: 20px;
-            }
-        }
-
-        #side-menu::-webkit-scrollbar {
-            width: 8px;
-        }
-        #side-menu::-webkit-scrollbar-track {
-            background: #181818;
-        }
-        #side-menu::-webkit-scrollbar-thumb {
-            background-color: #555;
-            border-radius: 4px;
-        }
-        #side-menu::-webkit-scrollbar-thumb:hover {
-            background-color: #777;
-        }
     </style>
 </head>
 <body>
@@ -179,7 +184,7 @@
         </div>
         <div class="menu-section">
             <h2 id="menu-title-options">Opções</h2>
-            <h3 id="menu-title-volume" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Volume</h3>
+            <h3 id="menu-title-volume">Volume</h3>
             <div class="volume-control">
                 <span class="volume-icon">🔊</span>
                 <div class="volume-slider-container">
@@ -187,7 +192,7 @@
                 </div>
                 <span class="volume-value" id="volume-value-display">100</span>
             </div>
-            <h3 id="menu-title-language" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Idioma</h3>
+            <h3 id="menu-title-language">Idioma</h3>
             <ul id="lang-switcher">
                 <li><a href="#" data-lang="en">English</a></li>
                 <li><a href="#" data-lang="es">Español</a></li>
@@ -226,6 +231,7 @@
     const gameContainer = document.getElementById("game-container");
     const startButton = document.getElementById("start-button");
     const nextRoundButton = document.getElementById("next-round-button");
+    // ... (demais constantes)
     const vsCircle = document.getElementById("vs-circle");
     const menuTitleMode = document.getElementById("menu-title-mode");
     const menuTitleOptions = document.getElementById("menu-title-options");
@@ -245,6 +251,7 @@
     const volumeSlider = document.getElementById('volume-slider');
     const volumeValueDisplay = document.getElementById('volume-value-display');
 
+
     let currentSongs = {};
     let roundOver = false;
     let isChoiceEnabled = false;
@@ -256,6 +263,7 @@
     const audioContext = new AudioContext();
     let currentAudioSource = null;
     let currentGainNode = null;
+    let preloadedAudio = {};
 
     function preloadImage(src) {
         return new Promise((resolve, reject) => {
@@ -266,37 +274,36 @@
         });
     }
 
-    function playAudio(song, durationInSeconds) {
+    function preloadAudio(url) {
+        if (!url) return Promise.resolve(null);
+        return fetch(url)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer));
+    }
+    
+    function playAudio(song, durationInSeconds, audioBuffer) {
         if (currentAudioSource) {
             try { currentAudioSource.stop(); } catch (e) {}
         }
-        if (!song || !song.preview) {
-            return;
-        }
+        if (!song || !audioBuffer) return;
 
-        fetch(song.preview)
-            .then(response => response.arrayBuffer())
-            .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-            .then(audioBuffer => {
-                currentAudioSource = audioContext.createBufferSource();
-                currentGainNode = audioContext.createGain();
-                currentAudioSource.buffer = audioBuffer;
-                currentAudioSource.connect(currentGainNode);
-                currentGainNode.connect(audioContext.destination);
-                
-                const startOffset = song.startOffset || 0;
-                const initialVolume = currentVolume;
+        currentAudioSource = audioContext.createBufferSource();
+        currentGainNode = audioContext.createGain();
+        currentAudioSource.buffer = audioBuffer;
+        currentAudioSource.connect(currentGainNode);
+        currentGainNode.connect(audioContext.destination);
+        
+        const startOffset = song.startOffset || 0;
+        const initialVolume = currentVolume;
 
-                currentGainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                currentGainNode.gain.linearRampToValueAtTime(initialVolume, audioContext.currentTime + 1);
-                currentAudioSource.start(audioContext.currentTime, startOffset);
+        currentGainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        currentGainNode.gain.linearRampToValueAtTime(initialVolume, audioContext.currentTime + 1);
+        currentAudioSource.start(audioContext.currentTime, startOffset);
 
-                const fadeOutTime = audioContext.currentTime + durationInSeconds - 1;
-                currentGainNode.gain.setValueAtTime(initialVolume, fadeOutTime);
-                currentGainNode.gain.linearRampToValueAtTime(0, fadeOutTime + 1);
-                currentAudioSource.stop(fadeOutTime + 1.1);
-            })
-            .catch(e => console.error("Erro ao processar áudio:", e));
+        const fadeOutTime = audioContext.currentTime + durationInSeconds - 1;
+        currentGainNode.gain.setValueAtTime(initialVolume, fadeOutTime);
+        currentGainNode.gain.linearRampToValueAtTime(0, fadeOutTime + 1);
+        currentAudioSource.stop(fadeOutTime + 1.1);
     }
 
     function setLanguage(lang) {
@@ -338,6 +345,7 @@
         clearTimeout(revealTimeoutId);
         roundOver = false;
         isChoiceEnabled = false;
+        preloadedAudio = {};
         nextRoundButton.style.display = "none";
         songLeft.classList.remove("visible");
         songRight.classList.remove("visible");
@@ -359,23 +367,33 @@
             prepareSide("left", currentSongs.left);
             prepareSide("right", currentSongs.right);
 
-            await preloadImage(currentSongs.left.cover);
+            const [_, leftAudioBuffer] = await Promise.all([
+                preloadImage(currentSongs.left.cover),
+                preloadAudio(currentSongs.left.preview)
+            ]);
+            preloadedAudio.left = leftAudioBuffer;
+
             if (roundOver) return;
             
             songLeft.classList.add("visible");
             sideLeft.classList.add("playing");
-            playAudio(currentSongs.left, 5);
+            playAudio(currentSongs.left, 5, preloadedAudio.left);
 
             revealTimeoutId = setTimeout(async () => {
                 if (roundOver) return;
                 sideLeft.classList.remove("playing");
                 
-                await preloadImage(currentSongs.right.cover);
+                const [__, rightAudioBuffer] = await Promise.all([
+                    preloadImage(currentSongs.right.cover),
+                    preloadAudio(currentSongs.right.preview)
+                ]);
+                preloadedAudio.right = rightAudioBuffer;
+
                 if (roundOver) return;
                 
                 songRight.classList.add("visible");
                 sideRight.classList.add("playing");
-                playAudio(currentSongs.right, 5);
+                playAudio(currentSongs.right, 5, preloadedAudio.right);
                 
                 revealTimeoutId = setTimeout(() => {
                     if (roundOver) return;
@@ -387,7 +405,7 @@
             }, 5500);
 
         } catch (error) {
-            console.error("Não foi possível buscar as músicas ou carregar imagens:", error);
+            console.error("Não foi possível buscar ou pré-carregar os recursos:", error);
             alert(currentTexts.error_loading_songs);
         }
     }
@@ -425,7 +443,7 @@
         if (!roundOver && isChoiceEnabled) {
             roundOver = true;
             isChoiceEnabled = false;
-            gameContainer.classList.remove('choices-active'); // Desativa hover pós-escolha
+            gameContainer.classList.remove('choices-active');
             
             const winnerSong = currentSongs[side];
             const loserSide = "left" === side ? "right" : "left";
@@ -436,7 +454,7 @@
             document.getElementById(`side-${side}`).classList.remove("playing");
             document.getElementById(`side-${loserSide}`).classList.remove("playing");
             
-            playAudio(winnerSong, 10);
+            playAudio(winnerSong, 10, preloadedAudio[side]);
             
             try {
                 const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/vote?mode=${currentGameMode}`, {
@@ -468,6 +486,7 @@
         }
     }
     
+    // ... (demais event listeners)
     menuToggle.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', toggleMenu);
 
