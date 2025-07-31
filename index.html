@@ -10,19 +10,7 @@
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; }
         .game-container { display: flex; flex-direction: row; width: 100%; height: 100%; position: relative; }
         
-        .divider {
-            width: 2px;
-            height: 100%;
-            background-color: #282828;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            opacity: 0.6;
-            border: none;
-        }
-
+        .divider { width: 2px; height: 100%; background-color: #282828; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; opacity: 0.6; border: none; }
         .vs-circle { width: 100px; height: 100px; background-color: black; border-radius: 50%; color: white; font-size: 48px; font-weight: bold; display: flex; justify-content: center; align-items: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; border: 5px solid white; }
         .side { width: 50%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; transition: filter 0.3s ease-in-out; }
         .side.left { background-color: #007BFF; }
@@ -43,15 +31,7 @@
         @media (max-width: 768px) and (orientation: portrait) {
             .game-container { flex-direction: column; }
             .side { width: 100%; height: 50%; }
-            
-            .divider {
-                width: 100%;
-                height: 2px;
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%);
-            }
-
+            .divider { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
             .vs-circle { width: 60px; height: 60px; font-size: 28px; border-width: 3px; }
             .album-cover { width: 120px; height: 120px; margin-bottom: 10px; }
             .song-title { font-size: 18px; }
@@ -72,29 +52,23 @@
         #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 10; cursor: pointer; background: none; border: none; padding: 10px; }
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
         
+        /* --- ESTRUTURA PRINCIPAL DO MENU --- */
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%;
             width: 250px;
             background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
-            box-sizing: border-box; color: white;
-            display: flex;
-            flex-direction: column;
-            padding: 0; 
-        }
-
-        .menu-scroll-area {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 0 20px;
-        }
-
-        .menu-scroll-area .menu-section:first-child h2 {
-            margin-top: 40px;
+            padding: 20px; box-sizing: border-box; color: white;
+            display: flex; flex-direction: column;
+            /* PADRÃO DESKTOP: SEM ROLAGEM */
+            overflow-y: hidden;
         }
 
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+
+        /* --- CONTEÚDO DO MENU --- */
         .menu-section h2 { margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;}
+        .menu-section:first-child h2 { margin-top: 40px; }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a {
             color: #b3b3b3; text-decoration: none; font-size: 16px;
@@ -105,33 +79,18 @@
         #side-menu ul li a.selected { color: white; font-weight: bold; background-color: #333; }
         
         .deezer-credit {
-            margin-top: auto;
-            font-size: 12px;
-            color: #888;
-            padding: 20px;
-            border-top: 1px solid #282828;
+            /* PADRÃO DESKTOP: Empurra para o fundo do espaço visível */
+            margin-top: auto; 
+            font-size: 12px; color: #888; padding-top: 20px;
         }
         .deezer-credit a { color: #888; }
         
-        .menu-scroll-area::-webkit-scrollbar {
-            width: 8px;
-        }
-        .menu-scroll-area::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .menu-scroll-area::-webkit-scrollbar-thumb {
-            background-color: #555;
-            border-radius: 4px;
-        }
-        .menu-scroll-area::-webkit-scrollbar-thumb:hover {
-            background-color: #777;
-        }
-
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
         
         .volume-control { display: flex; align-items: center; padding: 10px 0; }
         .volume-icon { margin-right: 15px; font-size: 20px; }
+        /* ... resto do CSS do volume slider ... */
         .volume-slider-container { flex-grow: 1; }
         #volume-slider { width: 100%; -webkit-appearance: none; background: transparent; }
         #volume-slider:focus { outline: none; }
@@ -145,6 +104,47 @@
             #side-menu { width: 70%; }
         }
 
+        /* --- LÓGICA DE ADAPTAÇÃO E ROLAGEM --- */
+
+        /* 1. ADAPTAÇÃO PARA DESKTOPS COM TELA BAIXA */
+        @media (max-height: 750px) {
+            #side-menu ul li a { padding: 9px 10px; font-size: 15px; }
+            .menu-section h2 { margin-top: 15px; margin-bottom: 8px; font-size: 17px; }
+            .menu-section:first-child h2 { margin-top: 25px; }
+        }
+        
+        @media (max-height: 680px) {
+            #side-menu ul li a { padding: 7px 10px; font-size: 14px; }
+            .menu-section h2 { margin-top: 12px; margin-bottom: 6px; font-size: 16px; padding-bottom: 6px; }
+            .menu-section:first-child h2 { margin-top: 20px; }
+            #menu-title-volume, #menu-title-language { font-size: 13px; margin-top: 10px; }
+            .volume-control { padding: 5px 0; }
+        }
+
+        /* 2. ATIVAÇÃO DE ROLAGEM APENAS EM DISPOSITIVOS MÓVEIS */
+        @media (max-width: 1024px) { /* Pega tablets e celulares */
+            #side-menu {
+                overflow-y: auto; /* ATIVA a rolagem */
+            }
+            .deezer-credit {
+                margin-top: 20px; /* Transforma em um item normal da lista */
+            }
+        }
+
+        /* 3. ESTILO DA BARRA DE ROLAGEM (quando ela estiver ativa no mobile) */
+        #side-menu::-webkit-scrollbar {
+            width: 8px;
+        }
+        #side-menu::-webkit-scrollbar-track {
+            background: #181818;
+        }
+        #side-menu::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 4px;
+        }
+        #side-menu::-webkit-scrollbar-thumb:hover {
+            background-color: #777;
+        }
     </style>
 </head>
 <body>
@@ -155,38 +155,36 @@
     </button>
 
     <nav id="side-menu">
-        <div class="menu-scroll-area">
-            <div class="menu-section">
-                <h2 id="menu-title-mode">Modo de Jogo</h2>
-                <ul id="game-modes-list">
-                    <li><a href="#" data-mode="geral">Geral</a></li>
-                    <li><a href="#" data-mode="pop">Pop</a></li>
-                    <li><a href="#" data-mode="rock">Rock</a></li>
-                    <li><a href="#" data-mode="rap">Rap</a></li>
-                    <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
-                    <li><a href="#" data-mode="classica">Clássica</a></li>
-                </ul>
-            </div>
+        <div class="menu-section">
+            <h2 id="menu-title-mode">Modo de Jogo</h2>
+            <ul id="game-modes-list">
+                <li><a href="#" data-mode="geral">Geral</a></li>
+                <li><a href="#" data-mode="pop">Pop</a></li>
+                <li><a href="#" data-mode="rock">Rock</a></li>
+                <li><a href="#" data-mode="rap">Rap</a></li>
+                <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
+                <li><a href="#" data-mode="classica">Clássica</a></li>
+            </ul>
+        </div>
 
-            <div class="menu-section">
-                <h2 id="menu-title-options">Opções</h2>
-                <h3 id="menu-title-volume" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Volume</h3>
-                <div class="volume-control">
-                    <span class="volume-icon">🔊</span>
-                    <div class="volume-slider-container">
-                        <input type="range" min="0" max="100" value="100" id="volume-slider">
-                    </div>
-                    <span class="volume-value" id="volume-value-display">100</span>
+        <div class="menu-section">
+            <h2 id="menu-title-options">Opções</h2>
+            <h3 id="menu-title-volume" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Volume</h3>
+            <div class="volume-control">
+                <span class="volume-icon">🔊</span>
+                <div class="volume-slider-container">
+                    <input type="range" min="0" max="100" value="100" id="volume-slider">
                 </div>
-                
-                <h3 id="menu-title-language" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Idioma</h3>
-                <ul id="lang-switcher">
-                    <li><a href="#" data-lang="en">English</a></li>
-                    <li><a href="#" data-lang="es">Español</a></li>
-                    <li><a href="#" data-lang="fr">Français</a></li>
-                    <li><a href="#" data-lang="pt">Português</a></li>
-                </ul>
+                <span class="volume-value" id="volume-value-display">100</span>
             </div>
+            
+            <h3 id="menu-title-language" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Idioma</h3>
+            <ul id="lang-switcher">
+                <li><a href="#" data-lang="en">English</a></li>
+                <li><a href="#" data-lang="es">Español</a></li>
+                <li><a href="#" data-lang="fr">Français</a></li>
+                <li><a href="#" data-lang="pt">Português</a></li>
+            </ul>
         </div>
         
         <div class="deezer-credit">
@@ -209,6 +207,7 @@
     <audio id="audio-player"></audio>
 
     <script>
+    // O JavaScript continua o mesmo, sem alterações necessárias.
     const translations = {
         "pt": { menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
         "en": { menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
