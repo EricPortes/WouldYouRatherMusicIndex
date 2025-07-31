@@ -16,7 +16,12 @@
         .side.left { background-color: #007BFF; }
         .side.right { background-color: #E60023; }
         .side::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); opacity: 0; transition: opacity 0.3s ease-in-out; z-index: 0; }
-        .side:hover::after { opacity: 1; }
+        
+        /* ALTERAÇÃO CSS: Efeito de hover só funciona quando a classe .choices-active está presente */
+        .game-container.choices-active .side:hover::after { 
+            opacity: 1; 
+        }
+
         .song-content { text-align: center; color: white; position: relative; z-index: 1; opacity: 0; transform: scale(0.8); transition: opacity 0.4s ease-out, transform 0.4s ease-out; }
         .song-content.visible { opacity: 1; transform: scale(1); }
         .side.winner .song-content { transform: scale(1.05); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); }
@@ -52,7 +57,6 @@
         #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 10; cursor: pointer; background: none; border: none; padding: 10px; }
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
         
-        /* --- ESTRUTURA PRINCIPAL DO MENU --- */
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%;
             width: 250px;
@@ -60,13 +64,11 @@
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             padding: 20px; box-sizing: border-box; color: white;
             display: flex; flex-direction: column;
-            /* PADRÃO DESKTOP: SEM ROLAGEM */
             overflow-y: hidden;
         }
 
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
 
-        /* --- CONTEÚDO DO MENU --- */
         .menu-section h2 { margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;}
         .menu-section:first-child h2 { margin-top: 40px; }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
@@ -79,18 +81,17 @@
         #side-menu ul li a.selected { color: white; font-weight: bold; background-color: #333; }
         
         .deezer-credit {
-            /* PADRÃO DESKTOP: Empurra para o fundo do espaço visível */
             margin-top: auto; 
             font-size: 12px; color: #888; padding-top: 20px;
         }
         .deezer-credit a { color: #888; }
+        .deezer-credit img { height: 20px; transition: height 0.2s ease-in-out; }
         
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
         
         .volume-control { display: flex; align-items: center; padding: 10px 0; }
         .volume-icon { margin-right: 15px; font-size: 20px; }
-        /* ... resto do CSS do volume slider ... */
         .volume-slider-container { flex-grow: 1; }
         #volume-slider { width: 100%; -webkit-appearance: none; background: transparent; }
         #volume-slider:focus { outline: none; }
@@ -104,13 +105,11 @@
             #side-menu { width: 70%; }
         }
 
-        /* --- LÓGICA DE ADAPTAÇÃO E ROLAGEM --- */
-
-        /* 1. ADAPTAÇÃO PARA DESKTOPS COM TELA BAIXA */
         @media (max-height: 750px) {
             #side-menu ul li a { padding: 9px 10px; font-size: 15px; }
             .menu-section h2 { margin-top: 15px; margin-bottom: 8px; font-size: 17px; }
             .menu-section:first-child h2 { margin-top: 25px; }
+            .deezer-credit { padding-top: 15px; }
         }
         
         @media (max-height: 680px) {
@@ -119,19 +118,19 @@
             .menu-section:first-child h2 { margin-top: 20px; }
             #menu-title-volume, #menu-title-language { font-size: 13px; margin-top: 10px; }
             .volume-control { padding: 5px 0; }
+            .deezer-credit { padding-top: 10px; font-size: 11px; }
+            .deezer-credit img { height: 15px; }
         }
 
-        /* 2. ATIVAÇÃO DE ROLAGEM APENAS EM DISPOSITIVOS MÓVEIS */
-        @media (max-width: 1024px) { /* Pega tablets e celulares */
+        @media (max-width: 1024px) {
             #side-menu {
-                overflow-y: auto; /* ATIVA a rolagem */
+                overflow-y: auto;
             }
             .deezer-credit {
-                margin-top: 20px; /* Transforma em um item normal da lista */
+                margin-top: 20px;
             }
         }
 
-        /* 3. ESTILO DA BARRA DE ROLAGEM (quando ela estiver ativa no mobile) */
         #side-menu::-webkit-scrollbar {
             width: 8px;
         }
@@ -166,7 +165,6 @@
                 <li><a href="#" data-mode="classica">Clássica</a></li>
             </ul>
         </div>
-
         <div class="menu-section">
             <h2 id="menu-title-options">Opções</h2>
             <h3 id="menu-title-volume" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Volume</h3>
@@ -177,7 +175,6 @@
                 </div>
                 <span class="volume-value" id="volume-value-display">100</span>
             </div>
-            
             <h3 id="menu-title-language" style="color:#b3b3b3; font-size: 14px; margin-top: 15px;">Idioma</h3>
             <ul id="lang-switcher">
                 <li><a href="#" data-lang="en">English</a></li>
@@ -186,17 +183,16 @@
                 <li><a href="#" data-lang="pt">Português</a></li>
             </ul>
         </div>
-        
         <div class="deezer-credit">
             <p>Music data provided by</p>
             <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer">
-                <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo" height="20">
+                <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
             </a>
         </div>
     </nav>
     <div id="menu-overlay"></div>
 
-    <div class="game-container">
+    <div class="game-container" id="game-container">
         <div class="side left" id="side-left"><div class="song-content" id="song-left"><img class="album-cover" id="cover-left" alt=""><h2 class="song-title" id="title-left"></h2><p class="song-artist" id="artist-left"></p><div class="approval-rating" id="approval-left"></div></div></div>
         <div class="vs-circle" id="vs-circle">VS</div>
         <div class="side right" id="side-right"><div class="song-content" id="song-right"><img class="album-cover" id="cover-right" alt=""><h2 class="song-title" id="title-right"></h2><p class="song-artist" id="artist-right"></p><div class="approval-rating" id="approval-right"></div></div></div>
@@ -207,7 +203,6 @@
     <audio id="audio-player"></audio>
 
     <script>
-    // O JavaScript continua o mesmo, sem alterações necessárias.
     const translations = {
         "pt": { menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
         "en": { menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
@@ -216,6 +211,7 @@
     };
 
     let currentTexts = {};
+    const gameContainer = document.getElementById("game-container");
     const startButton = document.getElementById("start-button");
     const nextRoundButton = document.getElementById("next-round-button");
     const vsCircle = document.getElementById("vs-circle");
@@ -248,6 +244,15 @@
     const audioContext = new AudioContext();
     let currentAudioSource = null;
     let currentGainNode = null;
+
+    function preloadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
+    }
 
     function playAudio(song, durationInSeconds) {
         if (currentAudioSource) {
@@ -328,6 +333,8 @@
         sideRight.classList.remove("winner", "loser");
         approvalLeft.style.opacity = 0;
         approvalRight.style.opacity = 0;
+        gameContainer.classList.remove('choices-active'); // Desativa o hover no início da rodada
+
         try {
             const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/get-songs?mode=${currentGameMode}`);
             const data = await response.json();
@@ -336,11 +343,36 @@
             }
             currentSongs.left = data[0];
             currentSongs.right = data[1];
+            
             prepareSide("left", currentSongs.left);
             prepareSide("right", currentSongs.right);
-            revealLeft();
+
+            await preloadImage(currentSongs.left.cover);
+            if (roundOver) return;
+            
+            songLeft.classList.add("visible");
+            playAudio(currentSongs.left, 5);
+
+            revealTimeoutId = setTimeout(async () => {
+                if (roundOver) return;
+
+                await preloadImage(currentSongs.right.cover);
+                if (roundOver) return;
+                
+                songRight.classList.add("visible");
+                playAudio(currentSongs.right, 5);
+                
+                revealTimeoutId = setTimeout(() => {
+                    if (!roundOver) { 
+                        isChoiceEnabled = true; 
+                        gameContainer.classList.add('choices-active'); // Ativa o hover na hora da escolha
+                    }
+                }, 5000);
+
+            }, 5500);
+
         } catch (error) {
-            console.error("Não foi possível buscar as músicas:", error);
+            console.error("Não foi possível buscar as músicas ou carregar imagens:", error);
             alert(currentTexts.error_loading_songs);
         }
     }
@@ -352,22 +384,7 @@
         document.getElementById(`title-${side}`).innerText = song.title;
         document.getElementById(`artist-${side}`).innerText = song.artist;
     }
-
-    function revealLeft() {
-        songLeft.classList.add("visible");
-        playAudio(currentSongs.left, 5);
-        revealTimeoutId = setTimeout(revealRight, 5500);
-    }
-
-    function revealRight() {
-        if (roundOver) return;
-        songRight.classList.add("visible");
-        playAudio(currentSongs.right, 5);
-        revealTimeoutId = setTimeout(() => {
-            if (!roundOver) { isChoiceEnabled = true; }
-        }, 5000);
-    }
-
+    
     function animateApprovalRating(element, finalValue) {
         element.style.opacity = 1;
         let startValue = 0;
