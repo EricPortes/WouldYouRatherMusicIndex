@@ -151,9 +151,63 @@
 
     <script>
     const translations = {
-        "pt": { menu_mode: "Modo de Jogo", menu_options: "Opções", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
-        "en": { menu_mode: "Game Mode", menu_options: "Options", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
-        "es": { menu_mode: "Modo de Juego", menu_options: "Opciones", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" }
+        "pt": {
+            menu_mode: "Modo de Jogo",
+            menu_options: "Opções",
+            menu_volume: "Volume",
+            menu_language: "Idioma",
+            lang_code: "pt-br",
+            start_game: "▶ Iniciar Jogo",
+            next_round: "Próxima Rodada",
+            approval_of: "Aprovação de",
+            vs: "VS",
+            approval_error: "Aprovação: Tente Novamente",
+            error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.",
+            mode_geral: "Geral",
+            mode_pop: "Pop",
+            mode_rock: "Rock",
+            mode_rap: "Rap",
+            mode_eletronica: "Eletrônica",
+            mode_classica: "Clássica"
+        },
+        "en": {
+            menu_mode: "Game Mode",
+            menu_options: "Options",
+            menu_volume: "Volume",
+            menu_language: "Language",
+            lang_code: "en",
+            start_game: "▶ Start Game",
+            next_round: "Next Round",
+            approval_of: "Approval Rating",
+            vs: "VS",
+            approval_error: "Approval: Try Again Later",
+            error_loading_songs: "Couldn't load songs. Please check the server connection.",
+            mode_geral: "General",
+            mode_pop: "Pop",
+            mode_rock: "Rock",
+            mode_rap: "Rap",
+            mode_eletronica: "Electronic",
+            mode_classica: "Classical"
+        },
+        "es": {
+            menu_mode: "Modo de Juego",
+            menu_options: "Opciones",
+            menu_volume: "Volumen",
+            menu_language: "Idioma",
+            lang_code: "es",
+            start_game: "▶ Iniciar Juego",
+            next_round: "Siguiente Ronda",
+            approval_of: "Índice de Aprobación",
+            vs: "VS",
+            approval_error: "Aprobación: Inténtalo más tarde",
+            error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor.",
+            mode_geral: "General",
+            mode_pop: "Pop",
+            mode_rock: "Rock",
+            mode_rap: "Rap",
+            mode_eletronica: "Electrónica",
+            mode_classica: "Clásica"
+        }
     };
 
     let currentTexts = {};
@@ -162,6 +216,8 @@
     const vsCircle = document.getElementById("vs-circle");
     const menuTitleMode = document.getElementById("menu-title-mode");
     const menuTitleOptions = document.getElementById("menu-title-options");
+    const menuTitleVolume = document.getElementById("menu-title-volume");
+    const menuTitleLanguage = document.getElementById("menu-title-language");
     const menuToggle = document.getElementById('menu-toggle');
     const sideMenu = document.getElementById('side-menu');
     const menuOverlay = document.getElementById('menu-overlay');
@@ -229,6 +285,8 @@
         vsCircle.innerText = currentTexts.vs;
         menuTitleMode.innerText = currentTexts.menu_mode;
         menuTitleOptions.innerText = currentTexts.menu_options;
+        menuTitleVolume.innerText = currentTexts.menu_volume;
+        menuTitleLanguage.innerText = currentTexts.menu_language;
 
         document.querySelectorAll('#game-modes-list a').forEach(link => {
             const mode = link.dataset.mode;
