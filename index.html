@@ -12,19 +12,25 @@
         
         .divider { width: 2px; height: 100%; background-color: #282828; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; opacity: 0.6; border: none; }
         .vs-circle { width: 100px; height: 100px; background-color: black; border-radius: 50%; color: white; font-size: 48px; font-weight: bold; display: flex; justify-content: center; align-items: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; border: 5px solid white; }
-        .side { width: 50%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; transition: filter 0.3s ease-in-out; }
+        .side { width: 50%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; }
         .side.left { background-color: #007BFF; }
         .side.right { background-color: #E60023; }
         .side::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); opacity: 0; transition: opacity 0.3s ease-in-out; z-index: 0; }
         
-        /* ALTERAÇÃO CSS: Efeito de hover só funciona quando a classe .choices-active está presente */
         .game-container.choices-active .side:hover::after { 
             opacity: 1; 
         }
 
         .song-content { text-align: center; color: white; position: relative; z-index: 1; opacity: 0; transform: scale(0.8); transition: opacity 0.4s ease-out, transform 0.4s ease-out; }
         .song-content.visible { opacity: 1; transform: scale(1); }
-        .side.winner .song-content { transform: scale(1.05); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); }
+
+        /* DESTAQUE PARA MÚSICA TOCANDO E VENCEDORA */
+        .side.playing .song-content,
+        .side.winner .song-content { 
+            transform: scale(1.05); 
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); 
+        }
+        
         .side.loser .song-content { opacity: 0.6; transform: scale(0.95); }
         .album-cover { width: 300px; height: 300px; object-fit: cover; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; background-color: #333; }
         .song-title { font-size: 28px; font-weight: bold; }
@@ -120,6 +126,12 @@
             .volume-control { padding: 5px 0; }
             .deezer-credit { padding-top: 10px; font-size: 11px; }
             .deezer-credit img { height: 15px; }
+        }
+
+        /* NOVA REGRA PARA TELAS EXTREMAMENTE BAIXAS */
+        @media (max-height: 640px) {
+            .deezer-credit { padding-top: 8px; font-size: 10px; }
+            .deezer-credit img { height: 12px; }
         }
 
         @media (max-width: 1024px) {
@@ -329,11 +341,11 @@
         nextRoundButton.style.display = "none";
         songLeft.classList.remove("visible");
         songRight.classList.remove("visible");
-        sideLeft.classList.remove("winner", "loser");
-        sideRight.classList.remove("winner", "loser");
+        sideLeft.classList.remove("winner", "loser", "playing");
+        sideRight.classList.remove("winner", "loser", "playing");
         approvalLeft.style.opacity = 0;
         approvalRight.style.opacity = 0;
-        gameContainer.classList.remove('choices-active'); // Desativa o hover no início da rodada
+        gameContainer.classList.remove('choices-active');
 
         try {
             const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/get-songs?mode=${currentGameMode}`);
@@ -351,22 +363,25 @@
             if (roundOver) return;
             
             songLeft.classList.add("visible");
+            sideLeft.classList.add("playing");
             playAudio(currentSongs.left, 5);
 
             revealTimeoutId = setTimeout(async () => {
                 if (roundOver) return;
-
+                sideLeft.classList.remove("playing");
+                
                 await preloadImage(currentSongs.right.cover);
                 if (roundOver) return;
                 
                 songRight.classList.add("visible");
+                sideRight.classList.add("playing");
                 playAudio(currentSongs.right, 5);
                 
                 revealTimeoutId = setTimeout(() => {
-                    if (!roundOver) { 
-                        isChoiceEnabled = true; 
-                        gameContainer.classList.add('choices-active'); // Ativa o hover na hora da escolha
-                    }
+                    if (roundOver) return;
+                    sideRight.classList.remove("playing");
+                    isChoiceEnabled = true; 
+                    gameContainer.classList.add('choices-active');
                 }, 5000);
 
             }, 5500);
@@ -410,12 +425,19 @@
         if (!roundOver && isChoiceEnabled) {
             roundOver = true;
             isChoiceEnabled = false;
+            gameContainer.classList.remove('choices-active'); // Desativa hover pós-escolha
+            
             const winnerSong = currentSongs[side];
             const loserSide = "left" === side ? "right" : "left";
             const loserSong = currentSongs[loserSide];
+            
             document.getElementById(`side-${side}`).classList.add("winner");
             document.getElementById(`side-${loserSide}`).classList.add("loser");
+            document.getElementById(`side-${side}`).classList.remove("playing");
+            document.getElementById(`side-${loserSide}`).classList.remove("playing");
+            
             playAudio(winnerSong, 10);
+            
             try {
                 const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/vote?mode=${currentGameMode}`, {
                     method: 'POST',
