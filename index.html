@@ -30,8 +30,6 @@
             transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
         }
         .song-content.visible { opacity: 1; transform: scale(1); }
-        
-        /* O wrapper agora é o alvo das animações de hover/winner */
         .song-content-wrapper {
              transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
         }
@@ -51,19 +49,14 @@
         #next-round-button { display: none; }
         
         .replay-button {
-            position: absolute;
-            bottom: -80px; /* Posição base corrigida */
-            left: 50%;
-            transform: translateX(-50%);
+            position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
             width: 50px; height: 50px; background-color: transparent; border: none;
             cursor: pointer; z-index: 4; opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
+            transition: opacity 0.3s, visibility 0.3s, bottom 0.3s ease-in-out; /* Adicionada transição de 'bottom' */
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
-        .replay-button.result-visible {
-             bottom: -130px; /* Posição na tela de resultado */
-        }
+        .replay-button.result-visible { bottom: -130px; }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
         
@@ -234,10 +227,10 @@
 
     <script>
     const translations = {
-        "pt": { menu_replay_title: "Botões de Repetição Durante Escolha", replay_desc: "10s de repetição", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
-        "en": { menu_replay_title: "Replay Buttons During Choice", replay_desc: "10s replay", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
-        "es": { menu_replay_title: "Botones de Repetición Durante Elección", replay_desc: "Repetición de 10s", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
-        "fr": { menu_replay_title: "Boutons Répéter Pendant le Choix", replay_desc: "Répéter 10s", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
+        "pt": { menu_replay_title: "Replay Durante a Escolha", replay_desc: "10s de repetição", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
+        "en": { menu_replay_title: "Replay During Choice", replay_desc: "10s replay", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
+        "es": { menu_replay_title: "Replay en la Elección", replay_desc: "Repetición de 10s", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
+        "fr": { menu_replay_title: "Replay au Choix", replay_desc: "Répéter 10s", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
     };
 
     let currentTexts = {};
@@ -439,7 +432,12 @@
         wrapper.querySelector('.album-cover').src = song.cover;
         wrapper.querySelector('.album-cover').alt = `Capa do álbum ${song.title} de ${song.artist}`;
         wrapper.querySelector('.song-title').innerText = song.title;
-        wrapper.querySelector('.song-artist').innerText = song.artist;
+        // Limpa e depois adiciona o texto para garantir que o botão não seja duplicado
+        const artistEl = wrapper.querySelector('.song-artist');
+        while (artistEl.firstChild && artistEl.firstChild.nodeType !== Node.ELEMENT_NODE) {
+            artistEl.removeChild(artistEl.firstChild);
+        }
+        artistEl.prepend(document.createTextNode(song.artist));
     }
     
     function animateApprovalRating(element, finalValue) {
@@ -468,8 +466,6 @@
             roundOver = true;
             isChoiceEnabled = false;
             gameContainer.classList.remove('choices-active');
-            replayLeftButton.classList.remove('visible');
-            replayRightButton.classList.remove('visible');
             
             const winnerSong = currentSongs[side];
             const loserSide = "left" === side ? "right" : "left";
@@ -481,6 +477,10 @@
             document.getElementById(`side-${loserSide}`).classList.remove("playing");
             
             playAudio(winnerSong, 10, preloadedAudio[side]);
+            
+            // Esconde os botões de replay antes de mostrar o placar
+            replayLeftButton.classList.remove('visible');
+            replayRightButton.classList.remove('visible');
             
             try {
                 const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/vote?mode=${currentGameMode}`, {
@@ -530,7 +530,9 @@
         setTimeout(() => {
             isReplayActive = false;
             button.classList.remove('cooldown');
-            if (otherButton) { otherButton.classList.remove('cooldown'); }
+            if (otherButton && otherButton.classList.contains('visible')) { 
+                otherButton.classList.remove('cooldown');
+            }
         }, 10000);
     }
     
