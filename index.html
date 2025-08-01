@@ -32,15 +32,11 @@
             opacity: 1; 
         }
         
+        /* EFEITO HOVER ATUALIZADO (SEM DESFOQUE) */
         .game-container.choices-active .side:hover .song-content {
              transform: scale(1.05) translateY(-5px);
         }
-        .game-container.choices-active:hover .side:not(:hover) .song-content {
-            filter: blur(2px);
-            transform: scale(0.95);
-            opacity: 0.8;
-        }
-
+        
         .song-content { text-align: center; color: white; position: relative; z-index: 1; opacity: 0; transform: scale(0.8); transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out; }
         .song-content.visible { opacity: 1; transform: scale(1); }
         
@@ -78,7 +74,7 @@
         }
         @media (hover: none) { 
             .replay-button.visible:not(.cooldown) { 
-                /* Animação removida para ser mais sutil */
+                /* Animação de pulso removida */
             } 
         }
         
@@ -108,7 +104,7 @@
             .replay-button.result-visible { bottom: 60px; }
         }
         
-        #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 10; cursor: pointer; background: none; border: none; padding: 10px; }
+        #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 1001; /* Z-index aumentado para garantir que fique acima de tudo */ cursor: pointer; background: none; border: none; padding: 10px; }
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
