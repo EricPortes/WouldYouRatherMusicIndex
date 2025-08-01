@@ -29,18 +29,16 @@
             opacity: 0; transform: scale(0.8);
             transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
         }
-        /* --- ALTERAÇÃO AQUI --- */
         .song-content a {
-            color: inherit; /* Garante que o link não fique azul */
-            text-decoration: none; /* Remove o sublinhado padrão */
+            color: inherit;
+            text-decoration: none;
         }
         .song-content a.active-link {
             cursor: pointer;
         }
         .song-content a.active-link:hover .song-title {
-            text-decoration: underline; /* Adiciona sublinhado ao passar o mouse, apenas quando o link estiver ativo */
+            text-decoration: underline;
         }
-        /* --- FIM DA ALTERAÇÃO --- */
 
         .song-content.visible { opacity: 1; transform: scale(1); }
         .song-content-wrapper {
@@ -76,7 +74,7 @@
         .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.0vh 0; }
         .switch-container span { 
             font-size: 1.7vh; color: #b3b3b3;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; /* Alterado para padding-right */
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px;
         }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -244,7 +242,7 @@
             <div class="song-content" id="song-right">
                 <div class="song-content-wrapper">
                     <img class="album-cover" id="cover-right" alt="">
-                     <a id="link-title-right" target="_blank" rel="noopener noreferrer">
+                    <a id="link-title-right" target="_blank" rel="noopener noreferrer">
                         <h2 class="song-title" id="title-right"></h2>
                     </a>
                     <p class="song-artist" id="artist-right"></p>
@@ -298,10 +296,8 @@
     const menuTitleReplay = document.getElementById('menu-title-replay');
     const replayInfo = document.getElementById('replay-info');
 
-    // --- ALTERAÇÃO AQUI ---
     const linkTitleLeft = document.getElementById('link-title-left');
     const linkTitleRight = document.getElementById('link-title-right');
-    // --- FIM DA ALTERAÇÃO ---
 
     let currentSongs = {};
     let roundOver = false;
@@ -403,7 +399,6 @@
         document.body.classList.toggle('menu-open');
     }
 
-    // --- FUNÇÃO ATUALIZADA ---
     async function startRound() {
         if (isRoundLoading) return;
         isRoundLoading = true;
@@ -413,7 +408,6 @@
             try { currentAudioSource.stop(); } catch (e) {}
         }
         
-        // Resetar links dos títulos
         linkTitleLeft.removeAttribute('href');
         linkTitleRight.removeAttribute('href');
         linkTitleLeft.classList.remove('active-link');
@@ -490,7 +484,6 @@
             isRoundLoading = false;
         }
     }
-    // --- FIM DA FUNÇÃO ATUALIZADA ---
 
     function prepareSide(side, song) {
         const sideEl = document.getElementById(`side-${side}`);
@@ -522,19 +515,11 @@
         }, stepTime);
     }
 
-    // --- FUNÇÃO ATUALIZADA ---
     async function handleChoice(side) {
         if (!roundOver && isChoiceEnabled) {
             roundOver = true;
             isChoiceEnabled = false;
             gameContainer.classList.remove('choices-active');
-            
-            // Ativar links do Deezer para os títulos
-            const deezerBaseUrl = `https://www.deezer.com/${currentTexts.lang_code.split('-')[0]}/track/`;
-            linkTitleLeft.href = `${deezerBaseUrl}${currentSongs.left.id}`;
-            linkTitleRight.href = `${deezerBaseUrl}${currentSongs.right.id}`;
-            linkTitleLeft.classList.add('active-link');
-            linkTitleRight.classList.add('active-link');
 
             const winnerSong = currentSongs[side];
             const loserSide = "left" === side ? "right" : "left";
@@ -573,7 +558,15 @@
                 approvalLeft.style.opacity = 1;
                 approvalRight.style.opacity = 1;
             }
+            
             setTimeout(() => {
+                // Ativação dos links movida para cá
+                const deezerBaseUrl = `https://www.deezer.com/${currentTexts.lang_code.split('-')[0]}/track/`;
+                linkTitleLeft.href = `${deezerBaseUrl}${currentSongs.left.id}`;
+                linkTitleRight.href = `${deezerBaseUrl}${currentSongs.right.id}`;
+                linkTitleLeft.classList.add('active-link');
+                linkTitleRight.classList.add('active-link');
+
                 nextRoundButton.style.display = "block";
                 const winnerButton = side === 'left' ? replayLeftButton : replayRightButton;
                 if (!replayButtonsEnabled) {
@@ -586,7 +579,6 @@
             }, 1500);
         }
     }
-    // --- FIM DA FUNÇÃO ATUALIZADA ---
     
     function handleReplay(side, button) {
         if (isReplayActive || button.classList.contains('cooldown')) return;
