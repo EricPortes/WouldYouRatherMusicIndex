@@ -32,7 +32,6 @@
             opacity: 1; 
         }
         
-        /* EFEITO HOVER ATUALIZADO (SEM DESFOQUE) */
         .game-container.choices-active .side:hover .song-content {
              transform: scale(1.05) translateY(-5px);
         }
@@ -104,7 +103,9 @@
             .replay-button.result-visible { bottom: 60px; }
         }
         
+        /* CORREÇÃO DO MENU */
         #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 1001; /* Z-index aumentado para garantir que fique acima de tudo */ cursor: pointer; background: none; border: none; padding: 10px; }
+
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
@@ -576,6 +577,43 @@
         replayButtonsEnabled = replayToggle.checked;
         localStorage.setItem('replayEnabled', replayButtonsEnabled);
         updateReplayStatusText();
+    });
+
+    menuToggle.addEventListener('click', toggleMenu);
+    menuOverlay.addEventListener('click', toggleMenu);
+
+    langSwitcher.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+            const selectedLang = event.target.getAttribute('data-lang');
+            window.location.href = window.location.pathname + '?lang=' + selectedLang;
+        }
+    });
+
+    gameModesList.addEventListener('click', (event) => {
+        event.preventDefault();
+        const target = event.target.closest('a');
+        if (target) {
+            const newMode = target.dataset.mode;
+            if (newMode !== currentGameMode) {
+                currentGameMode = newMode;
+                localStorage.setItem('gameMode', currentGameMode);
+                updateSelectedModeUI();
+                startButton.style.display = "none";
+                startRound();
+            }
+            toggleMenu();
+        }
+    });
+
+    volumeSlider.addEventListener('input', (event) => {
+        const volumeValue = parseInt(event.target.value, 10);
+        currentVolume = volumeValue / 100;
+        volumeValueDisplay.textContent = volumeValue;
+        if (currentGainNode) {
+            currentGainNode.gain.setValueAtTime(currentVolume, audioContext.currentTime);
+        }
+        localStorage.setItem('gameVolume', currentVolume);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
