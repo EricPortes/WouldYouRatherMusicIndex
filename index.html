@@ -52,7 +52,7 @@
             position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
             width: 50px; height: 50px; background-color: transparent; border: none;
             cursor: pointer; z-index: 4; opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, bottom 0.3s ease-in-out;
+            transition: opacity 0.3s, visibility 0.3s; /* ANIMAÇÃO DE SLIDE REMOVIDA */
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
@@ -63,7 +63,7 @@
         .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.0vh 0; }
         .switch-container span { 
             font-size: 1.7vh; color: #b3b3b3;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; /* Garante espaço à direita do texto */
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 10px;
         }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -186,11 +186,11 @@
                 <span class="info-popup" id="replay-info" tabindex="0">?</span>
             </div>
             <div class="switch-container">
-                <span id="replay-status-text"></span>
                 <label class="switch">
                     <input type="checkbox" id="replay-toggle">
                     <span class="slider round"></span>
                 </label>
+                <span id="replay-status-text"></span>
             </div>
 
             <h3 id="menu-title-language">Idioma</h3>
@@ -286,6 +286,7 @@
     let isChoiceEnabled = false;
     let isReplayActive = false;
     let replayButtonsEnabled = false;
+    let isRoundLoading = false;
     let currentGameMode = 'geral'; 
     let currentVolume = 1.0;
     let revealTimeoutId = null;
@@ -381,7 +382,14 @@
     }
 
     async function startRound() {
+        if (isRoundLoading) return;
+        isRoundLoading = true;
+
         clearTimeout(revealTimeoutId);
+        if (currentAudioSource) {
+            try { currentAudioSource.stop(); } catch (e) {}
+        }
+        
         roundOver = false;
         isChoiceEnabled = false;
         isReplayActive = false;
@@ -401,6 +409,7 @@
             const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/get-songs?mode=${currentGameMode}`);
             const data = await response.json();
             if (data.error) {
+                isRoundLoading = false;
                 return alert(currentTexts.error_loading_songs);
             }
             currentSongs.left = data[0];
@@ -418,14 +427,14 @@
             preloadedAudio.left = leftAudioBuffer;
             preloadedAudio.right = rightAudioBuffer;
 
-            if (roundOver) return;
+            if (roundOver) { isRoundLoading = false; return; }
             
             songLeft.classList.add("visible");
             sideLeft.classList.add("playing");
             playAudio(currentSongs.left, 5, preloadedAudio.left);
 
             revealTimeoutId = setTimeout(() => {
-                if (roundOver) return;
+                if (roundOver) { isRoundLoading = false; return; }
                 sideLeft.classList.remove("playing");
                 
                 songRight.classList.add("visible");
@@ -433,7 +442,7 @@
                 playAudio(currentSongs.right, 5, preloadedAudio.right);
                 
                 revealTimeoutId = setTimeout(() => {
-                    if (roundOver) return;
+                    if (roundOver) { isRoundLoading = false; return; }
                     sideRight.classList.remove("playing");
                     isChoiceEnabled = true; 
                     gameContainer.classList.add('choices-active');
@@ -441,6 +450,7 @@
                         replayLeftButton.classList.add('visible');
                         replayRightButton.classList.add('visible');
                     }
+                    isRoundLoading = false;
                 }, 5000);
 
             }, 5200);
@@ -448,6 +458,7 @@
         } catch (error) {
             console.error("Não foi possível buscar ou pré-carregar os recursos:", error);
             alert(currentTexts.error_loading_songs);
+            isRoundLoading = false;
         }
     }
 
@@ -601,6 +612,7 @@
 
     gameModesList.addEventListener('click', (event) => {
         event.preventDefault();
+        if (isRoundLoading) return;
         const target = event.target.closest('a');
         if (target) {
             const newMode = target.dataset.mode;
