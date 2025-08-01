@@ -15,13 +15,33 @@
         .side { width: 50%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; }
         .side.left { background-color: #007BFF; }
         .side.right { background-color: #E60023; }
-        .side::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); opacity: 0; transition: opacity 0.3s ease-in-out; z-index: 0; }
         
+        .side::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 0;
+        }
         .game-container.choices-active .side:hover::after { 
             opacity: 1; 
         }
+        
+        .game-container.choices-active .side:hover .song-content {
+             transform: scale(1.05) translateY(-5px);
+        }
+        .game-container.choices-active:hover .side:not(:hover) .song-content {
+            filter: blur(2px);
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
 
-        .song-content { text-align: center; color: white; position: relative; z-index: 1; opacity: 0; transform: scale(0.8); transition: opacity 0.4s ease-out, transform 0.4s ease-out; }
+        .song-content { text-align: center; color: white; position: relative; z-index: 1; opacity: 0; transform: scale(0.8); transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out; }
         .song-content.visible { opacity: 1; transform: scale(1); }
         
         .side.playing .song-content,
@@ -37,6 +57,41 @@
         .approval-rating { font-size: 22px; font-weight: bold; margin-top: 15px; color: white; opacity: 0; transition: opacity 0.5s ease-in; }
         #start-button, #next-round-button { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; font-size: 20px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer; z-index: 5; }
         #next-round-button { display: none; }
+        
+        .replay-button {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 50px; height: 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none; border-radius: 50%; cursor: pointer;
+            z-index: 4; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, background-color 0.2s, bottom 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .replay-button.visible { opacity: 1; visibility: visible; }
+        .replay-button.result-visible { bottom: 80px; }
+        .replay-button svg { width: 24px; height: 24px; }
+        .replay-button.cooldown { background-color: rgba(255, 255, 255, 0.4); cursor: not-allowed; }
+        
+        @media (hover: hover) { 
+            .replay-button:not(.cooldown):hover { 
+                background-color: rgba(255, 255, 255, 0.85);
+            } 
+        }
+        @media (hover: none) { 
+            .replay-button.visible:not(.cooldown) { 
+                /* Animação removida para ser mais sutil */
+            } 
+        }
+        
+        .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.1vh 0; }
+        .switch-container span { font-size: 1.8vh; color: #b3b3b3; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #535353; transition: .4s; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; }
+        .slider.round { border-radius: 24px; }
+        .slider.round:before { border-radius: 50%; }
+        input:checked + .slider { background-color: #1DB954; }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         @media (max-width: 768px) and (orientation: portrait) {
             .game-container { flex-direction: column; }
@@ -48,112 +103,57 @@
             .song-artist { font-size: 14px; }
             .approval-rating { font-size: 16px; margin-top: 8px; }
             #start-button, #next-round-button { font-size: 16px; padding: 10px 20px; bottom: 20px; }
+            .replay-button { width: 40px; height: 40px; bottom: 20px; }
+            .replay-button svg { width: 20px; height: 20px; }
+            .replay-button.result-visible { bottom: 60px; }
         }
-
-        @media (max-height: 500px) and (orientation: landscape) {
-            .vs-circle { width: 60px; height: 60px; font-size: 28px; border-width: 3px; }
-            .album-cover { width: 120px; height: 120px; margin-bottom: 10px; }
-            .song-title { font-size: 18px; }
-            .song-artist { font-size: 14px; }
-            .approval-rating { font-size: 16px; margin-top: 8px; }
-            #start-button, #next-round-button { font-size: 14px; padding: 8px 16px; bottom: 15px; }
-        }
-
+        
         #menu-toggle { position: absolute; top: 20px; left: 20px; z-index: 10; cursor: pointer; background: none; border: none; padding: 10px; }
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
-        
         #side-menu {
-            position: fixed; top: 0; left: 0; height: 100%;
-            width: 250px;
-            background-color: #181818; z-index: 1000;
-            transform: translateX(-100%); transition: transform 0.3s ease-in-out;
-            padding: 2.2vh 20px;
-            box-sizing: border-box; color: white;
-            display: flex; flex-direction: column;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
+            transform: translateX(-100%); transition: transform 0.3s ease-in-out; padding: 2.2vh 20px;
+            box-sizing: border-box; color: white; display: flex; flex-direction: column; overflow: hidden;
         }
-
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
-        
-        .menu-section h2 { 
-            margin-top: 2.2vh; 
-            margin-bottom: 1.1vh; 
-            font-size: 2vh; 
-            color: #fff; 
-            border-bottom: 1px solid #444; 
-            padding-bottom: 0.9vh;
-        }
-        .menu-section:first-child h2 { 
-            margin-top: 4.4vh; 
-        }
-
+        .menu-section h2 { margin-top: 2.2vh; margin-bottom: 1.1vh; font-size: 2vh; color: #fff; border-bottom: 1px solid #444; padding-bottom: 0.9vh;}
+        .menu-section:first-child h2 { margin-top: 4.4vh; }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
-        #side-menu ul li a {
-            color: #b3b3b3; text-decoration: none; 
-            font-size: 1.8vh;
-            padding: 1.3vh 10px;
-            display: block; transition: color 0.2s, background-color 0.2s;
-            border-radius: 5px;
-        }
+        #side-menu ul li a { color: #b3b3b3; text-decoration: none; font-size: 1.8vh; padding: 1.3vh 10px; display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px; }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
         #side-menu ul li a.selected { color: white; font-weight: bold; background-color: #333; }
-        
-        .deezer-credit {
-            margin-top: auto; 
-            font-size: 1.3vh; 
-            color: #888; 
-            padding-top: 2.2vh;
-        }
-        .deezer-credit a { color: #888; }
-        .deezer-credit img { 
-            height: 2.2vh;
-        }
-        
+        .deezer-credit { margin-top: auto; font-size: 1.3vh; color: #888; padding-top: 2.2vh; }
+        .deezer-credit img { height: 2.2vh; }
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
-        
-        #menu-title-volume, #menu-title-language {
-            color:#b3b3b3; 
-            font-size: 1.5vh; 
-            margin-top: 1.6vh;
-        }
+        #menu-title-replay, #menu-title-volume, #menu-title-language { color:#b3b3b3; font-size: 1.5vh; margin-top: 1.6vh; }
         .volume-control { display: flex; align-items: center; padding: 1.1vh 0; }
         .volume-icon { margin-right: 15px; font-size: 2.2vh; }
         .volume-value { margin-left: 15px; font-size: 1.8vh; min-width: 25px; text-align: right; }
-        
         .volume-slider-container { flex-grow: 1; }
         #volume-slider { width: 100%; -webkit-appearance: none; background: transparent; }
-        #volume-slider:focus { outline: none; }
         #volume-slider::-webkit-slider-runnable-track { width: 100%; height: 5px; cursor: pointer; background: #535353; border-radius: 5px; }
-        #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; margin-top: -5.5px; box-shadow: 0 0 2px rgba(0,0,0,0.5); }
-        #volume-slider::-moz-range-track { width: 100%; height: 5px; cursor: pointer; background: #535353; border-radius: 5px; }
-        #volume-slider::-moz-range-thumb { height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; border: none; }
+        #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; margin-top: -5.5px; }
 
         @media (max-width: 1024px) {
-            #side-menu {
-                overflow-y: auto;
-                padding: 20px;
-            }
+            #side-menu { overflow-y: auto; padding: 20px; }
             .menu-section h2 { font-size: 18px; margin-top: 20px; margin-bottom: 10px; padding-bottom: 8px;}
             .menu-section:first-child h2 { margin-top: 40px; }
             #side-menu ul li a { font-size: 16px; padding: 12px 10px; }
-            #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; }
+            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; }
             .volume-control { padding: 10px 0; }
             .volume-icon { font-size: 20px; }
             .volume-value { font-size: 16px; }
+            .switch-container span { font-size: 16px; }
             .deezer-credit { font-size: 12px; padding-top: 20px; margin-top: 20px; }
             .deezer-credit img { height: 20px; }
-
             #side-menu { scrollbar-width: thin; }
             #side-menu::-webkit-scrollbar { display: block; width: 8px; }
             #side-menu::-webkit-scrollbar-track { background: #181818; }
             #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
-            #side-menu::-webkit-scrollbar-thumb:hover { background-color: #777; }
         }
 
-        @media (max-width: 768px) {
-            #side-menu { width: 70%; }
-        }
+        @media (max-width: 768px) { #side-menu { width: 70%; } }
     </style>
 </head>
 <body>
@@ -177,6 +177,14 @@
         </div>
         <div class="menu-section">
             <h2 id="menu-title-options">Opções</h2>
+            <h3 id="menu-title-replay">Botões de Repetição</h3>
+            <div class="switch-container">
+                <span id="replay-status-text">Desativado</span>
+                <label class="switch">
+                    <input type="checkbox" id="replay-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
             <h3 id="menu-title-volume">Volume</h3>
             <div class="volume-control">
                 <span class="volume-icon">🔊</span>
@@ -203,9 +211,39 @@
     <div id="menu-overlay"></div>
 
     <div class="game-container" id="game-container">
-        <div class="side left" id="side-left"><div class="song-content" id="song-left"><img class="album-cover" id="cover-left" alt=""><h2 class="song-title" id="title-left"></h2><p class="song-artist" id="artist-left"></p><div class="approval-rating" id="approval-left"></div></div></div>
+        <div class="side left" id="side-left">
+            <div class="song-content" id="song-left">
+                <img class="album-cover" id="cover-left" alt="">
+                <h2 class="song-title" id="title-left"></h2>
+                <p class="song-artist" id="artist-left"></p>
+                <div class="approval-rating" id="approval-left"></div>
+            </div>
+            <button class="replay-button" id="replay-left">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4V10H10" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20 20V14H14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
         <div class="vs-circle" id="vs-circle">VS</div>
-        <div class="side right" id="side-right"><div class="song-content" id="song-right"><img class="album-cover" id="cover-right" alt=""><h2 class="song-title" id="title-right"></h2><p class="song-artist" id="artist-right"></p><div class="approval-rating" id="approval-right"></div></div></div>
+        <div class="side right" id="side-right">
+            <div class="song-content" id="song-right">
+                <img class="album-cover" id="cover-right" alt="">
+                <h2 class="song-title" id="title-right"></h2>
+                <p class="song-artist" id="artist-right"></p>
+                <div class="approval-rating" id="approval-right"></div>
+            </div>
+            <button class="replay-button" id="replay-right">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4V10H10" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20 20V14H14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
     </div>
     <button id="start-button"></button>
     <button id="next-round-button"></button>
@@ -214,10 +252,10 @@
 
     <script>
     const translations = {
-        "pt": { menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas. Verifique a conexão do servidor.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
-        "en": { menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs. Please check the server connection.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
-        "es": { menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones. Comprueba la conexión del servidor.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
-        "fr": { menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons. Vérifiez la connexion au serveur.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
+        "pt": { menu_replay: "Botões de Repetição", replay_on: "Ativado", replay_off: "Desativado", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
+        "en": { menu_replay: "Replay Buttons", replay_on: "Enabled", replay_off: "Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
+        "es": { menu_replay: "Botones de Repetición", replay_on: "Activado", replay_off: "Desactivado", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
+        "fr": { menu_replay: "Boutons Répéter", replay_on: "Activé", replay_off: "Désactivé", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
     };
 
     let currentTexts = {};
@@ -242,10 +280,17 @@
     const gameModesList = document.getElementById('game-modes-list');
     const volumeSlider = document.getElementById('volume-slider');
     const volumeValueDisplay = document.getElementById('volume-value-display');
+    const replayLeftButton = document.getElementById('replay-left');
+    const replayRightButton = document.getElementById('replay-right');
+    const replayToggle = document.getElementById('replay-toggle');
+    const replayStatusText = document.getElementById('replay-status-text');
+    const menuTitleReplay = document.getElementById('menu-title-replay');
 
     let currentSongs = {};
     let roundOver = false;
     let isChoiceEnabled = false;
+    let isReplayActive = false;
+    let replayButtonsEnabled = false;
     let currentGameMode = 'geral'; 
     let currentVolume = 1.0;
     let revealTimeoutId = null;
@@ -307,6 +352,8 @@
         menuTitleOptions.innerText = currentTexts.menu_options;
         menuTitleVolume.innerText = currentTexts.menu_volume;
         menuTitleLanguage.innerText = currentTexts.menu_language;
+        menuTitleReplay.innerText = currentTexts.menu_replay;
+        updateReplayStatusText();
 
         document.querySelectorAll('#game-modes-list a').forEach(link => {
             const mode = link.dataset.mode;
@@ -315,6 +362,10 @@
                 link.innerText = currentTexts[translationKey];
             }
         });
+    }
+    
+    function updateReplayStatusText() {
+        replayStatusText.innerText = replayToggle.checked ? currentTexts.replay_on : currentTexts.replay_off;
     }
     
     function updateSelectedModeUI() {
@@ -336,6 +387,7 @@
         clearTimeout(revealTimeoutId);
         roundOver = false;
         isChoiceEnabled = false;
+        isReplayActive = false;
         preloadedAudio = {};
         nextRoundButton.style.display = "none";
         songLeft.classList.remove("visible");
@@ -345,6 +397,8 @@
         approvalLeft.style.opacity = 0;
         approvalRight.style.opacity = 0;
         gameContainer.classList.remove('choices-active');
+        replayLeftButton.classList.remove('visible', 'result-visible', 'cooldown');
+        replayRightButton.classList.remove('visible', 'result-visible', 'cooldown');
 
         try {
             const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/get-songs?mode=${currentGameMode}`);
@@ -358,13 +412,7 @@
             prepareSide("left", currentSongs.left);
             prepareSide("right", currentSongs.right);
 
-            // OTIMIZAÇÃO: Carrega todos os recursos (4) em paralelo no início
-            const [
-                leftImage, 
-                leftAudioBuffer, 
-                rightImage, 
-                rightAudioBuffer
-            ] = await Promise.all([
+            const [ leftImage, leftAudioBuffer, rightImage, rightAudioBuffer ] = await Promise.all([
                 preloadImage(currentSongs.left.cover),
                 preloadAudio(currentSongs.left.preview),
                 preloadImage(currentSongs.right.cover),
@@ -375,17 +423,14 @@
 
             if (roundOver) return;
             
-            // Agora que tudo está pronto, a sequência é rápida e previsível
             songLeft.classList.add("visible");
             sideLeft.classList.add("playing");
             playAudio(currentSongs.left, 5, preloadedAudio.left);
 
-            // Agenda a transição para a próxima música com um tempo fixo e curto
             revealTimeoutId = setTimeout(() => {
                 if (roundOver) return;
                 sideLeft.classList.remove("playing");
                 
-                // A segunda música já está carregada, apenas exibe e toca
                 songRight.classList.add("visible");
                 sideRight.classList.add("playing");
                 playAudio(currentSongs.right, 5, preloadedAudio.right);
@@ -395,9 +440,13 @@
                     sideRight.classList.remove("playing");
                     isChoiceEnabled = true; 
                     gameContainer.classList.add('choices-active');
+                    if (replayButtonsEnabled) {
+                        replayLeftButton.classList.add('visible');
+                        replayRightButton.classList.add('visible');
+                    }
                 }, 5000);
 
-            }, 5200); // Reduzido para uma transição mais rápida (5s da música + 0.2s de intervalo)
+            }, 5200);
 
         } catch (error) {
             console.error("Não foi possível buscar ou pré-carregar os recursos:", error);
@@ -439,6 +488,8 @@
             roundOver = true;
             isChoiceEnabled = false;
             gameContainer.classList.remove('choices-active');
+            replayLeftButton.classList.remove('visible');
+            replayRightButton.classList.remove('visible');
             
             const winnerSong = currentSongs[side];
             const loserSide = "left" === side ? "right" : "left";
@@ -477,45 +528,41 @@
             }
             setTimeout(() => {
                 nextRoundButton.style.display = "block";
+                if (replayButtonsEnabled) {
+                    replayLeftButton.classList.add('visible', 'result-visible');
+                    replayRightButton.classList.add('visible', 'result-visible');
+                }
             }, 1500);
         }
     }
     
-    menuToggle.addEventListener('click', toggleMenu);
-    menuOverlay.addEventListener('click', toggleMenu);
+    function handleReplay(side, button) {
+        if (isReplayActive || button.classList.contains('cooldown')) return;
 
-    langSwitcher.addEventListener('click', (event) => {
-        if (event.target.tagName === 'A') {
-            event.preventDefault();
-            const selectedLang = event.target.getAttribute('data-lang');
-            window.location.href = window.location.pathname + '?lang=' + selectedLang;
-        }
+        isReplayActive = true;
+        button.classList.add('cooldown');
+        const otherButton = side === 'left' ? replayRightButton : replayLeftButton;
+        otherButton.classList.add('cooldown');
+
+        const song = currentSongs[side];
+        const audio = preloadedAudio[side];
+        
+        playAudio(song, 10, audio);
+        
+        setTimeout(() => {
+            isReplayActive = false;
+            button.classList.remove('cooldown');
+            otherButton.classList.remove('cooldown');
+        }, 10000);
+    }
+    
+    replayLeftButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleReplay('left', replayLeftButton);
     });
-
-    gameModesList.addEventListener('click', (event) => {
-        event.preventDefault();
-        const target = event.target.closest('a');
-        if (target) {
-            const newMode = target.dataset.mode;
-            if (newMode !== currentGameMode) {
-                currentGameMode = newMode;
-                localStorage.setItem('gameMode', currentGameMode);
-                updateSelectedModeUI();
-                startButton.style.display = "none";
-                startRound();
-            }
-            toggleMenu();
-        }
-    });
-
-    volumeSlider.addEventListener('input', (event) => {
-        const volumeValue = parseInt(event.target.value, 10);
-        currentVolume = volumeValue / 100;
-        volumeValueDisplay.textContent = volumeValue;
-        if (currentGainNode) {
-            currentGainNode.gain.setValueAtTime(currentVolume, audioContext.currentTime);
-        }
-        localStorage.setItem('gameVolume', currentVolume);
+    replayRightButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleReplay('right', replayRightButton);
     });
 
     sideLeft.addEventListener("click", () => handleChoice("left"));
@@ -527,6 +574,12 @@
         }
         startButton.style.display = "none";
         startRound();
+    });
+    
+    replayToggle.addEventListener('change', () => {
+        replayButtonsEnabled = replayToggle.checked;
+        localStorage.setItem('replayEnabled', replayButtonsEnabled);
+        updateReplayStatusText();
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -550,6 +603,13 @@
         }
         volumeSlider.value = currentVolume * 100;
         volumeValueDisplay.textContent = Math.round(currentVolume * 100);
+
+        const savedReplayPref = localStorage.getItem('replayEnabled');
+        if (savedReplayPref === 'true') {
+            replayToggle.checked = true;
+            replayButtonsEnabled = true;
+        }
+        updateReplayStatusText();
     });
     </script>
 </body>
