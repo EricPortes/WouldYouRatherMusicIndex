@@ -22,7 +22,7 @@
             transition: opacity 0.3s ease-in-out; z-index: 0;
         }
         .game-container.choices-active .side:hover::after { opacity: 1; }
-        .game-container.choices-active .side:hover .song-content { transform: scale(1.05) translateY(-5px); }
+        .game-container.choices-active .side:hover .song-content-wrapper { transform: scale(1.05) translateY(-5px); }
         
         .song-content {
             position: relative; text-align: center; color: white; z-index: 1;
@@ -31,32 +31,39 @@
         }
         .song-content.visible { opacity: 1; transform: scale(1); }
         
-        .side.playing .song-content,
-        .side.winner .song-content { 
+        /* O wrapper agora é o alvo das animações de hover/winner */
+        .song-content-wrapper {
+             transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
+        }
+
+        .side.playing .song-content-wrapper,
+        .side.winner .song-content-wrapper { 
             transform: scale(1.05); 
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); 
         }
         
-        .side.loser .song-content { opacity: 0.6; transform: scale(0.95); }
+        .side.loser .song-content-wrapper { opacity: 0.6; transform: scale(0.95); }
         .album-cover { width: 300px; height: 300px; object-fit: cover; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; background-color: #333; }
         .song-title { font-size: 28px; font-weight: bold; }
-        .song-artist { font-size: 18px; margin-bottom: 70px; /* Cria espaço para o botão de replay */ }
+        .song-artist { font-size: 18px; }
         .approval-rating { font-size: 22px; font-weight: bold; margin-top: 15px; color: white; opacity: 0; transition: opacity 0.5s ease-in; }
         #start-button, #next-round-button { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; font-size: 20px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer; z-index: 5; }
         #next-round-button { display: none; }
         
         .replay-button {
             position: absolute;
-            bottom: 0; /* Alinha com o fundo do espaço criado pela margem do artista */
+            bottom: -80px; /* Posição base corrigida */
             left: 50%;
-            transform: translate(-50%, -50%); /* Centraliza perfeitamente no espaço */
+            transform: translateX(-50%);
             width: 50px; height: 50px; background-color: transparent; border: none;
             cursor: pointer; z-index: 4; opacity: 0; visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s;
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
-        .replay-button.result-visible { transform: translate(-50%, 50%); bottom: 50%; /* Posição para tela de resultado */ }
+        .replay-button.result-visible {
+             bottom: -130px; /* Posição na tela de resultado */
+        }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
         
@@ -77,8 +84,9 @@
         @media (max-width: 768px) and (orientation: portrait) {
             .album-cover { width: 120px; height: 120px; }
             .song-title { font-size: 18px; }
-            .song-artist { font-size: 14px; margin-bottom: 50px; }
-            .replay-button { width: 40px; height: 40px; }
+            .song-artist { font-size: 14px; }
+            .replay-button { bottom: -50px; }
+            .replay-button.result-visible { bottom: -80px; }
         }
         
         #menu-toggle {
@@ -108,7 +116,11 @@
         .deezer-credit img { height: 2.1vh; }
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
-        #menu-title-replay, #menu-title-volume, #menu-title-language { color:#b3b3b3; font-size: 1.4vh; margin-top: 1.5vh; }
+        
+        #menu-title-replay, #menu-title-volume, #menu-title-language { 
+            color:#b3b3b3; font-size: 1.4vh; margin-top: 1.5vh; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
         .volume-control { display: flex; align-items: center; padding: 1.0vh 0; }
         .volume-icon { margin-right: 15px; font-size: 2.1vh; }
         .volume-value { margin-left: 15px; font-size: 1.7vh; min-width: 25px; text-align: right; }
@@ -118,7 +130,7 @@
             .menu-section h2 { font-size: 18px; margin-top: 20px; margin-bottom: 10px; padding-bottom: 8px;}
             .menu-section:first-child h2 { margin-top: 40px; }
             #side-menu ul li a { font-size: 16px; padding: 12px 10px; }
-            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; }
+            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; white-space: normal; }
             .switch-container span { font-size: 16px; }
             .deezer-credit { font-size: 12px; padding-top: 20px; margin-top: 20px; }
             .deezer-credit img { height: 20px; }
@@ -160,7 +172,7 @@
                 <span class="volume-value" id="volume-value-display">100</span>
             </div>
             
-            <h3 id="menu-title-replay">Botões de Repetição na Escolha</h3>
+            <h3 id="menu-title-replay"></h3>
             <div class="switch-container">
                 <span id="replay-desc-text"></span>
                 <label class="switch">
@@ -189,10 +201,12 @@
     <div class="game-container" id="game-container">
         <div class="side left" id="side-left">
             <div class="song-content" id="song-left">
-                <img class="album-cover" id="cover-left" alt="">
-                <h2 class="song-title" id="title-left"></h2>
-                <p class="song-artist" id="artist-left"></p>
-                <div class="approval-rating" id="approval-left"></div>
+                <div class="song-content-wrapper">
+                    <img class="album-cover" id="cover-left" alt="">
+                    <h2 class="song-title" id="title-left"></h2>
+                    <p class="song-artist" id="artist-left"></p>
+                    <div class="approval-rating" id="approval-left"></div>
+                </div>
                 <button class="replay-button" id="replay-left">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
@@ -201,10 +215,12 @@
         <div class="vs-circle" id="vs-circle">VS</div>
         <div class="side right" id="side-right">
             <div class="song-content" id="song-right">
-                <img class="album-cover" id="cover-right" alt="">
-                <h2 class="song-title" id="title-right"></h2>
-                <p class="song-artist" id="artist-right"></p>
-                <div class="approval-rating" id="approval-right"></div>
+                <div class="song-content-wrapper">
+                    <img class="album-cover" id="cover-right" alt="">
+                    <h2 class="song-title" id="title-right"></h2>
+                    <p class="song-artist" id="artist-right"></p>
+                    <div class="approval-rating" id="approval-right"></div>
+                </div>
                 <button class="replay-button" id="replay-right">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
@@ -218,10 +234,10 @@
 
     <script>
     const translations = {
-        "pt": { menu_replay_title: "Botões de Repetição Durante Escolha", replay_desc: "10s de Repetição", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
-        "en": { menu_replay_title: "Replay Buttons During Choice", replay_desc: "10s Replay", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
+        "pt": { menu_replay_title: "Botões de Repetição Durante Escolha", replay_desc: "10s de repetição", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
+        "en": { menu_replay_title: "Replay Buttons During Choice", replay_desc: "10s replay", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
         "es": { menu_replay_title: "Botones de Repetición Durante Elección", replay_desc: "Repetición de 10s", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
-        "fr": { menu_replay_title: "Boutons Répéter Pendant Choix", replay_desc: "Répéter 10s", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
+        "fr": { menu_replay_title: "Boutons Répéter Pendant le Choix", replay_desc: "Répéter 10s", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
     };
 
     let currentTexts = {};
@@ -418,11 +434,12 @@
     }
 
     function prepareSide(side, song) {
-        const coverEl = document.getElementById(`cover-${side}`);
-        coverEl.src = song.cover;
-        coverEl.alt = `Capa do álbum ${song.title} de ${song.artist}`;
-        document.getElementById(`title-${side}`).innerText = song.title;
-        document.getElementById(`artist-${side}`).innerText = song.artist;
+        const sideEl = document.getElementById(`side-${side}`);
+        const wrapper = sideEl.querySelector('.song-content-wrapper');
+        wrapper.querySelector('.album-cover').src = song.cover;
+        wrapper.querySelector('.album-cover').alt = `Capa do álbum ${song.title} de ${song.artist}`;
+        wrapper.querySelector('.song-title').innerText = song.title;
+        wrapper.querySelector('.song-artist').innerText = song.artist;
     }
     
     function animateApprovalRating(element, finalValue) {
@@ -503,7 +520,7 @@
         isReplayActive = true;
         button.classList.add('cooldown');
         const otherButton = side === 'left' ? replayRightButton : replayLeftButton;
-        otherButton.classList.add('cooldown');
+        if (otherButton) { otherButton.classList.add('cooldown'); }
 
         const song = currentSongs[side];
         const audio = preloadedAudio[side];
@@ -513,9 +530,7 @@
         setTimeout(() => {
             isReplayActive = false;
             button.classList.remove('cooldown');
-            if (otherButton) { // Garante que o outro botão exista
-                otherButton.classList.remove('cooldown');
-            }
+            if (otherButton) { otherButton.classList.remove('cooldown'); }
         }, 10000);
     }
     
