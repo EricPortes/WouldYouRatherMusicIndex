@@ -60,10 +60,10 @@
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
         
-        .switch-container { display: flex; align-items: center; padding: 1.0vh 0; }
+        .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.0vh 0; }
         .switch-container span { 
             font-size: 1.7vh; color: #b3b3b3;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 10px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; /* Garante espaço à direita do texto */
         }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -186,11 +186,11 @@
                 <span class="info-popup" id="replay-info" tabindex="0">?</span>
             </div>
             <div class="switch-container">
+                <span id="replay-status-text"></span>
                 <label class="switch">
                     <input type="checkbox" id="replay-toggle">
                     <span class="slider round"></span>
                 </label>
-                <span id="replay-status-text"></span>
             </div>
 
             <h3 id="menu-title-language">Idioma</h3>
