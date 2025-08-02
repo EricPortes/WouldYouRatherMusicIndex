@@ -28,10 +28,10 @@
             position: relative; text-align: center; color: white; z-index: 1;
             opacity: 0; transform: scale(0.8);
             transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
-            display: flex; /* Added for replay button positioning */
-            flex-direction: column; /* Added for replay button positioning */
-            align-items: center; /* Added for replay button positioning */
-            justify-content: center; /* Added for replay button positioning */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .song-content a {
             color: inherit;
@@ -65,7 +65,7 @@
         
         .replay-button {
             position: absolute; 
-            bottom: -80px; /* Default for landscape */
+            bottom: -80px;
             left: 50%; 
             transform: translateX(-50%);
             width: 50px; height: 50px; background-color: transparent; border: none;
@@ -92,7 +92,6 @@
         input:checked + .slider { background-color: #1DB954; }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        /* --- STYLES FOR VERTICAL / PORTRAIT MODE --- */
         @media (orientation: portrait) {
             .game-container {
                 flex-direction: column;
@@ -100,12 +99,6 @@
             .side {
                 width: 100%;
                 height: 50%;
-            }
-            .side.left {
-                /* Side left is now top */
-            }
-            .side.right {
-                /* Side right is now bottom */
             }
             .divider {
                 width: 100%;
@@ -120,7 +113,7 @@
                 font-size: 36px;
             }
             .album-cover {
-                width: 35vw; /* Use viewport width for responsive size */
+                width: 35vw;
                 height: 35vw;
                 max-width: 150px;
                 max-height: 150px;
@@ -137,17 +130,16 @@
                 margin-top: 10px;
             }
             .replay-button {
-                /* Reset positioning to be relative to the content flow */
                 position: relative;
                 bottom: auto;
                 left: auto;
                 transform: none;
-                margin-top: 10px; /* Space between approval rating and button */
+                margin-top: 10px;
                 width: 40px;
                 height: 40px;
             }
              .replay-button.result-visible {
-                bottom: auto; /* Override landscape style */
+                bottom: auto;
              }
         }
         
@@ -618,7 +610,6 @@
             }
             
             setTimeout(() => {
-                // Ativação dos links movida para cá
                 const deezerBaseUrl = `https://www.deezer.com/${currentTexts.lang_code.split('-')[0]}/track/`;
                 linkTitleLeft.href = `${deezerBaseUrl}${currentSongs.left.id}`;
                 linkTitleRight.href = `${deezerBaseUrl}${currentSongs.right.id}`;
@@ -673,7 +664,20 @@
 
     sideLeft.addEventListener("click", () => handleChoice("left"));
     sideRight.addEventListener("click", () => handleChoice("right"));
-    nextRoundButton.addEventListener("click", startRound);
+
+    nextRoundButton.addEventListener("click", () => {
+        if (isRoundLoading) return;
+        if (currentAudioSource && currentGainNode) {
+            const fadeOutDuration = 0.5;
+            currentGainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + fadeOutDuration);
+            setTimeout(() => {
+                startRound();
+            }, fadeOutDuration * 1000);
+        } else {
+            startRound();
+        }
+    });
+
     startButton.addEventListener("click", () => {
         if (audioContext.state === 'suspended') {
             audioContext.resume();
