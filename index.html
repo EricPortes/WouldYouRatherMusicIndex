@@ -265,19 +265,18 @@
             cursor: pointer;
             padding: 0;
             margin-right: 25px;
+            color: white; /* Ensures the fill color is white */
         }
         #share-button svg {
-            stroke: #ffffff;
+            /* stroke: #ffffff; -- No longer needed for filled icon */
             transition: opacity 0.2s;
             width: 22px;
             height: 22px;
         }
-        #share-button:hover svg {
+        #share-button:hover {
             opacity: 0.7;
         }
         #share-button::after {
-            /* --- ALTERAÇÃO --- */
-            /* O conteúdo agora é dinâmico, vindo do atributo 'data-tooltip' */
             content: attr(data-tooltip);
             position: absolute;
             bottom: 120%;
@@ -358,9 +357,11 @@
                     <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
                 </a>
             </div>
-            <button id="share-button" aria-label="Compartilhar página" data-tooltip="URL Copiada!">
+            <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M16.172 11l-5.364-5.364 1.414-1.414L17.586 11l-5.364 5.364-1.414-1.414L16.172 11zM5 3v18h1.5v-6H16v-1.5H6.5V6H16V4.5H6.5V3H5z"/>
+                    <g transform="scale(-1, 1) translate(-24, 0)">
+                        <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+                    </g>
                 </svg>
             </button>
         </div>
@@ -407,7 +408,6 @@
 
     <script>
     const translations = {
-        // --- ALTERAÇÃO --- Adicionado 'url_copied' para cada idioma
         "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica", url_copied: "URL Copiada!" },
         "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical", url_copied: "URL Copied!" },
         "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
@@ -518,8 +518,8 @@
         replayInfo.setAttribute('data-tooltip', currentTexts.replay_info);
         updateReplayStatusText();
 
-        // --- ALTERAÇÃO --- Define o texto do tooltip do botão de compartilhar
         shareButton.setAttribute('data-tooltip', currentTexts.url_copied);
+        shareButton.setAttribute('aria-label', currentTexts.url_copied); // Also good for accessibility
 
         document.querySelectorAll('#game-modes-list a').forEach(link => {
             const mode = link.dataset.mode;
@@ -882,6 +882,3 @@
     </script>
 </body>
 </html>
-
-
-
