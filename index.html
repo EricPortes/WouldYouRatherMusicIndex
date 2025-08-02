@@ -114,8 +114,6 @@
                 height: 80px;
                 font-size: 36px;
             }
-            /* --- ALTERAÇÃO --- */
-            /* Tamanho da capa reduzido para garantir que não passe do centro */
             .album-cover {
                 width: 20vh;
                 height: 20vh;
@@ -278,7 +276,9 @@
             opacity: 0.7;
         }
         #share-button::after {
-            content: 'URL Copied!';
+            /* --- ALTERAÇÃO --- */
+            /* O conteúdo agora é dinâmico, vindo do atributo 'data-tooltip' */
+            content: attr(data-tooltip);
             position: absolute;
             bottom: 120%;
             left: 50%;
@@ -360,7 +360,7 @@
             </div>
             <button id="share-button" aria-label="Share page">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m21.44 11.23-8.48-8.48c-.31-.31-.85-.09-.85.35v4.65c-4.47.23-7.93 2.04-10.12 5.32-.27.41.42.84.67.45 2.83-4.36 7.42-5.9 10.3-5.9v4.65c0 .44.54.66.85.35l8.48-8.48c.2-.2.2-.51 0-.71z"/>
+                    <path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/>
                 </svg>
             </button>
         </div>
@@ -407,10 +407,11 @@
 
     <script>
     const translations = {
-        "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
-        "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
-        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
-        "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
+        // --- ALTERAÇÃO --- Adicionado 'url_copied' para cada idioma
+        "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica", url_copied: "URL Copiada!" },
+        "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical", url_copied: "URL Copied!" },
+        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
+        "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique", url_copied: "URL copiée !" }
     };
 
     let currentTexts = {};
@@ -441,6 +442,7 @@
     const replayStatusText = document.getElementById('replay-status-text');
     const menuTitleReplay = document.getElementById('menu-title-replay');
     const replayInfo = document.getElementById('replay-info');
+    const shareButton = document.getElementById('share-button');
 
     const linkTitleLeft = document.getElementById('link-title-left');
     const linkTitleRight = document.getElementById('link-title-right');
@@ -515,6 +517,9 @@
         menuTitleReplay.innerText = currentTexts.menu_replay_title;
         replayInfo.setAttribute('data-tooltip', currentTexts.replay_info);
         updateReplayStatusText();
+
+        // --- ALTERAÇÃO --- Define o texto do tooltip do botão de compartilhar
+        shareButton.setAttribute('data-tooltip', currentTexts.url_copied);
 
         document.querySelectorAll('#game-modes-list a').forEach(link => {
             const mode = link.dataset.mode;
@@ -848,7 +853,6 @@
         }
         updateReplayStatusText();
 
-        const shareButton = document.getElementById('share-button');
         shareButton.addEventListener('click', async () => {
             const shareData = {
                 title: 'Would You Rather? Music',
@@ -878,4 +882,3 @@
     </script>
 </body>
 </html>
-
