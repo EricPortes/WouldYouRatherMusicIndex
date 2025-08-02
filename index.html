@@ -114,8 +114,6 @@
                 height: 80px;
                 font-size: 36px;
             }
-            /* --- ALTERAÇÃO --- */
-            /* Tamanho da capa ajustado para não passar do centro em telas verticais */
             .album-cover {
                 width: 22vh;
                 height: 22vh;
@@ -153,8 +151,6 @@
             }
         }
 
-        /* --- ALTERAÇÃO --- */
-        /* Nova regra para ajustar layout em celulares na horizontal */
         @media (orientation: landscape) and (max-height: 500px) {
             .album-cover {
                 width: 120px;
@@ -246,13 +242,14 @@
         @media (max-width: 768px) { #side-menu { width: 70%; } }
 
         /* --- ALTERAÇÃO --- */
-        /* Estilos do container e botão de compartilhar no rodapé do menu */
+        /* Estilos atualizados para o rodapé do menu */
         .bottom-menu-container {
             margin-top: auto;
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Centraliza verticalmente o botão e o texto */
+            align-items: flex-end; /* Alinha pela base dos itens */
             padding-top: 2.1vh;
+            padding-bottom: 1vh; /* Adiciona um respiro na parte inferior */
         }
         .deezer-credit {
             margin-top: 0;
@@ -268,13 +265,14 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 5px;
-            border-radius: 5px;
+            padding: 0;
+            /* Ajuste fino da posição do botão */
+            margin-bottom: 1px;
         }
         #share-button svg {
-            stroke: #ffffff; /* Ícone branco para combinar com o menu */
+            stroke: #ffffff;
             transition: opacity 0.2s;
-            width: 20px; /* Tamanho do ícone */
+            width: 20px;
             height: 20px;
         }
         #share-button:hover svg {
@@ -362,7 +360,7 @@
                 </a>
             </div>
             <button id="share-button" aria-label="Share page">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
             </button>
         </div>
     </nav>
@@ -410,7 +408,7 @@
     const translations = {
         "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica" },
         "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical" },
-        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Jogo", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
+        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botões Activados", replay_off: "Botões Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica" },
         "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique" }
     };
 
