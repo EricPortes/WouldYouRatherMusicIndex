@@ -99,7 +99,6 @@
             .side {
                 width: 100%;
                 height: 50%;
-                /* ALTERAÇÃO AQUI: Adicionado espaçamento inferior para criar uma área segura para o botão */
                 padding-bottom: 75px; 
                 box-sizing: border-box;
             }
@@ -132,6 +131,10 @@
                 font-size: 16px;
                 margin-top: 10px;
             }
+            /* ALTERAÇÃO AQUI: Nova regra para ajustar a posição do conteúdo */
+            .song-content {
+                top: 25px; /* Compensa o padding do container pai para re-centralizar */
+            }
             .replay-button {
                 position: relative;
                 bottom: auto;
@@ -144,8 +147,6 @@
              .replay-button.result-visible {
                  bottom: auto;
              }
-
-            /* ALTERAÇÃO AQUI: Regra adicionada para diminuir o botão no modo retrato */
             #next-round-button {
                 font-size: 16px;
                 padding: 12px 24px;
