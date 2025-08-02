@@ -146,7 +146,7 @@
         #menu-toggle {
             position: absolute; top: 20px; left: 20px; z-index: 1001; cursor: pointer;
             background: none; border: none; padding: 10px;
-            transition: opacity: 0.3s;
+            transition: opacity 0.3s;
         }
         body.menu-open #menu-toggle {
             opacity: 0;
@@ -454,15 +454,18 @@
         isRoundLoading = true;
 
         clearTimeout(revealTimeoutId);
-        if (currentAudioSource) {
-            try { currentAudioSource.stop(); } catch (e) {}
+
+        if (currentAudioSource && currentGainNode) {
+            const fadeOutDuration = 0.4;
+            const currentVolumeNow = currentGainNode.gain.value;
+            currentGainNode.gain.setValueAtTime(currentVolumeNow, audioContext.currentTime);
+            currentGainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + fadeOutDuration);
         }
         
         linkTitleLeft.removeAttribute('href');
         linkTitleRight.removeAttribute('href');
         linkTitleLeft.classList.remove('active-link');
         linkTitleRight.classList.remove('active-link');
-
         roundOver = false;
         isChoiceEnabled = false;
         isReplayActive = false;
@@ -666,20 +669,7 @@
     sideLeft.addEventListener("click", () => handleChoice("left"));
     sideRight.addEventListener("click", () => handleChoice("right"));
 
-    nextRoundButton.addEventListener("click", () => {
-        if (isRoundLoading) return;
-        if (currentAudioSource && currentGainNode) {
-            const fadeOutDuration = 0.3;
-            const currentVolumeNow = currentGainNode.gain.value;
-            currentGainNode.gain.setValueAtTime(currentVolumeNow, audioContext.currentTime);
-            currentGainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + fadeOutDuration);
-            setTimeout(() => {
-                startRound();
-            }, fadeOutDuration * 1000);
-        } else {
-            startRound();
-        }
-    });
+    nextRoundButton.addEventListener("click", startRound);
 
     startButton.addEventListener("click", () => {
         if (audioContext.state === 'suspended') {
