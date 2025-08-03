@@ -114,6 +114,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            height: 100%; /* Para o botão de próxima rodada funcionar */
         }
 
         .song-content a {
@@ -162,15 +163,14 @@
             background-color: #333;
         }
 
+        /* Espaçamento original/padrão para Desktop */
         .song-title {
             font-size: 28px;
             font-weight: bold;
-            margin-bottom: 2px; /* Espaçamento reduzido */
         }
 
         .song-artist {
             font-size: 18px;
-            margin-top: 2px; /* Espaçamento reduzido */
         }
 
         .approval-rating {
@@ -200,6 +200,10 @@
         }
 
         #next-round-button-landscape {
+            display: none;
+        }
+        
+        .next-round-button-portrait {
             display: none;
         }
 
@@ -239,23 +243,6 @@
         .replay-button.cooldown {
             opacity: 0.3;
             cursor: not-allowed;
-        }
-        
-        .portrait-actions-container {
-            display: none;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            justify-content: center;
-            align-items: center;
-            z-index: 5;
-        }
-
-        #next-round-button-portrait {
-            display: none;
         }
 
         .switch-container {
@@ -325,7 +312,7 @@
         input:checked+.slider:before {
             transform: translateX(20px);
         }
-
+        
         @media (orientation: portrait) {
             .game-container {
                 flex-direction: column;
@@ -335,9 +322,9 @@
                 width: 100%;
                 height: 50%;
                 padding: 10px;
-                display: flex; /* Garantindo centralização */
-                justify-content: center; /* Garantindo centralização */
-                align-items: center; /* Garantindo centralização */
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
             .divider {
@@ -361,44 +348,45 @@
                 margin-bottom: 1vh;
             }
 
+            /* Espaçamento reduzido apenas para celular */
             .song-title {
                 font-size: 16px;
-                margin-bottom: 4px; /* Espaçamento reduzido */
+                margin-bottom: 4px;
             }
 
             .song-artist {
                 font-size: 13px;
-                margin-top: 4px; /* Espaçamento reduzido */
+                margin-top: 4px;
             }
 
             .approval-rating {
                 font-size: 14px;
-                margin-top: 1vh;
+                margin-top: 1.5vh;
             }
             
             #next-round-button-landscape {
                 display: none;
             }
-
-            #start-button {
-                bottom: 20px;
-            }
-
-            .portrait-actions-container {
-                display: flex;
-            }
             
-            #next-round-button-portrait {
-                display: none;
-                padding: 8px 16px; /* Botão menor */
-                font-size: 13px; /* Fonte menor */
+            /* Botão de Próxima Rodada para Celular */
+            .next-round-button-portrait {
+                display: none; /* JS controla a visibilidade */
+                width: 70%;
+                max-width: 280px;
+                padding: 14px;
+                font-size: 18px;
                 font-weight: bold;
                 color: white;
                 background-color: #1DB954;
                 border: none;
-                border-radius: 30px;
+                border-radius: 50px;
                 cursor: pointer;
-                white-space: nowrap; /* Garante uma linha */
+                margin-top: auto; /* Empurra para o final do container flex */
+                margin-bottom: 15px; /* Espaçamento da borda inferior */
+            }
+
+            #start-button {
+                bottom: 20px;
             }
 
             .replay-button {
@@ -407,19 +395,20 @@
                 bottom: auto;
                 left: auto;
                 transform: none;
-                margin: 1vh auto 0;
+                margin: 1.5vh auto 0;
                 width: 38px;
                 height: 38px;
             }
 
-            .side.loser .replay-button {
+            .side.loser .replay-button,
+            .side.loser .next-round-button-portrait {
                 display: none;
             }
         }
 
         @media (orientation: landscape) {
             .deezer-credit img {
-                height: 28px; /* Aumenta o logo em paisagem geral */
+                height: 28px;
             }
         }
 
@@ -454,7 +443,7 @@
             }
 
             .deezer-credit img {
-                height: 30px; /* Aumenta ainda mais para telas pequenas */
+                height: 30px;
             }
         }
 
@@ -499,7 +488,7 @@
             color: white;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden; /* Remove a barra de rolagem horizontal */
+            overflow-x: hidden;
         }
 
         #side-menu.open {
@@ -640,7 +629,7 @@
 
         @media (max-width: 1024px) {
             #side-menu {
-                overflow-y: auto; /* Adiciona scroll vertical apenas se necessário */
+                overflow-y: auto;
             }
 
             .menu-section h2 {
@@ -841,6 +830,7 @@
                         </svg>
                     </button>
                 </div>
+                 <button class="next-round-button-portrait" id="next-round-button-portrait-left"></button>
             </div>
         </div>
         <div class="vs-circle" id="vs-circle">VS</div>
@@ -868,14 +858,12 @@
                         </svg>
                     </button>
                 </div>
+                <button class="next-round-button-portrait" id="next-round-button-portrait-right"></button>
             </div>
         </div>
     </div>
 
     <button id="start-button"></button>
-    <div class="portrait-actions-container">
-        <button id="next-round-button-portrait"></button>
-    </div>
     <button id="next-round-button-landscape"></button>
 
 
@@ -893,7 +881,9 @@
         const gameContainer = document.getElementById("game-container");
         const startButton = document.getElementById("start-button");
         const nextRoundButtonLandscape = document.getElementById("next-round-button-landscape");
-        const nextRoundButtonPortrait = document.getElementById("next-round-button-portrait");
+        const nextRoundButtonPortraitLeft = document.getElementById("next-round-button-portrait-left");
+        const nextRoundButtonPortraitRight = document.getElementById("next-round-button-portrait-right");
+        
         const vsCircle = document.getElementById("vs-circle");
         const menuTitleMode = document.getElementById("menu-title-mode");
         const menuTitleOptions = document.getElementById("menu-title-options");
@@ -985,7 +975,8 @@
             document.documentElement.lang = currentTexts.lang_code;
             startButton.innerText = currentTexts.start_game;
             nextRoundButtonLandscape.innerText = currentTexts.next_round;
-            nextRoundButtonPortrait.innerText = currentTexts.next_round;
+            nextRoundButtonPortraitLeft.innerText = currentTexts.next_round;
+            nextRoundButtonPortraitRight.innerText = currentTexts.next_round;
             vsCircle.innerText = currentTexts.vs;
             menuTitleMode.innerText = currentTexts.menu_mode;
             menuTitleOptions.innerText = currentTexts.menu_options;
@@ -1047,7 +1038,8 @@
             isReplayActive = false;
             preloadedAudio = {};
             nextRoundButtonLandscape.style.display = "none";
-            nextRoundButtonPortrait.style.display = "none";
+            nextRoundButtonPortraitLeft.style.display = "none";
+            nextRoundButtonPortraitRight.style.display = "none";
             songLeft.classList.remove("visible");
             songRight.classList.remove("visible");
             sideLeft.classList.remove("winner", "loser", "playing");
@@ -1199,10 +1191,13 @@
                     linkTitleRight.classList.add('active-link');
 
                     nextRoundButtonLandscape.style.display = "block";
-                    nextRoundButtonPortrait.style.display = "block";
-
+                    
                     const winnerButton = (side === 'left') ? replayLeftButton : replayRightButton;
                     winnerButton.classList.add('visible', 'result-visible');
+
+                    const winnerNextButton = (side === 'left') ? nextRoundButtonPortraitLeft : nextRoundButtonPortraitRight;
+                    winnerNextButton.style.display = "block";
+
 
                 }, 1500);
             }
@@ -1241,7 +1236,8 @@
         sideRight.addEventListener("click", () => handleChoice("right"));
 
         nextRoundButtonLandscape.addEventListener("click", startRound);
-        nextRoundButtonPortrait.addEventListener("click", startRound);
+        nextRoundButtonPortraitLeft.addEventListener("click", startRound);
+        nextRoundButtonPortraitRight.addEventListener("click", startRound);
 
         startButton.addEventListener("click", () => {
             if (audioContext.state === 'suspended') {
