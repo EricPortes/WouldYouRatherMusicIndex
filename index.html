@@ -165,12 +165,12 @@
         .song-title {
             font-size: 28px;
             font-weight: bold;
-            margin-bottom: 0.4em; /* Ajuste o espaço ABAIXO do título */
+            margin-bottom: 8px; /* Ajuste o espaço ABAIXO do título */
         }
 
         .song-artist {
             font-size: 18px;
-            margin-top: 0.4em; /* Ajuste o espaço ACIMA do artista */
+            margin-top: 8px; /* Ajuste o espaço ACIMA do artista */
         }
 
         .approval-rating {
@@ -211,6 +211,7 @@
             cursor: pointer;
             z-index: 6;
             transition: opacity 0.3s;
+            opacity: 0;
         }
 
         .replay-button.visible {
@@ -307,13 +308,12 @@
             .side {
                 width: 100%;
                 height: 50%;
-                padding: 10px;
+                padding: 15px;
                 justify-content: center;
             }
             
-            /* Pós-escolha, no lado VERMELHO, cria espaço para o botão */
             .side.right.winner {
-                justify-content: space-between;
+                justify-content: space-around;
             }
             
             .divider {
@@ -364,22 +364,29 @@
                 position: absolute;
                 width: 38px;
                 height: 38px;
-                bottom: 15px; /* Fixo na parte de baixo do painel */
+                bottom: 15px;
                 left: 50%;
                 transform: translateX(-50%);
             }
             
-            /* No lado vermelho vencedor, o botão de replay volta ao fluxo normal */
             .side.right.winner .replay-button {
                 position: relative;
                 bottom: auto;
                 left: auto;
                 transform: none;
-                margin-bottom: 15px;
             }
         }
         
         @media (orientation: landscape) {
+             .replay-button {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: -80px;
+             }
+             .replay-button.result-visible {
+                bottom: -130px;
+             }
              .deezer-credit img {
                 height: 28px !important;
             }
@@ -404,13 +411,8 @@
                 font-size: 16px;
                 margin-top: 8px;
             }
-
+            
             .replay-button {
-                width: 40px;
-                height: 40px;
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
                 bottom: -60px;
             }
 
@@ -793,7 +795,7 @@
                     <div class="approval-rating" id="approval-left"></div>
                 </div>
             </div>
-             <button class="replay-button" id="replay-left">
+            <button class="replay-button" id="replay-left">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -1015,6 +1017,7 @@
             approvalLeft.style.opacity = 0;
             approvalRight.style.opacity = 0;
             gameContainer.classList.remove('choices-active');
+            
             replayLeftButton.classList.remove('visible', 'result-visible', 'cooldown');
             replayRightButton.classList.remove('visible', 'result-visible', 'cooldown');
 
