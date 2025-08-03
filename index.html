@@ -63,6 +63,7 @@
             width: 50%;
             height: 100%;
             display: flex;
+            flex-direction: column; /* Alterado para coluna */
             justify-content: center;
             align-items: center;
             cursor: pointer;
@@ -102,7 +103,6 @@
         }
 
         .song-content {
-            position: relative;
             text-align: center;
             color: white;
             z-index: 1;
@@ -113,8 +113,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%; /* Para o botão de próxima rodada funcionar */
         }
 
         .song-content a {
@@ -163,14 +161,18 @@
             background-color: #333;
         }
 
-        /* Espaçamento original/padrão para Desktop */
+        /* Espaçamento equilibrado para Desktop */
         .song-title {
             font-size: 28px;
             font-weight: bold;
+            margin-block-start: 0.6em;
+            margin-block-end: 0.4em;
         }
 
         .song-artist {
             font-size: 18px;
+            margin-block-start: 0.4em;
+            margin-block-end: 0.6em;
         }
 
         .approval-rating {
@@ -322,9 +324,7 @@
                 width: 100%;
                 height: 50%;
                 padding: 10px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                justify-content: space-around; /* Alinha conteúdo e botão */
             }
 
             .divider {
@@ -348,27 +348,27 @@
                 margin-bottom: 1vh;
             }
 
-            /* Espaçamento reduzido apenas para celular */
             .song-title {
                 font-size: 16px;
-                margin-bottom: 4px;
+                margin-block-start: 0.5em;
+                margin-block-end: 0.5em;
             }
 
             .song-artist {
                 font-size: 13px;
-                margin-top: 4px;
+                 margin-block-start: 0.5em;
+                 margin-block-end: 0.5em;
             }
 
             .approval-rating {
                 font-size: 14px;
-                margin-top: 1.5vh;
+                margin-top: 1vh;
             }
             
             #next-round-button-landscape {
                 display: none;
             }
             
-            /* Botão de Próxima Rodada para Celular */
             .next-round-button-portrait {
                 display: none; /* JS controla a visibilidade */
                 width: 70%;
@@ -381,8 +381,6 @@
                 border: none;
                 border-radius: 50px;
                 cursor: pointer;
-                margin-top: auto; /* Empurra para o final do container flex */
-                margin-bottom: 15px; /* Espaçamento da borda inferior */
             }
 
             #start-button {
@@ -395,20 +393,19 @@
                 bottom: auto;
                 left: auto;
                 transform: none;
-                margin: 1.5vh auto 0;
+                margin: 1vh auto 0;
                 width: 38px;
                 height: 38px;
             }
 
-            .side.loser .replay-button,
-            .side.loser .next-round-button-portrait {
-                display: none;
+            .side.loser .replay-button {
+                display: none !important;
             }
         }
 
         @media (orientation: landscape) {
             .deezer-credit img {
-                height: 28px;
+                height: 28px !important;
             }
         }
 
@@ -443,7 +440,7 @@
             }
 
             .deezer-credit img {
-                height: 30px;
+                height: 30px !important;
             }
         }
 
@@ -830,8 +827,8 @@
                         </svg>
                     </button>
                 </div>
-                 <button class="next-round-button-portrait" id="next-round-button-portrait-left"></button>
             </div>
+            <button class="next-round-button-portrait" id="next-round-button-portrait-left"></button>
         </div>
         <div class="vs-circle" id="vs-circle">VS</div>
         <div class="side right" id="side-right">
@@ -858,8 +855,8 @@
                         </svg>
                     </button>
                 </div>
-                <button class="next-round-button-portrait" id="next-round-button-portrait-right"></button>
             </div>
+             <button class="next-round-button-portrait" id="next-round-button-portrait-right"></button>
         </div>
     </div>
 
@@ -1155,8 +1152,9 @@
 
                 playAudio(winnerSong, 10, preloadedAudio[side]);
 
-                replayLeftButton.classList.remove('visible');
-                replayRightButton.classList.remove('visible');
+                // Esconde ambos os botões de replay para evitar erros
+                replayLeftButton.style.display = 'none';
+                replayRightButton.style.display = 'none';
 
                 try {
                     const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/vote?mode=${currentGameMode}`, {
@@ -1190,14 +1188,15 @@
                     linkTitleLeft.classList.add('active-link');
                     linkTitleRight.classList.add('active-link');
 
+                    // Mostra o botão de próxima rodada correto
                     nextRoundButtonLandscape.style.display = "block";
-                    
-                    const winnerButton = (side === 'left') ? replayLeftButton : replayRightButton;
-                    winnerButton.classList.add('visible', 'result-visible');
-
                     const winnerNextButton = (side === 'left') ? nextRoundButtonPortraitLeft : nextRoundButtonPortraitRight;
                     winnerNextButton.style.display = "block";
 
+                    // Mostra o botão de replay correto
+                    const winnerReplayButton = (side === 'left') ? replayLeftButton : replayRightButton;
+                    winnerReplayButton.style.display = 'block';
+                    winnerReplayButton.classList.add('visible', 'result-visible');
 
                 }, 1500);
             }
@@ -1348,5 +1347,4 @@
         });
     </script>
 </body>
-
 </html>
