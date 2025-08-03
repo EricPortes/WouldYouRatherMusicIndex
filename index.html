@@ -60,8 +60,8 @@
         .song-title { font-size: 28px; font-weight: bold; }
         .song-artist { font-size: 18px; }
         .approval-rating { font-size: 22px; font-weight: bold; margin-top: 15px; color: white; opacity: 0; transition: opacity 0.5s ease-in; }
-        #start-button, #next-round-button { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; font-size: 20px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer; z-index: 5; }
-        #next-round-button { display: none; }
+        #start-button, #next-round-button-landscape { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; font-size: 20px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer; z-index: 5; }
+        #next-round-button-landscape { display: none; }
 
         .replay-button {
             position: absolute;
@@ -69,14 +69,36 @@
             left: 50%;
             transform: translateX(-50%);
             width: 50px; height: 50px; background-color: transparent; border: none;
-            cursor: pointer; z-index: 4; opacity: 0; visibility: hidden;
+            cursor: pointer; opacity: 0; visibility: hidden;
             transition: all 0.3s;
+            z-index: 6; 
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
         .replay-button.result-visible { bottom: -130px; }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
+        
+        .portrait-actions-container {
+            display: none; 
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            justify-content: space-around; 
+            align-items: center;
+            z-index: 5;
+        }
+
+        .portrait-actions-container > * {
+            flex-shrink: 0;
+        }
+
+        #next-round-button-portrait {
+            display: none; padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer;
+        }
 
         .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.0vh 0; }
         .switch-container span {
@@ -93,88 +115,46 @@
         input:checked + .slider:before { transform: translateX(20px); }
 
         @media (orientation: portrait) {
-            .game-container {
-                flex-direction: column;
-            }
+            .game-container { flex-direction: column; }
             .side {
                 width: 100%;
                 height: 50%;
-                padding-bottom: 75px;
                 box-sizing: border-box;
             }
-            .divider {
-                width: 100%;
-                height: 2px;
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%);
-            }
-            .vs-circle {
-                width: 80px;
-                height: 80px;
-                font-size: 36px;
-            }
-            .album-cover {
-                width: 20vh;
-                height: 20vh;
-                margin-bottom: 15px;
-            }
-            .song-title {
-                font-size: 18px;
-            }
-            .song-artist {
-                font-size: 14px;
-            }
-            .approval-rating {
-                font-size: 16px;
-                margin-top: 10px;
-            }
-            .song-content {
-                top: 25px;
-            }
-            .replay-button {
-                position: relative;
-                bottom: auto;
-                left: auto;
+            .divider { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+            .vs-circle { width: 80px; height: 80px; font-size: 36px; }
+            .album-cover { width: 18vh; height: 18vh; margin-bottom: 10px; }
+            .song-title { font-size: 18px; }
+            .song-artist { font-size: 14px; }
+            .approval-rating { font-size: 16px; margin-top: 8px; }
+            .replay-button { display: none; }
+            #next-round-button-landscape { display: none; }
+            #start-button { bottom: 20px; }
+
+            .portrait-actions-container { display: flex; }
+            .portrait-actions-container .replay-button {
+                display: block;
+                position: static;
                 transform: none;
-                margin-top: 10px;
-                width: 40px;
-                height: 40px;
+                width: 45px;
+                height: 45px;
+                opacity: 0;
+                visibility: hidden;
             }
-             .replay-button.result-visible {
-                 bottom: auto;
-             }
-            #next-round-button {
-                font-size: 16px;
-                padding: 12px 24px;
-                bottom: 20px;
+            .portrait-actions-container .replay-button.visible {
+                opacity: 0.7;
+                visibility: visible;
             }
         }
 
         @media (orientation: landscape) and (max-height: 500px) {
-            .album-cover {
-                width: 120px;
-                height: 120px;
-                margin-bottom: 10px;
-            }
-            .song-title {
-                font-size: 20px;
-            }
-            .song-artist {
-                font-size: 14px;
-            }
-            .approval-rating {
-                font-size: 16px;
-                margin-top: 8px;
-            }
-            .replay-button {
-                width: 40px;
-                height: 40px;
-                bottom: -60px;
-            }
-            .replay-button.result-visible {
-                bottom: -100px;
-            }
+            .album-cover { width: 120px; height: 120px; margin-bottom: 10px; }
+            .song-title { font-size: 20px; }
+            .song-artist { font-size: 14px; }
+            .approval-rating { font-size: 16px; margin-top: 8px; }
+            .replay-button { width: 40px; height: 40px; bottom: -60px; }
+            .replay-button.result-visible { bottom: -100px; }
+            .deezer-credit img { height: 20px; }
         }
 
         #menu-toggle {
@@ -182,16 +162,12 @@
             background: none; border: none; padding: 10px;
             transition: opacity 0.3s;
         }
-        body.menu-open #menu-toggle {
-            opacity: 0;
-            pointer-events: none;
-        }
-
+        body.menu-open #menu-toggle { opacity: 0; pointer-events: none; }
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out; padding: 2.2vh 20px;
-            box-sizing: border-box; color: white; display: flex; flex-direction: column; overflow: hidden;
+            box-sizing: border-box; color: white; display: flex; flex-direction: column; overflow-y: auto;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         .menu-section h2 { margin-top: 2.1vh; margin-bottom: 1vh; font-size: 1.9vh; color: #fff; border-bottom: 1px solid #444; padding-bottom: 0.8vh;}
@@ -202,25 +178,10 @@
         #side-menu ul li a.selected { color: white; font-weight: bold; background-color: #333; }
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
-
         .menu-title-container { display: flex; align-items: center; }
-        #menu-title-replay, #menu-title-volume, #menu-title-language {
-            color:#b3b3b3; font-size: 1.4vh; margin-top: 1.5vh;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .info-popup {
-            position: relative; display: inline-block; width: 1.5vh; height: 1.5vh;
-            border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3;
-            font-size: 1.1vh; font-weight: bold; line-height: 1.5vh;
-            text-align: center; cursor: pointer; margin-left: 8px;
-        }
-        .info-popup::after {
-            content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%;
-            transform: translateX(-50%); background-color: #333; color: #fff;
-            padding: 5px 10px; border-radius: 5px; font-size: 1.5vh;
-            white-space: nowrap; opacity: 0; visibility: hidden;
-            transition: opacity 0.2s, visibility 0.2s;
-        }
+        #menu-title-replay, #menu-title-volume, #menu-title-language { color:#b3b3b3; font-size: 1.4vh; margin-top: 1.5vh; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .info-popup { position: relative; display: inline-block; width: 1.5vh; height: 1.5vh; border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3; font-size: 1.1vh; font-weight: bold; line-height: 1.5vh; text-align: center; cursor: pointer; margin-left: 8px; }
+        .info-popup::after { content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background-color: #333; color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 1.5vh; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; }
         .info-popup:hover::after, .info-popup:focus::after { opacity: 1; visibility: visible; }
         .volume-control { display: flex; align-items: center; padding: 1.0vh 0; }
         .volume-icon { margin-right: 15px; font-size: 2.1vh; }
@@ -234,69 +195,17 @@
             #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; white-space: normal; }
             .switch-container span { font-size: 16px; }
             .info-popup { display: none; }
-            #side-menu { scrollbar-width: thin; }
-            #side-menu::-webkit-scrollbar { display: block; width: 8px; }
-            #side-menu::-webkit-scrollbar-track { background: #181818; }
-            #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
         }
         @media (max-width: 768px) { #side-menu { width: 70%; } }
 
-        .bottom-menu-container {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding-top: 2.1vh;
-            padding-bottom: 1vh;
-        }
-        .deezer-credit {
-            margin-top: 0;
-            padding-top: 0;
-            font-size: 1.2vh;
-            color: #888;
-        }
-        .deezer-credit img {
-             height: 2.1vh;
-        }
-        #share-button {
-            position: relative;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            margin-right: 25px;
-            color: white; /* Ensures the fill color is white */
-        }
-        #share-button svg {
-            /* stroke: #ffffff; -- No longer needed for filled icon */
-            transition: opacity 0.2s;
-            width: 30px;
-            height: 30px;
-        }
-        #share-button:hover {
-            opacity: 0.7;
-        }
-        #share-button::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #1DB954;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-        #share-button.show-tooltip::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
+        .bottom-menu-container { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 2.1vh; padding-bottom: 1vh; }
+        .deezer-credit { margin-top: 0; padding-top: 0; font-size: 1.2vh; color: #888; }
+        .deezer-credit img { height: 2.1vh; }
+        #share-button { position: relative; background: none; border: none; cursor: pointer; padding: 0; margin-right: 25px; }
+        #share-button svg { stroke: #ffffff; transition: opacity 0.2s; width: 22px; height: 22px; }
+        #share-button:hover svg { opacity: 0.7; }
+        #share-button::after { content: attr(data-tooltip); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background-color: #1DB954; color: white; padding: 5px 10px; border-radius: 5px; font-size: 14px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+        #share-button.show-tooltip::after { opacity: 1; visibility: visible; }
     </style>
 </head>
 <body>
@@ -357,12 +266,8 @@
                     <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
                 </a>
             </div>
-            <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <g transform="scale(-1, 1) translate(-24, 0)">
-                        <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
-                    </g>
-                </svg>
+            <button id="share-button" aria-label="Share page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v3.55c-5.41.38-9.14 4.54-10.5 9.45C2.86 13.43 6.32 10.66 12 10.66V14l8-6-8-6z"></path></svg>
             </button>
         </div>
     </nav>
@@ -402,7 +307,17 @@
         </div>
     </div>
     <button id="start-button"></button>
-    <button id="next-round-button"></button>
+    <button id="next-round-button-landscape"></button>
+
+    <div class="portrait-actions-container">
+        <button class="replay-button" id="replay-portrait-left">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="next-round-button-portrait"></button>
+        <button class="replay-button" id="replay-portrait-right">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
 
     <audio id="audio-player"></audio>
 
@@ -417,7 +332,8 @@
     let currentTexts = {};
     const gameContainer = document.getElementById("game-container");
     const startButton = document.getElementById("start-button");
-    const nextRoundButton = document.getElementById("next-round-button");
+    const nextRoundButtonLandscape = document.getElementById("next-round-button-landscape");
+    const nextRoundButtonPortrait = document.getElementById("next-round-button-portrait");
     const vsCircle = document.getElementById("vs-circle");
     const menuTitleMode = document.getElementById("menu-title-mode");
     const menuTitleOptions = document.getElementById("menu-title-options");
@@ -438,6 +354,8 @@
     const volumeValueDisplay = document.getElementById('volume-value-display');
     const replayLeftButton = document.getElementById('replay-left');
     const replayRightButton = document.getElementById('replay-right');
+    const replayPortraitLeft = document.getElementById('replay-portrait-left');
+    const replayPortraitRight = document.getElementById('replay-portrait-right');
     const replayToggle = document.getElementById('replay-toggle');
     const replayStatusText = document.getElementById('replay-status-text');
     const menuTitleReplay = document.getElementById('menu-title-replay');
@@ -508,7 +426,8 @@
         currentTexts = translations[lang] || translations['pt'];
         document.documentElement.lang = currentTexts.lang_code;
         startButton.innerText = currentTexts.start_game;
-        nextRoundButton.innerText = currentTexts.next_round;
+        nextRoundButtonLandscape.innerText = currentTexts.next_round;
+        nextRoundButtonPortrait.innerText = currentTexts.next_round;
         vsCircle.innerText = currentTexts.vs;
         menuTitleMode.innerText = currentTexts.menu_mode;
         menuTitleOptions.innerText = currentTexts.menu_options;
@@ -517,9 +436,7 @@
         menuTitleReplay.innerText = currentTexts.menu_replay_title;
         replayInfo.setAttribute('data-tooltip', currentTexts.replay_info);
         updateReplayStatusText();
-
         shareButton.setAttribute('data-tooltip', currentTexts.url_copied);
-        shareButton.setAttribute('aria-label', currentTexts.url_copied); // Also good for accessibility
 
         document.querySelectorAll('#game-modes-list a').forEach(link => {
             const mode = link.dataset.mode;
@@ -571,7 +488,10 @@
         isChoiceEnabled = false;
         isReplayActive = false;
         preloadedAudio = {};
-        nextRoundButton.style.display = "none";
+        nextRoundButtonLandscape.style.display = "none";
+        nextRoundButtonPortrait.style.display = "none";
+        replayPortraitLeft.classList.remove('visible', 'cooldown');
+        replayPortraitRight.classList.remove('visible', 'cooldown');
         songLeft.classList.remove("visible");
         songRight.classList.remove("visible");
         sideLeft.classList.remove("winner", "loser", "playing");
@@ -720,12 +640,18 @@
                 linkTitleLeft.classList.add('active-link');
                 linkTitleRight.classList.add('active-link');
 
-                nextRoundButton.style.display = "block";
+                nextRoundButtonLandscape.style.display = "block";
+                nextRoundButtonPortrait.style.display = "block";
+                
                 const winnerButton = side === 'left' ? replayLeftButton : replayRightButton;
+                const winnerButtonPortrait = side === 'left' ? replayPortraitLeft : replayPortraitRight;
+
                 if (!replayButtonsEnabled) {
                     winnerButton.classList.add('visible', 'result-visible');
+                    winnerButtonPortrait.classList.add('visible');
                 } else {
                     winnerButton.classList.add('visible', 'result-visible');
+                    winnerButtonPortrait.classList.add('visible');
                     const loserButton = side === 'left' ? replayRightButton : replayLeftButton;
                     loserButton.classList.remove('visible', 'result-visible');
                 }
@@ -738,11 +664,11 @@
 
         isReplayActive = true;
         button.classList.add('cooldown');
-        const otherButton = side === 'left' ? replayRightButton : replayLeftButton;
-        if (otherButton.classList.contains('visible')) {
-            otherButton.classList.add('cooldown');
-        }
-
+        const otherButton = button.id.includes('left') ? replayPortraitRight : replayPortraitLeft;
+        otherButton.classList.add('cooldown');
+        replayLeftButton.classList.add('cooldown');
+        replayRightButton.classList.add('cooldown');
+        
         const song = currentSongs[side];
         const audio = preloadedAudio[side];
 
@@ -751,9 +677,9 @@
         setTimeout(() => {
             isReplayActive = false;
             button.classList.remove('cooldown');
-            if (otherButton.classList.contains('visible')) {
-                otherButton.classList.remove('cooldown');
-            }
+            otherButton.classList.remove('cooldown');
+            replayLeftButton.classList.remove('cooldown');
+            replayRightButton.classList.remove('cooldown');
         }, 10000);
     }
 
@@ -766,11 +692,22 @@
         e.stopPropagation();
         handleReplay('right', replayRightButton);
     });
+    
+    replayPortraitLeft.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleReplay('left', replayPortraitLeft);
+    });
+
+    replayPortraitRight.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleReplay('right', replayPortraitRight);
+    });
 
     sideLeft.addEventListener("click", () => handleChoice("left"));
     sideRight.addEventListener("click", () => handleChoice("right"));
-
-    nextRoundButton.addEventListener("click", startRound);
+    
+    nextRoundButtonLandscape.addEventListener("click", startRound);
+    nextRoundButtonPortrait.addEventListener("click", startRound);
 
     startButton.addEventListener("click", () => {
         if (audioContext.state === 'suspended') {
@@ -882,5 +819,3 @@
     </script>
 </body>
 </html>
-
-
