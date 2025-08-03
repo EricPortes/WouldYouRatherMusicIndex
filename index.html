@@ -161,7 +161,8 @@
             background-color: #333;
         }
 
-        /* Espaçamento padrão (largo) para Desktop */
+        /* --- CONTROLE AQUI O ESPAÇAMENTO (DESKTOP) --- */
+        /* Removi as margens customizadas para usar o padrão do navegador, criando o espaçamento largo. */
         .song-title {
             font-size: 28px;
             font-weight: bold;
@@ -180,28 +181,9 @@
             transition: opacity 0.5s ease-in;
         }
         
-        #next-round-button-landscape {
-            display: none;
-            position: absolute;
-            z-index: 10;
-            font-weight: bold;
-            color: white;
-            background-color: #1DB954;
-            border: none;
-            cursor: pointer;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 30px;
-            padding: 10px 25px;
-            font-size: 16px;
-            border-radius: 30px;
-        }
-
-        #next-round-button-portrait {
-            display: none;
-        }
-
-        #start-button {
+        /* --- CONTROLE AQUI O BOTÃO (DESKTOP E CELULAR) --- */
+        /* Este estilo se aplica ao botão Iniciar e Próxima Rodada para consistência. */
+        .bottom-center-button {
             position: absolute;
             bottom: 30px;
             left: 50%;
@@ -217,6 +199,10 @@
             z-index: 10;
         }
 
+        #next-round-button {
+            display: none; /* JS controla a visibilidade */
+        }
+        
         .replay-button {
             position: absolute;
             bottom: -80px;
@@ -331,15 +317,10 @@
             .side {
                 width: 100%;
                 height: 50%;
-                padding: 15px;
-                justify-content: center; /* Centraliza conteúdo por padrão */
+                padding: 10px;
+                justify-content: center;
             }
             
-            /* Pós-escolha, no painel vermelho, cria espaço para o botão */
-            .side.right.winner, .side.right.loser {
-                justify-content: space-between;
-            }
-
             .divider {
                 width: 100%;
                 height: 2px;
@@ -355,22 +336,22 @@
                 border-width: 4px;
             }
 
+            /* --- CONTROLE AQUI O ESPAÇAMENTO (CELULAR) --- */
             .album-cover {
                 width: 17vh;
                 height: 17vh;
                 margin-bottom: 2.5vh; /* Aumenta espaço entre capa e título */
             }
 
-            /* Espaçamento reduzido para celular */
             .song-title {
                 font-size: 16px;
                 margin-block-start: 0em;
-                margin-block-end: 0.5em;
+                margin-block-end: 0.5em; /* Reduz espaço abaixo do título */
             }
 
             .song-artist {
                 font-size: 13px;
-                 margin-block-start: 0.5em;
+                 margin-block-start: 0.5em; /* Reduz espaço acima do artista */
                  margin-block-end: 0em;
             }
 
@@ -379,26 +360,11 @@
                 margin-top: 1.5vh;
             }
             
-            #next-round-button-landscape {
-                display: none;
-            }
-            
-            #next-round-button-portrait {
-                display: none; /* JS controla a visibilidade */
-                width: 75%;
-                max-width: 300px;
-                padding: 15px;
+            /* Deixa o botão um pouco menor no modo retrato */
+            .bottom-center-button {
+                padding: 12px 25px;
                 font-size: 18px;
-                font-weight: bold;
-                color: white;
-                background-color: #1DB954;
-                border: none;
-                border-radius: 50px;
-                cursor: pointer;
-            }
-
-            #start-button {
-                bottom: 20px;
+                width: auto;
             }
 
             .replay-button {
@@ -865,12 +831,11 @@
                     </button>
                 </div>
             </div>
-            <button id="next-round-button-portrait"></button>
         </div>
     </div>
 
-    <button id="start-button"></button>
-    <button id="next-round-button-landscape"></button>
+    <button id="start-button" class="bottom-center-button"></button>
+    <button id="next-round-button" class="bottom-center-button"></button>
 
     <audio id="audio-player"></audio>
 
@@ -885,8 +850,7 @@
         let currentTexts = {};
         const gameContainer = document.getElementById("game-container");
         const startButton = document.getElementById("start-button");
-        const nextRoundButtonLandscape = document.getElementById("next-round-button-landscape");
-        const nextRoundButtonPortrait = document.getElementById("next-round-button-portrait");
+        const nextRoundButton = document.getElementById("next-round-button");
         
         const vsCircle = document.getElementById("vs-circle");
         const menuTitleMode = document.getElementById("menu-title-mode");
@@ -978,8 +942,7 @@
             currentTexts = translations[lang] || translations['pt'];
             document.documentElement.lang = currentTexts.lang_code;
             startButton.innerText = currentTexts.start_game;
-            nextRoundButtonLandscape.innerText = currentTexts.next_round;
-            nextRoundButtonPortrait.innerText = currentTexts.next_round;
+            nextRoundButton.innerText = currentTexts.next_round;
             vsCircle.innerText = currentTexts.vs;
             menuTitleMode.innerText = currentTexts.menu_mode;
             menuTitleOptions.innerText = currentTexts.menu_options;
@@ -1032,8 +995,7 @@
                 currentGainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + fadeOutDuration);
             }
 
-            nextRoundButtonLandscape.style.display = "none";
-            nextRoundButtonPortrait.style.display = "none";
+            nextRoundButton.style.display = "none";
             
             linkTitleLeft.removeAttribute('href');
             linkTitleRight.removeAttribute('href');
@@ -1052,6 +1014,9 @@
             gameContainer.classList.remove('choices-active');
             replayLeftButton.classList.remove('visible', 'result-visible', 'cooldown');
             replayRightButton.classList.remove('visible', 'result-visible', 'cooldown');
+            replayLeftButton.style.display = 'none';
+            replayRightButton.style.display = 'none';
+
 
             try {
                 const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/get-songs?mode=${currentGameMode}`);
@@ -1163,11 +1128,12 @@
 
                 playAudio(winnerSong, 10, preloadedAudio[side]);
                 
-                loserReplayButton.style.display = 'none';
-                winnerReplayButton.style.display = 'block';
+                replayLeftButton.style.display = 'none';
+                replayRightButton.style.display = 'none';
 
                 try {
-                    const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/get-songs/vote?mode=${currentGameMode}`, {
+                    // --- CORREÇÃO AQUI --- URL do servidor de votação corrigida.
+                    const response = await fetch(`https://wouldyourathermusic.pythonanywhere.com/vote?mode=${currentGameMode}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1198,9 +1164,10 @@
                     linkTitleLeft.classList.add('active-link');
                     linkTitleRight.classList.add('active-link');
                     
-                    nextRoundButtonLandscape.style.display = 'block';
-                    nextRoundButtonPortrait.style.display = 'block';
+                    nextRoundButton.style.display = 'block';
 
+                    // --- CORREÇÃO AQUI --- Lógica explícita para mostrar o botão de replay correto.
+                    winnerReplayButton.style.display = 'block';
                     winnerReplayButton.classList.add('visible', 'result-visible');
 
                 }, 1500);
@@ -1239,8 +1206,7 @@
         sideLeft.addEventListener("click", () => handleChoice("left"));
         sideRight.addEventListener("click", () => handleChoice("right"));
 
-        nextRoundButtonLandscape.addEventListener("click", startRound);
-        nextRoundButtonPortrait.addEventListener("click", startRound);
+        nextRoundButton.addEventListener("click", startRound);
 
         startButton.addEventListener("click", () => {
             if (audioContext.state === 'suspended') {
