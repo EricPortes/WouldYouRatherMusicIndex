@@ -60,7 +60,22 @@
         .song-title { font-size: 28px; font-weight: bold; }
         .song-artist { font-size: 18px; }
         .approval-rating { font-size: 22px; font-weight: bold; margin-top: 15px; color: white; opacity: 0; transition: opacity 0.5s ease-in; }
-        #start-button, #next-round-button-landscape { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; font-size: 20px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer; z-index: 5; }
+        
+        #start-button, #next-round-button-landscape { 
+            position: absolute; 
+            bottom: 30px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            padding: 15px 30px; 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: white; 
+            background-color: #1DB954; 
+            border: none; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            z-index: 10; /* Z-index alto para garantir que seja clicável */
+        }
         #next-round-button-landscape { display: none; }
 
         .replay-button {
@@ -91,20 +106,13 @@
             align-items: center;
             z-index: 5;
         }
-
-        .portrait-actions-container > * {
-            flex-shrink: 0;
-        }
-
+        .portrait-actions-container > * { flex-shrink: 0; }
         #next-round-button-portrait {
             display: none; padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; background-color: #1DB954; border: none; border-radius: 30px; cursor: pointer;
         }
 
         .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.0vh 0; }
-        .switch-container span {
-            font-size: 1.7vh; color: #b3b3b3;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px;
-        }
+        .switch-container span { font-size: 1.7vh; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #535353; transition: .4s; }
@@ -116,11 +124,7 @@
 
         @media (orientation: portrait) {
             .game-container { flex-direction: column; }
-            .side {
-                width: 100%;
-                height: 50%;
-                box-sizing: border-box;
-            }
+            .side { width: 100%; height: 50%; box-sizing: border-box; }
             .divider { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
             .vs-circle { width: 80px; height: 80px; font-size: 36px; }
             .album-cover { width: 18vh; height: 18vh; margin-bottom: 10px; }
@@ -133,18 +137,9 @@
 
             .portrait-actions-container { display: flex; }
             .portrait-actions-container .replay-button {
-                display: block;
-                position: static;
-                transform: none;
-                width: 45px;
-                height: 45px;
-                opacity: 0;
-                visibility: hidden;
+                display: block; position: static; transform: none; width: 45px; height: 45px; opacity: 0; visibility: hidden;
             }
-            .portrait-actions-container .replay-button.visible {
-                opacity: 0.7;
-                visibility: visible;
-            }
+            .portrait-actions-container .replay-button.visible { opacity: 0.7; visibility: visible; }
         }
 
         @media (orientation: landscape) and (max-height: 500px) {
@@ -201,9 +196,12 @@
         .bottom-menu-container { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 2.1vh; padding-bottom: 1vh; }
         .deezer-credit { margin-top: 0; padding-top: 0; font-size: 1.2vh; color: #888; }
         .deezer-credit img { height: 2.1vh; }
-        #share-button { position: relative; background: none; border: none; cursor: pointer; padding: 0; margin-right: 25px; }
-        #share-button svg { stroke: #ffffff; transition: opacity 0.2s; width: 22px; height: 22px; }
-        #share-button:hover svg { opacity: 0.7; }
+        
+        #share-button { 
+            position: relative; background: none; border: none; cursor: pointer; padding: 0; margin-right: 25px; color: white; 
+        }
+        #share-button svg { transition: opacity 0.2s; width: 28px; height: 28px; }
+        #share-button:hover { opacity: 0.7; }
         #share-button::after { content: attr(data-tooltip); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background-color: #1DB954; color: white; padding: 5px 10px; border-radius: 5px; font-size: 14px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         #share-button.show-tooltip::after { opacity: 1; visibility: visible; }
     </style>
@@ -266,8 +264,12 @@
                     <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
                 </a>
             </div>
-            <button id="share-button" aria-label="Share page">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v3.55c-5.41.38-9.14 4.54-10.5 9.45C2.86 13.43 6.32 10.66 12 10.66V14l8-6-8-6z"></path></svg>
+            <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <g transform="scale(-1, 1) translate(-24, 0)">
+                        <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+                    </g>
+                </svg>
             </button>
         </div>
     </nav>
