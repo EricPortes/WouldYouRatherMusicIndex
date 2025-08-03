@@ -63,7 +63,7 @@
             width: 50%;
             height: 100%;
             display: flex;
-            flex-direction: column; /* Alterado para coluna */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
@@ -161,18 +161,14 @@
             background-color: #333;
         }
 
-        /* Espaçamento equilibrado para Desktop */
+        /* Espaçamento padrão (largo) para Desktop */
         .song-title {
             font-size: 28px;
             font-weight: bold;
-            margin-block-start: 0.6em;
-            margin-block-end: 0.4em;
         }
 
         .song-artist {
             font-size: 18px;
-            margin-block-start: 0.4em;
-            margin-block-end: 0.6em;
         }
 
         .approval-rating {
@@ -183,9 +179,19 @@
             opacity: 0;
             transition: opacity 0.5s ease-in;
         }
+        
+        #next-round-button {
+            display: none;
+            position: absolute;
+            z-index: 10;
+            font-weight: bold;
+            color: white;
+            background-color: #1DB954;
+            border: none;
+            cursor: pointer;
+        }
 
-        #start-button,
-        #next-round-button-landscape {
+        #start-button {
             position: absolute;
             bottom: 30px;
             left: 50%;
@@ -199,14 +205,6 @@
             border-radius: 30px;
             cursor: pointer;
             z-index: 10;
-        }
-
-        #next-round-button-landscape {
-            display: none;
-        }
-        
-        .next-round-button-portrait {
-            display: none;
         }
 
         .replay-button {
@@ -324,7 +322,11 @@
                 width: 100%;
                 height: 50%;
                 padding: 10px;
-                justify-content: space-around; /* Alinha conteúdo e botão */
+                justify-content: center;
+            }
+            
+            .side.winner {
+                justify-content: space-between; /* Espaça o conteúdo e o botão */
             }
 
             .divider {
@@ -348,39 +350,32 @@
                 margin-bottom: 1vh;
             }
 
+            /* Espaçamento reduzido para celular */
             .song-title {
                 font-size: 16px;
-                margin-block-start: 0.5em;
+                margin-block-start: 0em;
                 margin-block-end: 0.5em;
             }
 
             .song-artist {
                 font-size: 13px;
                  margin-block-start: 0.5em;
-                 margin-block-end: 0.5em;
+                 margin-block-end: 0em;
             }
 
             .approval-rating {
                 font-size: 14px;
-                margin-top: 1vh;
+                margin-top: 1.5vh;
             }
             
-            #next-round-button-landscape {
-                display: none;
-            }
-            
-            .next-round-button-portrait {
-                display: none; /* JS controla a visibilidade */
+            #next-round-button {
+                position: relative; /* Mudança para se posicionar no fluxo */
                 width: 70%;
                 max-width: 280px;
                 padding: 14px;
                 font-size: 18px;
-                font-weight: bold;
-                color: white;
-                background-color: #1DB954;
-                border: none;
                 border-radius: 50px;
-                cursor: pointer;
+                margin-bottom: 10px; /* Pequeno espaçamento inferior */
             }
 
             #start-button {
@@ -402,9 +397,17 @@
                 display: none !important;
             }
         }
-
+        
         @media (orientation: landscape) {
-            .deezer-credit img {
+             #next-round-button {
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 15px 30px;
+                font-size: 20px;
+                border-radius: 30px;
+            }
+             .deezer-credit img {
                 height: 28px !important;
             }
         }
@@ -828,7 +831,6 @@
                     </button>
                 </div>
             </div>
-            <button class="next-round-button-portrait" id="next-round-button-portrait-left"></button>
         </div>
         <div class="vs-circle" id="vs-circle">VS</div>
         <div class="side right" id="side-right">
@@ -856,13 +858,11 @@
                     </button>
                 </div>
             </div>
-             <button class="next-round-button-portrait" id="next-round-button-portrait-right"></button>
         </div>
     </div>
 
     <button id="start-button"></button>
-    <button id="next-round-button-landscape"></button>
-
+    <button id="next-round-button"></button>
 
     <audio id="audio-player"></audio>
 
@@ -877,9 +877,7 @@
         let currentTexts = {};
         const gameContainer = document.getElementById("game-container");
         const startButton = document.getElementById("start-button");
-        const nextRoundButtonLandscape = document.getElementById("next-round-button-landscape");
-        const nextRoundButtonPortraitLeft = document.getElementById("next-round-button-portrait-left");
-        const nextRoundButtonPortraitRight = document.getElementById("next-round-button-portrait-right");
+        const nextRoundButton = document.getElementById("next-round-button");
         
         const vsCircle = document.getElementById("vs-circle");
         const menuTitleMode = document.getElementById("menu-title-mode");
@@ -971,9 +969,7 @@
             currentTexts = translations[lang] || translations['pt'];
             document.documentElement.lang = currentTexts.lang_code;
             startButton.innerText = currentTexts.start_game;
-            nextRoundButtonLandscape.innerText = currentTexts.next_round;
-            nextRoundButtonPortraitLeft.innerText = currentTexts.next_round;
-            nextRoundButtonPortraitRight.innerText = currentTexts.next_round;
+            nextRoundButton.innerText = currentTexts.next_round;
             vsCircle.innerText = currentTexts.vs;
             menuTitleMode.innerText = currentTexts.menu_mode;
             menuTitleOptions.innerText = currentTexts.menu_options;
@@ -1026,6 +1022,10 @@
                 currentGainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + fadeOutDuration);
             }
 
+            // Reposiciona o botão de próxima rodada para o corpo do documento e o esconde
+            document.body.appendChild(nextRoundButton);
+            nextRoundButton.style.display = 'none';
+
             linkTitleLeft.removeAttribute('href');
             linkTitleRight.removeAttribute('href');
             linkTitleLeft.classList.remove('active-link');
@@ -1034,9 +1034,6 @@
             isChoiceEnabled = false;
             isReplayActive = false;
             preloadedAudio = {};
-            nextRoundButtonLandscape.style.display = "none";
-            nextRoundButtonPortraitLeft.style.display = "none";
-            nextRoundButtonPortraitRight.style.display = "none";
             songLeft.classList.remove("visible");
             songRight.classList.remove("visible");
             sideLeft.classList.remove("winner", "loser", "playing");
@@ -1152,7 +1149,6 @@
 
                 playAudio(winnerSong, 10, preloadedAudio[side]);
 
-                // Esconde ambos os botões de replay para evitar erros
                 replayLeftButton.style.display = 'none';
                 replayRightButton.style.display = 'none';
 
@@ -1187,13 +1183,10 @@
                     linkTitleRight.href = `${deezerBaseUrl}${currentSongs.right.id}`;
                     linkTitleLeft.classList.add('active-link');
                     linkTitleRight.classList.add('active-link');
+                    
+                    winnerSideEl.appendChild(nextRoundButton);
+                    nextRoundButton.style.display = "block";
 
-                    // Mostra o botão de próxima rodada correto
-                    nextRoundButtonLandscape.style.display = "block";
-                    const winnerNextButton = (side === 'left') ? nextRoundButtonPortraitLeft : nextRoundButtonPortraitRight;
-                    winnerNextButton.style.display = "block";
-
-                    // Mostra o botão de replay correto
                     const winnerReplayButton = (side === 'left') ? replayLeftButton : replayRightButton;
                     winnerReplayButton.style.display = 'block';
                     winnerReplayButton.classList.add('visible', 'result-visible');
@@ -1234,9 +1227,7 @@
         sideLeft.addEventListener("click", () => handleChoice("left"));
         sideRight.addEventListener("click", () => handleChoice("right"));
 
-        nextRoundButtonLandscape.addEventListener("click", startRound);
-        nextRoundButtonPortraitLeft.addEventListener("click", startRound);
-        nextRoundButtonPortraitRight.addEventListener("click", startRound);
+        nextRoundButton.addEventListener("click", startRound);
 
         startButton.addEventListener("click", () => {
             if (audioContext.state === 'suspended') {
