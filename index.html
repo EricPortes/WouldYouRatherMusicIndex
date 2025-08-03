@@ -68,6 +68,8 @@
             cursor: pointer;
             position: relative;
             transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+            box-sizing: border-box;
+            padding: 20px;
         }
 
         .side.left {
@@ -111,6 +113,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
 
         .song-content a {
@@ -198,7 +201,6 @@
             display: none;
         }
 
-        /* Botão Replay para Desktop/Landscape */
         .replay-button {
             position: absolute;
             bottom: -80px;
@@ -237,7 +239,6 @@
             cursor: not-allowed;
         }
         
-        /* Container de ações e botão de próxima rodada para Portrait */
         .portrait-actions-container {
             display: none;
             position: absolute;
@@ -246,22 +247,13 @@
             width: 100%;
             padding: 20px;
             box-sizing: border-box;
-            justify-content: center; /* Centraliza o botão */
+            justify-content: center;
             align-items: center;
             z-index: 5;
         }
 
         #next-round-button-portrait {
             display: none;
-            padding: 10px 20px; /* Tamanho diminuído */
-            font-size: 14px; /* Fonte menor */
-            font-weight: bold;
-            color: white;
-            background-color: #1DB954;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            white-space: nowrap; /* Garante que o texto fique em uma linha */
         }
 
         .switch-container {
@@ -340,7 +332,7 @@
             .side {
                 width: 100%;
                 height: 50%;
-                box-sizing: border-box;
+                padding: 10px; /* Ajuste no padding para garantir centralização */
             }
 
             .divider {
@@ -352,28 +344,29 @@
             }
 
             .vs-circle {
-                width: 80px;
-                height: 80px;
-                font-size: 36px;
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+                border-width: 4px;
             }
 
             .album-cover {
-                width: 18vh;
-                height: 18vh;
-                margin-bottom: 10px;
+                width: 17vh;
+                height: 17vh;
+                margin-bottom: 1.5vh;
             }
 
             .song-title {
-                font-size: 18px;
+                font-size: 16px;
             }
 
             .song-artist {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             .approval-rating {
-                font-size: 16px;
-                margin-top: 8px;
+                font-size: 14px;
+                margin-top: 1.5vh;
             }
             
             #next-round-button-landscape {
@@ -387,25 +380,31 @@
             .portrait-actions-container {
                 display: flex;
             }
+            
+            #next-round-button-portrait {
+                display: none;
+                padding: 10px 20px;
+                font-size: 14px;
+                font-weight: bold;
+                color: white;
+                background-color: #1DB954;
+                border: none;
+                border-radius: 30px;
+                cursor: pointer;
+                white-space: nowrap;
+            }
 
-            /* Estilos do botão de Replay para o modo Portrait */
             .replay-button {
                 display: block;
-                position: relative; /* Posição relativa para fluir com o conteúdo */
+                position: relative;
                 bottom: auto;
                 left: auto;
                 transform: none;
-                margin: 10px auto 0; /* Margem superior para ficar abaixo do artista */
-                width: 40px;
-                height: 40px;
+                margin: 1.5vh auto 0;
+                width: 38px;
+                height: 38px;
             }
 
-            /* Garante que o botão de replay da música de cima não sobreponha o 'VS' */
-            .side.left .replay-button {
-                margin-bottom: 15px;
-            }
-
-            /* O botão de replay do perdedor é escondido via JS */
             .side.loser .replay-button {
                 display: none;
             }
@@ -442,7 +441,7 @@
             }
 
             .deezer-credit img {
-                height: 30px; /* Logo da Deezer maior */
+                height: 30px;
             }
         }
 
@@ -487,7 +486,7 @@
             color: white;
             display: flex;
             flex-direction: column;
-            overflow-y: auto; /* Scrollbar só aparece se necessário */
+            overflow-x: hidden; /* Remove a barra de rolagem horizontal */
         }
 
         #side-menu.open {
@@ -627,6 +626,10 @@
         }
 
         @media (max-width: 1024px) {
+            #side-menu {
+                overflow-y: auto; /* Adiciona scroll vertical apenas se necessário */
+            }
+
             .menu-section h2 {
                 font-size: 18px;
                 margin-top: 20px;
@@ -1147,7 +1150,6 @@
 
                 playAudio(winnerSong, 10, preloadedAudio[side]);
 
-                // Esconde os dois botões de replay
                 replayLeftButton.classList.remove('visible');
                 replayRightButton.classList.remove('visible');
 
