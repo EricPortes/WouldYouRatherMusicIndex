@@ -133,6 +133,9 @@
 
         .song-content-wrapper {
             transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .side.playing .song-content-wrapper,
@@ -195,6 +198,7 @@
             display: none;
         }
 
+        /* Botão Replay para Desktop/Landscape */
         .replay-button {
             position: absolute;
             bottom: -80px;
@@ -232,7 +236,8 @@
             opacity: 0.3;
             cursor: not-allowed;
         }
-
+        
+        /* Container de ações e botão de próxima rodada para Portrait */
         .portrait-actions-container {
             display: none;
             position: absolute;
@@ -241,25 +246,22 @@
             width: 100%;
             padding: 20px;
             box-sizing: border-box;
-            justify-content: space-around;
+            justify-content: center; /* Centraliza o botão */
             align-items: center;
             z-index: 5;
         }
 
-        .portrait-actions-container > * {
-            flex-shrink: 0;
-        }
-
         #next-round-button-portrait {
             display: none;
-            padding: 12px 24px;
-            font-size: 16px;
+            padding: 10px 20px; /* Tamanho diminuído */
+            font-size: 14px; /* Fonte menor */
             font-weight: bold;
             color: white;
             background-color: #1DB954;
             border: none;
             border-radius: 30px;
             cursor: pointer;
+            white-space: nowrap; /* Garante que o texto fique em uma linha */
         }
 
         .switch-container {
@@ -373,11 +375,7 @@
                 font-size: 16px;
                 margin-top: 8px;
             }
-
-            .replay-button {
-                display: none;
-            }
-
+            
             #next-round-button-landscape {
                 display: none;
             }
@@ -390,19 +388,26 @@
                 display: flex;
             }
 
-            .portrait-actions-container .replay-button {
+            /* Estilos do botão de Replay para o modo Portrait */
+            .replay-button {
                 display: block;
-                position: static;
+                position: relative; /* Posição relativa para fluir com o conteúdo */
+                bottom: auto;
+                left: auto;
                 transform: none;
-                width: 45px;
-                height: 45px;
-                opacity: 0;
-                visibility: hidden;
+                margin: 10px auto 0; /* Margem superior para ficar abaixo do artista */
+                width: 40px;
+                height: 40px;
             }
 
-            .portrait-actions-container .replay-button.visible {
-                opacity: 0.7;
-                visibility: visible;
+            /* Garante que o botão de replay da música de cima não sobreponha o 'VS' */
+            .side.left .replay-button {
+                margin-bottom: 15px;
+            }
+
+            /* O botão de replay do perdedor é escondido via JS */
+            .side.loser .replay-button {
+                display: none;
             }
         }
 
@@ -437,7 +442,7 @@
             }
 
             .deezer-credit img {
-                height: 20px;
+                height: 30px; /* Logo da Deezer maior */
             }
         }
 
@@ -482,7 +487,7 @@
             color: white;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
+            overflow-y: auto; /* Scrollbar só aparece se necessário */
         }
 
         #side-menu.open {
@@ -622,11 +627,6 @@
         }
 
         @media (max-width: 1024px) {
-            #side-menu {
-                overflow-y: auto;
-                padding: 20px;
-            }
-
             .menu-section h2 {
                 font-size: 18px;
                 margin-top: 20px;
@@ -810,21 +810,21 @@
                     </a>
                     <p class="song-artist" id="artist-left"></p>
                     <div class="approval-rating" id="approval-left"></div>
+                    <button class="replay-button" id="replay-left">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10"
+                                stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14"
+                                stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
                 </div>
-                <button class="replay-button" id="replay-left">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path
-                            d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10"
-                            stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path
-                            d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14"
-                            stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
             </div>
         </div>
         <div class="vs-circle" id="vs-circle">VS</div>
@@ -837,56 +837,31 @@
                     </a>
                     <p class="song-artist" id="artist-right"></p>
                     <div class="approval-rating" id="approval-right"></div>
+                    <button class="replay-button" id="replay-right">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10"
+                                stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14"
+                                stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
                 </div>
-                <button class="replay-button" id="replay-right">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path
-                            d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10"
-                            stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path
-                            d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14"
-                            stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
             </div>
         </div>
     </div>
+
     <button id="start-button"></button>
+    <div class="portrait-actions-container">
+        <button id="next-round-button-portrait"></button>
+    </div>
     <button id="next-round-button-landscape"></button>
 
-    <div class="portrait-actions-container">
-        <button class="replay-button" id="replay-portrait-left">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                <path
-                    d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10"
-                    stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                    d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14"
-                    stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </button>
-        <button id="next-round-button-portrait"></button>
-        <button class="replay-button" id="replay-portrait-right">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 4V10H10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M20 20V14H14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                <path
-                    d="M20.49 9C19.89 7.98 19.01 7.1 17.94 6.42C16.88 5.73 15.68 5.29 14.45 5.13C13.22 4.98 11.97 5.12 10.8 5.54C9.63 5.96 8.55 6.64 7.64 7.55L4 10"
-                    stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                    d="M3.51 15C4.11 16.02 4.99 16.9 6.06 17.58C7.12 18.27 8.32 18.71 9.55 18.87C10.78 19.02 12.03 18.88 13.2 18.46C14.37 18.04 15.45 17.36 16.36 16.45L20 14"
-                    stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </button>
-    </div>
 
     <audio id="audio-player"></audio>
 
@@ -923,8 +898,6 @@
         const volumeValueDisplay = document.getElementById('volume-value-display');
         const replayLeftButton = document.getElementById('replay-left');
         const replayRightButton = document.getElementById('replay-right');
-        const replayPortraitLeft = document.getElementById('replay-portrait-left');
-        const replayPortraitRight = document.getElementById('replay-portrait-right');
         const replayToggle = document.getElementById('replay-toggle');
         const replayStatusText = document.getElementById('replay-status-text');
         const menuTitleReplay = document.getElementById('menu-title-replay');
@@ -1059,8 +1032,6 @@
             preloadedAudio = {};
             nextRoundButtonLandscape.style.display = "none";
             nextRoundButtonPortrait.style.display = "none";
-            replayPortraitLeft.classList.remove('visible', 'cooldown');
-            replayPortraitRight.classList.remove('visible', 'cooldown');
             songLeft.classList.remove("visible");
             songRight.classList.remove("visible");
             sideLeft.classList.remove("winner", "loser", "playing");
@@ -1166,14 +1137,17 @@
 
                 const winnerSong = currentSongs[side];
                 const loserSide = "left" === side ? "right" : "left";
+                const winnerSideEl = document.getElementById(`side-${side}`);
+                const loserSideEl = document.getElementById(`side-${loserSide}`);
 
-                document.getElementById(`side-${side}`).classList.add("winner");
-                document.getElementById(`side-${loserSide}`).classList.add("loser");
-                document.getElementById(`side-${side}`).classList.remove("playing");
-                document.getElementById(`side-${loserSide}`).classList.remove("playing");
+                winnerSideEl.classList.add("winner");
+                loserSideEl.classList.add("loser");
+                winnerSideEl.classList.remove("playing");
+                loserSideEl.classList.remove("playing");
 
                 playAudio(winnerSong, 10, preloadedAudio[side]);
 
+                // Esconde os dois botões de replay
                 replayLeftButton.classList.remove('visible');
                 replayRightButton.classList.remove('visible');
 
@@ -1212,18 +1186,9 @@
                     nextRoundButtonLandscape.style.display = "block";
                     nextRoundButtonPortrait.style.display = "block";
 
-                    const winnerButton = side === 'left' ? replayLeftButton : replayRightButton;
-                    const winnerButtonPortrait = side === 'left' ? replayPortraitLeft : replayPortraitRight;
+                    const winnerButton = (side === 'left') ? replayLeftButton : replayRightButton;
+                    winnerButton.classList.add('visible', 'result-visible');
 
-                    if (!replayButtonsEnabled) {
-                        winnerButton.classList.add('visible', 'result-visible');
-                        winnerButtonPortrait.classList.add('visible');
-                    } else {
-                        winnerButton.classList.add('visible', 'result-visible');
-                        winnerButtonPortrait.classList.add('visible');
-                        const loserButton = side === 'left' ? replayRightButton : replayLeftButton;
-                        loserButton.classList.remove('visible', 'result-visible');
-                    }
                 }, 1500);
             }
         }
@@ -1232,9 +1197,6 @@
             if (isReplayActive || button.classList.contains('cooldown')) return;
 
             isReplayActive = true;
-            button.classList.add('cooldown');
-            const otherButton = button.id.includes('left') ? replayPortraitRight : replayPortraitLeft;
-            otherButton.classList.add('cooldown');
             replayLeftButton.classList.add('cooldown');
             replayRightButton.classList.add('cooldown');
 
@@ -1245,8 +1207,6 @@
 
             setTimeout(() => {
                 isReplayActive = false;
-                button.classList.remove('cooldown');
-                otherButton.classList.remove('cooldown');
                 replayLeftButton.classList.remove('cooldown');
                 replayRightButton.classList.remove('cooldown');
             }, 10000);
@@ -1260,16 +1220,6 @@
         replayRightButton.addEventListener('click', (e) => {
             e.stopPropagation();
             handleReplay('right', replayRightButton);
-        });
-
-        replayPortraitLeft.addEventListener('click', (e) => {
-            e.stopPropagation();
-            handleReplay('left', replayPortraitLeft);
-        });
-
-        replayPortraitRight.addEventListener('click', (e) => {
-            e.stopPropagation();
-            handleReplay('right', replayPortraitRight);
         });
 
         sideLeft.addEventListener("click", () => handleChoice("left"));
