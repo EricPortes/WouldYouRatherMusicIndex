@@ -201,7 +201,7 @@
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         .menu-section h2 { margin-top: 2.1vh; margin-bottom: 1vh; font-size: 1.9vh; color: #fff; border-bottom: 1px solid #444; padding-bottom: 0.8vh;}
-        .menu-section:first-child h2 { margin-top: 4.2vh; }
+        .menu-section:first-child h2 { margin-top: 0; } /* Alteração aqui */
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a { color: #b3b3b3; text-decoration: none; font-size: 1.7vh; padding: 1.2vh 10px; display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px; }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
@@ -235,7 +235,7 @@
         @media (max-width: 1024px) {
             #side-menu { overflow-y: auto; padding: 20px; }
             .menu-section h2 { font-size: 18px; margin-top: 20px; margin-bottom: 10px; padding-bottom: 8px;}
-            .menu-section:first-child h2 { margin-top: 40px; }
+            .menu-section:first-child h2 { margin-top: 0; } /* Alteração aqui */
             #side-menu ul li a { font-size: 16px; padding: 12px 10px; }
             #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; white-space: normal; }
             .switch-container span { font-size: 16px; }
@@ -349,6 +349,7 @@
 
             <h3 id="menu-title-language">Idioma</h3>
             <ul id="lang-switcher">
+                <li><a href="#" data-lang="de">Deutsch</a></li>
                 <li><a href="#" data-lang="en">English</a></li>
                 <li><a href="#" data-lang="es">Español</a></li>
                 <li><a href="#" data-lang="fr">Français</a></li>
@@ -364,7 +365,7 @@
                 </a>
             </div>
             <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="currentColor" stroke="none">
                     <g transform="scale(-1, 1) translate(-24, 0)">
                         <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
                     </g>
@@ -414,6 +415,7 @@
 
     <script>
     const translations = {
+        "de": { menu_replay_title: "Wiedergabe während der Auswahl", replay_info: "10 Sekunden", replay_on: "Buttons Aktiviert", replay_off: "Buttons Deaktiviert", menu_mode: "Spielmodus", menu_options: "Optionen", menu_volume: "Lautstärke", menu_language: "Sprache", lang_code: "de", start_game: "▶ Spiel Starten", next_round: "Nächste Runde", approval_of: "Zustimmung von", vs: "VS", approval_error: "Zustimmung: Später erneut versuchen", error_loading_songs: "Songs konnten nicht geladen werden.", mode_geral: "Allgemein", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Elektronisch", mode_rnb_soul: "R&B & Soul", mode_classica: "Klassik", url_copied: "URL Kopiert!" },
         "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_rnb_soul: "R&B e Soul", mode_classica: "Clássica", url_copied: "URL Copiada!" },
         "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_rnb_soul: "R&B & Soul", mode_classica: "Classical", url_copied: "URL Copied!" },
         "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_rnb_soul: "R&B y Soul", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
@@ -834,7 +836,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         let lang = urlParams.get('lang');
         if (!translations[lang]) {
-            const browserLang = navigator.language.split('-')[0];
+            const browserLang = (navigator.language || navigator.userLanguage).split('-')[0];
             lang = translations[browserLang] ? browserLang : 'pt';
         }
         setLanguage(lang);
