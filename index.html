@@ -82,10 +82,10 @@
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
-        .replay-button.result-visible { bottom: -12vh; }
+        .replay-button.result-visible { bottom: -15vh; } /* Posição proporcional */
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
-        
+
         .switch-container {
             display: flex;
             align-items: center;
@@ -132,7 +132,7 @@
         }
 
         #menu-toggle {
-            position: absolute; top: 20px; left: 20px; z-index: 1001; cursor: pointer;
+            position: absolute; top: 2.2vh; left: 20px; z-index: 1001; cursor: pointer;
             background: none; border: none; padding: 10px;
             transition: opacity 0.3s;
         }
@@ -195,22 +195,15 @@
         .volume-icon { margin-right: 5px; font-size: 2.1vh; }
         .volume-value { font-size: 1.7vh; min-width: 25px; text-align: right; }
 
-        @media (max-width: 1024px) {
-            #side-menu { overflow-y: auto; padding: 20px; }
-            .menu-section h2 { font-size: 18px; margin-top: 20px; margin-bottom: 10px; padding-bottom: 8px;}
-            .menu-section:first-child h2 { margin-top: 0; }
-            #side-menu ul li a { font-size: 16px; padding: 12px 10px; }
-            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; white-space: normal; }
-            .switch-container span { font-size: 16px; }
-            .info-popup { display: none; }
-            #side-menu { scrollbar-width: thin; }
+        @media (max-width: 768px) {
+            #side-menu {
+                overflow-y: auto;
+                width: 70%;
+                scrollbar-width: thin;
+            }
             #side-menu::-webkit-scrollbar { display: block; width: 8px; }
             #side-menu::-webkit-scrollbar-track { background: #181818; }
             #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
-        }
-        
-        @media (max-width: 768px) {
-            #side-menu { width: 70%; }
         }
 
         .bottom-menu-container {
@@ -227,7 +220,7 @@
             color: #888;
         }
         .deezer-credit img {
-            height: 2.5vh; /* Aumentado */
+            height: 2.5vh;
         }
         #share-button {
             position: relative; background: none; border: none; cursor: pointer;
@@ -235,8 +228,8 @@
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: 3.2vh; /* Aumentado */
-            height: 3.2vh; /* Aumentado */
+            width: 3.5vh;
+            height: 3.5vh;
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -685,7 +678,7 @@
                 
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 9200 - postVoteTimeout);
+                }, 9200 - 1500);
 
             }, 1500);
         }
