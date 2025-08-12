@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-ar">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Would You Rather? Music</title>
     <link rel="icon" type="image/png" href="/static/favicon.png">
@@ -82,21 +82,19 @@
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
-        .replay-button.result-visible { bottom: -130px; }
+        .replay-button.result-visible { bottom: -12vh; }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
-
+        
         .switch-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: clamp(4px, 1vmin, 8px) 0;
+            padding: 1.0vh 0;
         }
         .switch-container span {
-            font-size: clamp(14px, 1.7vmin, 16px);
-            color: #b3b3b3;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            padding-right: 10px;
+            font-size: 1.7vh; color: #b3b3b3;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px;
         }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -147,24 +145,18 @@
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
-            padding: clamp(15px, 2.2vmin, 20px) 20px;
+            padding: 2.2vh 20px;
             color: white; display: flex; flex-direction: column;
             overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         .menu-section h2 {
-            margin-top: clamp(15px, 2.1vmin, 20px);
-            margin-bottom: clamp(8px, 1vmin, 10px);
-            font-size: clamp(16px, 1.9vmin, 18px);
-            color: #fff; border-bottom: 1px solid #444;
-            padding-bottom: clamp(6px, 0.8vmin, 8px);
+            margin-top: 2.1vh; margin-bottom: 1vh; font-size: 1.9vh; color: #fff; border-bottom: 1px solid #444; padding-bottom: 0.8vh;
         }
         .menu-section:first-child h2 { margin-top: 0; }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a {
-            color: #b3b3b3; text-decoration: none;
-            font-size: clamp(14px, 1.7vmin, 16px);
-            padding: clamp(10px, 1.2vmin, 12px) 10px;
+            color: #b3b3b3; text-decoration: none; font-size: 1.7vh; padding: 1.2vh 10px;
             display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px;
         }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
@@ -174,21 +166,19 @@
 
         .menu-title-container { display: flex; align-items: center; }
         #menu-title-replay, #menu-title-volume, #menu-title-language {
-            color:#b3b3b3;
-            font-size: clamp(13px, 1.4vmin, 14px);
-            margin-top: clamp(12px, 1.5vmin, 15px);
+            color:#b3b3b3; font-size: 1.4vh; margin-top: 1.5vh;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .info-popup {
-            position: relative; display: inline-block; width: clamp(12px, 1.5vmin, 15px); height: clamp(12px, 1.5vmin, 15px);
+            position: relative; display: inline-block; width: 1.5vh; height: 1.5vh;
             border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3;
-            font-size: clamp(9px, 1.1vmin, 11px); font-weight: bold; line-height: clamp(12px, 1.5vmin, 15px);
+            font-size: 1.1vh; font-weight: bold; line-height: 1.5vh;
             text-align: center; cursor: pointer; margin-left: 8px;
         }
         .info-popup::after {
             content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%;
             transform: translateX(-50%); background-color: #333; color: #fff;
-            padding: 5px 10px; border-radius: 5px; font-size: 14px;
+            padding: 5px 10px; border-radius: 5px; font-size: 1.5vh;
             white-space: nowrap; opacity: 0; visibility: hidden;
             transition: opacity 0.2s, visibility 0.2s;
         }
@@ -196,24 +186,31 @@
         .volume-control {
             display: flex;
             align-items: center;
-            padding: clamp(8px, 1.0vmin, 10px) 0;
+            padding: 1.0vh 0;
         }
         .volume-slider-container {
              flex-grow: 1;
              margin: 0 10px;
         }
-        .volume-icon { margin-right: 5px; font-size: clamp(18px, 2.1vmin, 20px); }
-        .volume-value { font-size: clamp(14px, 1.7vmin, 16px); min-width: 25px; text-align: right; }
+        .volume-icon { margin-right: 5px; font-size: 2.1vh; }
+        .volume-value { font-size: 1.7vh; min-width: 25px; text-align: right; }
 
-        @media (max-width: 768px) {
-            #side-menu {
-                overflow-y: auto;
-                width: 70%;
-                scrollbar-width: thin;
-            }
+        @media (max-width: 1024px) {
+            #side-menu { overflow-y: auto; padding: 20px; }
+            .menu-section h2 { font-size: 18px; margin-top: 20px; margin-bottom: 10px; padding-bottom: 8px;}
+            .menu-section:first-child h2 { margin-top: 0; }
+            #side-menu ul li a { font-size: 16px; padding: 12px 10px; }
+            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; white-space: normal; }
+            .switch-container span { font-size: 16px; }
+            .info-popup { display: none; }
+            #side-menu { scrollbar-width: thin; }
             #side-menu::-webkit-scrollbar { display: block; width: 8px; }
             #side-menu::-webkit-scrollbar-track { background: #181818; }
             #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
+        }
+        
+        @media (max-width: 768px) {
+            #side-menu { width: 70%; }
         }
 
         .bottom-menu-container {
@@ -221,25 +218,25 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding-top: clamp(15px, 2.1vmin, 20px);
-            flex-shrink: 0;
+            padding-top: 2.1vh;
+            padding-bottom: 1vh;
         }
         .deezer-credit {
             margin-top: 0; padding-top: 0;
-            font-size: clamp(11px, 1.2vmin, 12px);
+            font-size: 1.2vh;
             color: #888;
         }
         .deezer-credit img {
-            height: clamp(20px, 2.3vmin, 24px);
+            height: 2.5vh; /* Aumentado */
         }
         #share-button {
             position: relative; background: none; border: none; cursor: pointer;
-            padding: 0; margin-right: 0; color: white;
+            padding: 0; margin-right: 25px; color: white;
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: clamp(28px, 3.4vmin, 32px);
-            height: clamp(28px, 3.4vmin, 32px);
+            width: 3.2vh; /* Aumentado */
+            height: 3.2vh; /* Aumentado */
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -688,7 +685,7 @@
                 
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 9200 - 1500);
+                }, 9200 - postVoteTimeout);
 
             }, 1500);
         }
