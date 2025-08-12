@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-ar">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Would You Rather? Music</title>
     <link rel="icon" type="image/png" href="/static/favicon.png">
@@ -85,7 +85,7 @@
         .replay-button.result-visible { bottom: -130px; }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
-        
+
         .switch-container {
             display: flex;
             align-items: center;
@@ -205,18 +205,15 @@
         .volume-icon { margin-right: 5px; font-size: clamp(18px, 2.1vmin, 20px); }
         .volume-value { font-size: clamp(14px, 1.7vmin, 16px); min-width: 25px; text-align: right; }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 768px) {
             #side-menu {
                 overflow-y: auto;
+                width: 70%;
                 scrollbar-width: thin;
             }
             #side-menu::-webkit-scrollbar { display: block; width: 8px; }
             #side-menu::-webkit-scrollbar-track { background: #181818; }
             #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
-        }
-        
-        @media (max-width: 768px) {
-            #side-menu { width: 70%; }
         }
 
         .bottom-menu-container {
@@ -691,7 +688,7 @@
                 
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 7700);
+                }, 9200 - 1500);
 
             }, 1500);
         }
