@@ -196,12 +196,12 @@
         #menu-toggle .bar { display: block; width: 30px; height: 3px; background-color: white; margin: 6px 0; transition: 0.4s; }
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
-            transform: translateX(-100%); transition: transform 0.3s ease-in-out; padding: 2.2vh 20px;
+            transform: translateX(-100%); transition: transform 0.3s ease-in-out; padding: 4.2vh 20px 2.2vh 20px;
             box-sizing: border-box; color: white; display: flex; flex-direction: column; overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         .menu-section h2 { margin-top: 2.1vh; margin-bottom: 1vh; font-size: 1.9vh; color: #fff; border-bottom: 1px solid #444; padding-bottom: 0.8vh;}
-        .menu-section:first-child h2 { margin-top: 0; } /* Alteração aqui */
+        .menu-section:first-child h2 { margin-top: 0; }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a { color: #b3b3b3; text-decoration: none; font-size: 1.7vh; padding: 1.2vh 10px; display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px; }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
@@ -235,7 +235,7 @@
         @media (max-width: 1024px) {
             #side-menu { overflow-y: auto; padding: 20px; }
             .menu-section h2 { font-size: 18px; margin-top: 20px; margin-bottom: 10px; padding-bottom: 8px;}
-            .menu-section:first-child h2 { margin-top: 0; } /* Alteração aqui */
+            .menu-section:first-child h2 { margin-top: 20px; }
             #side-menu ul li a { font-size: 16px; padding: 12px 10px; }
             #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 15px; white-space: normal; }
             .switch-container span { font-size: 16px; }
@@ -418,7 +418,7 @@
         "de": { menu_replay_title: "Wiedergabe während der Auswahl", replay_info: "10 Sekunden", replay_on: "Buttons Aktiviert", replay_off: "Buttons Deaktiviert", menu_mode: "Spielmodus", menu_options: "Optionen", menu_volume: "Lautstärke", menu_language: "Sprache", lang_code: "de", start_game: "▶ Spiel Starten", next_round: "Nächste Runde", approval_of: "Zustimmung von", vs: "VS", approval_error: "Zustimmung: Später erneut versuchen", error_loading_songs: "Songs konnten nicht geladen werden.", mode_geral: "Allgemein", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Elektronisch", mode_rnb_soul: "R&B & Soul", mode_classica: "Klassik", url_copied: "URL Kopiert!" },
         "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_rnb_soul: "R&B e Soul", mode_classica: "Clássica", url_copied: "URL Copiada!" },
         "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_rnb_soul: "R&B & Soul", mode_classica: "Classical", url_copied: "URL Copied!" },
-        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_rnb_soul: "R&B y Soul", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
+        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botões Activados", replay_off: "Botões Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_rnb_soul: "R&B y Soul", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
         "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_rnb_soul: "R&B et Soul", mode_classica: "Classique", url_copied: "URL copiée !" }
     };
 
@@ -464,6 +464,7 @@
     let currentGameMode = 'geral';
     let currentVolume = 1.0;
     let revealTimeoutId = null;
+    let replayTimeoutId = null;
 
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioContext = new AudioContext();
@@ -563,6 +564,10 @@
         isRoundLoading = true;
 
         clearTimeout(revealTimeoutId);
+        if (replayTimeoutId) {
+            clearTimeout(replayTimeoutId);
+            replayTimeoutId = null;
+        }
 
         if (currentAudioSource && currentGainNode) {
             const fadeOutDuration = 0.4;
@@ -729,14 +734,18 @@
                 linkTitleRight.classList.add('active-link');
 
                 nextRoundButton.style.display = "block";
-                const winnerButton = side === 'left' ? replayLeftButton : replayRightButton;
-                if (!replayButtonsEnabled) {
-                    winnerButton.classList.add('visible', 'result-visible');
-                } else {
-                    winnerButton.classList.add('visible', 'result-visible');
-                    const loserButton = side === 'left' ? replayRightButton : replayLeftButton;
-                    loserButton.classList.remove('visible', 'result-visible');
-                }
+
+                replayTimeoutId = setTimeout(() => {
+                    const winnerButton = side === 'left' ? replayLeftButton : replayRightButton;
+                    if (!replayButtonsEnabled) {
+                        winnerButton.classList.add('visible', 'result-visible');
+                    } else {
+                        winnerButton.classList.add('visible', 'result-visible');
+                        const loserButton = side === 'left' ? replayRightButton : replayLeftButton;
+                        loserButton.classList.remove('visible', 'result-visible');
+                    }
+                }, 8500);
+
             }, 1500);
         }
     }
