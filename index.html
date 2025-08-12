@@ -208,9 +208,14 @@
             align-items: flex-end;
             padding-top: 2.1vh;
             padding-bottom: 1vh;
+            flex-shrink: 0;
         }
         .deezer-credit {
-            margin-top: 0; padding-top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5vh;
+            margin-top: 0;
+            padding-top: 0;
             font-size: 1.2vh;
             color: #888;
         }
@@ -656,7 +661,6 @@
                 approvalRight.style.opacity = 1;
             }
             
-            // Lógica de tempo corrigida
             const postVoteTimeout = setTimeout(() => {
                 const deezerBaseUrl = `https://www.deezer.com/${currentTexts.lang_code.split('-')[0]}/track/`;
                 linkTitleLeft.href = `${deezerBaseUrl}${currentSongs.left.id}`;
