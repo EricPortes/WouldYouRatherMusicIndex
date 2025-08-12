@@ -82,16 +82,11 @@
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
-        .replay-button.result-visible { bottom: -15vh; } /* Posição proporcional */
+        .replay-button.result-visible { bottom: -15vh; }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
 
-        .switch-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.0vh 0;
-        }
+        .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.0vh 0; }
         .switch-container span {
             font-size: 1.7vh; color: #b3b3b3;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px;
@@ -220,7 +215,7 @@
             color: #888;
         }
         .deezer-credit img {
-            height: 2.5vh;
+            height: 2.8vh;
         }
         #share-button {
             position: relative; background: none; border: none; cursor: pointer;
@@ -228,8 +223,8 @@
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: 3.5vh;
-            height: 3.5vh;
+            width: 3.8vh;
+            height: 3.8vh;
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -678,7 +673,7 @@
                 
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 9200 - 1500);
+                }, 9200);
 
             }, 1500);
         }
