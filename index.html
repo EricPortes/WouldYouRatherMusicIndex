@@ -142,7 +142,7 @@
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             padding: 2.2vh 20px;
             color: white; display: flex; flex-direction: column;
-            overflow: hidden; /* SEM SCROLLBAR NO DESKTOP */
+            overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         .menu-section h2 {
@@ -656,6 +656,7 @@
                 approvalRight.style.opacity = 1;
             }
             
+            // Lógica de tempo corrigida
             const postVoteTimeout = setTimeout(() => {
                 const deezerBaseUrl = `https://www.deezer.com/${currentTexts.lang_code.split('-')[0]}/track/`;
                 linkTitleLeft.href = `${deezerBaseUrl}${currentSongs.left.id}`;
