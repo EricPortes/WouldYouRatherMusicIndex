@@ -145,28 +145,10 @@
             overflow: hidden; /* SEM SCROLLBAR NO DESKTOP */
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
-        .menu-section {
-            border-bottom: 1px solid #444;
-            padding-bottom: 1.5vh;
-            margin-bottom: 1.5vh;
-            flex-shrink: 0;
-        }
-        .menu-section:last-of-type {
-            border-bottom: none;
-            flex-grow: 1; /* Permite que a seção de opções cresça */
-            overflow-y: auto; /* Adiciona rolagem APENAS a esta seção se necessário */
-            scrollbar-width: thin; /* Estilo para Firefox */
-            scrollbar-color: #555 #181818;
-        }
-        .menu-section:last-of-type::-webkit-scrollbar { display: block; width: 8px; }
-        .menu-section:last-of-type::-webkit-scrollbar-track { background: #181818; }
-        .menu-section:last-of-type::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
-        
         .menu-section h2 {
-            margin-top: 0; margin-bottom: 1vh; font-size: 1.9vh; color: #fff;
+            margin-top: 2.1vh; margin-bottom: 1vh; font-size: 1.9vh; color: #fff; border-bottom: 1px solid #444; padding-bottom: 0.8vh;
         }
-        .menu-section:not(:first-child) h2 { border-top: 1px solid #444; padding-top: 1.5vh; }
-
+        .menu-section:first-child h2 { margin-top: 0; }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a {
             color: #b3b3b3; text-decoration: none; font-size: 1.7vh; padding: 1.2vh 10px;
@@ -212,7 +194,11 @@
             #side-menu {
                 overflow-y: auto;
                 width: 70%;
+                scrollbar-width: thin;
             }
+            #side-menu::-webkit-scrollbar { display: block; width: 8px; }
+            #side-menu::-webkit-scrollbar-track { background: #181818; }
+            #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
         }
 
         .bottom-menu-container {
@@ -222,7 +208,6 @@
             align-items: flex-end;
             padding-top: 2.1vh;
             padding-bottom: 1vh;
-            flex-shrink: 0;
         }
         .deezer-credit {
             margin-top: 0; padding-top: 0;
@@ -671,7 +656,6 @@
                 approvalRight.style.opacity = 1;
             }
             
-            // Lógica de tempo corrigida
             const postVoteTimeout = setTimeout(() => {
                 const deezerBaseUrl = `https://www.deezer.com/${currentTexts.lang_code.split('-')[0]}/track/`;
                 linkTitleLeft.href = `${deezerBaseUrl}${currentSongs.left.id}`;
