@@ -175,14 +175,12 @@
             .replay-button.result-visible {
                 bottom: -100px;
             }
-            /* --- LOGO DO DEEZER --- */
             .deezer-credit p {
                 font-size: 14px;
             }
             .deezer-credit img {
                 height: 20px;
             }
-            /* --- End --- */
         }
 
         #menu-toggle {
@@ -273,10 +271,9 @@
             cursor: pointer;
             padding: 0;
             margin-right: 25px;
-            color: white; /* Ensures the fill color is white */
+            color: white;
         }
         #share-button svg {
-            /* stroke: #ffffff; -- No longer needed for filled icon */
             transition: opacity 0.2s;
             width: 30px;
             height: 30px;
@@ -323,6 +320,7 @@
                 <li><a href="#" data-mode="rock">Rock</a></li>
                 <li><a href="#" data-mode="rap">Rap</a></li>
                 <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
+                <li><a href="#" data-mode="rnb_soul">R&B e Soul</a></li>
                 <li><a href="#" data-mode="classica">Clássica</a></li>
             </ul>
         </div>
@@ -416,10 +414,10 @@
 
     <script>
     const translations = {
-        "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_classica: "Clássica", url_copied: "URL Copiada!" },
-        "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_classica: "Classical", url_copied: "URL Copied!" },
-        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
-        "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_classica: "Classique", url_copied: "URL copiée !" }
+        "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_rnb_soul: "R&B e Soul", mode_classica: "Clássica", url_copied: "URL Copiada!" },
+        "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_rnb_soul: "R&B & Soul", mode_classica: "Classical", url_copied: "URL Copied!" },
+        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_rnb_soul: "R&B y Soul", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
+        "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_rnb_soul: "R&B et Soul", mode_classica: "Classique", url_copied: "URL copiée !" }
     };
 
     let currentTexts = {};
@@ -527,7 +525,7 @@
         updateReplayStatusText();
 
         shareButton.setAttribute('data-tooltip', currentTexts.url_copied);
-        shareButton.setAttribute('aria-label', currentTexts.url_copied); // Also good for accessibility
+        shareButton.setAttribute('aria-label', currentTexts.url_copied);
 
         document.querySelectorAll('#game-modes-list a').forEach(link => {
             const mode = link.dataset.mode;
@@ -890,4 +888,3 @@
     </script>
 </body>
 </html>
-
