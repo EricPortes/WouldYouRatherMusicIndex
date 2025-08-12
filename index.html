@@ -85,10 +85,11 @@
         .replay-button.result-visible { bottom: -130px; }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
-
+        
         .switch-container {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding: clamp(4px, 1vmin, 8px) 0;
         }
         .switch-container span {
@@ -96,7 +97,6 @@
             color: #b3b3b3;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             padding-right: 10px;
-            margin-right: auto;
         }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -147,37 +147,24 @@
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
-            padding: 20px;
+            padding: clamp(15px, 2.2vmin, 20px) 20px;
             color: white; display: flex; flex-direction: column;
             overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
-        .menu-section {
-            padding-bottom: 10px;
-        }
-        .menu-section:first-child {
-             border-bottom: 1px solid #444;
-             margin-bottom: 10px;
-        }
-        .menu-section:nth-child(2) {
-            flex-grow: 1; /* Permite que a seção de opções cresça */
-            overflow-y: auto; /* Adiciona rolagem APENAS a esta seção se necessário */
-            scrollbar-width: thin;
-        }
-        .menu-section:nth-child(2)::-webkit-scrollbar { display: block; width: 8px; }
-        .menu-section:nth-child(2)::-webkit-scrollbar-track { background: #181818; }
-        .menu-section:nth-child(2)::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
         .menu-section h2 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 18px;
-            color: #fff;
+            margin-top: clamp(15px, 2.1vmin, 20px);
+            margin-bottom: clamp(8px, 1vmin, 10px);
+            font-size: clamp(16px, 1.9vmin, 18px);
+            color: #fff; border-bottom: 1px solid #444;
+            padding-bottom: clamp(6px, 0.8vmin, 8px);
         }
+        .menu-section:first-child h2 { margin-top: 0; }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a {
             color: #b3b3b3; text-decoration: none;
-            font-size: 16px;
-            padding: 12px 10px;
+            font-size: clamp(14px, 1.7vmin, 16px);
+            padding: clamp(10px, 1.2vmin, 12px) 10px;
             display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px;
         }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
@@ -188,14 +175,14 @@
         .menu-title-container { display: flex; align-items: center; }
         #menu-title-replay, #menu-title-volume, #menu-title-language {
             color:#b3b3b3;
-            font-size: 14px;
-            margin-top: 15px;
+            font-size: clamp(13px, 1.4vmin, 14px);
+            margin-top: clamp(12px, 1.5vmin, 15px);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .info-popup {
-            position: relative; display: inline-block; width: 15px; height: 15px;
+            position: relative; display: inline-block; width: clamp(12px, 1.5vmin, 15px); height: clamp(12px, 1.5vmin, 15px);
             border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3;
-            font-size: 11px; font-weight: bold; line-height: 15px;
+            font-size: clamp(9px, 1.1vmin, 11px); font-weight: bold; line-height: clamp(12px, 1.5vmin, 15px);
             text-align: center; cursor: pointer; margin-left: 8px;
         }
         .info-popup::after {
@@ -209,15 +196,25 @@
         .volume-control {
             display: flex;
             align-items: center;
-            padding: 10px 0;
+            padding: clamp(8px, 1.0vmin, 10px) 0;
         }
         .volume-slider-container {
              flex-grow: 1;
              margin: 0 10px;
         }
-        .volume-icon { margin-right: 5px; font-size: 20px; }
-        .volume-value { font-size: 16px; min-width: 25px; text-align: right; }
+        .volume-icon { margin-right: 5px; font-size: clamp(18px, 2.1vmin, 20px); }
+        .volume-value { font-size: clamp(14px, 1.7vmin, 16px); min-width: 25px; text-align: right; }
 
+        @media (max-width: 1024px) {
+            #side-menu {
+                overflow-y: auto;
+                scrollbar-width: thin;
+            }
+            #side-menu::-webkit-scrollbar { display: block; width: 8px; }
+            #side-menu::-webkit-scrollbar-track { background: #181818; }
+            #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
+        }
+        
         @media (max-width: 768px) {
             #side-menu { width: 70%; }
         }
@@ -227,16 +224,16 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding-top: 15px;
+            padding-top: clamp(15px, 2.1vmin, 20px);
             flex-shrink: 0;
         }
         .deezer-credit {
             margin-top: 0; padding-top: 0;
-            font-size: 12px;
+            font-size: clamp(11px, 1.2vmin, 12px);
             color: #888;
         }
         .deezer-credit img {
-            height: 22px;
+            height: clamp(20px, 2.1vmin, 24px);
         }
         #share-button {
             position: relative; background: none; border: none; cursor: pointer;
@@ -244,8 +241,8 @@
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: 30px;
-            height: 30px;
+            width: clamp(28px, 3.2vmin, 32px);
+            height: clamp(28px, 3.2vmin, 32px);
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -694,7 +691,7 @@
                 
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 9200);
+                }, 7700);
 
             }, 1500);
         }
