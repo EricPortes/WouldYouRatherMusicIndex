@@ -82,20 +82,17 @@
         }
         .replay-button.visible { opacity: 0.7; visibility: visible; }
         .replay-button:not(.cooldown):hover { opacity: 1; }
-        .replay-button.result-visible {
-            bottom: -130px;
-            margin-top: auto; /* Garante posicionamento mais estável */
-        }
+        .replay-button.result-visible { bottom: -130px; }
         .replay-button svg path { stroke: #FFFFFF; }
         .replay-button.cooldown { opacity: 0.3; cursor: not-allowed; }
 
         .switch-container {
             display: flex;
             align-items: center;
-            padding: clamp(4px, 1vh, 8px) 0;
+            padding: clamp(4px, 1vmin, 8px) 0;
         }
         .switch-container span {
-            font-size: clamp(14px, 1.7vh, 16px);
+            font-size: clamp(14px, 1.7vmin, 16px);
             color: #b3b3b3;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             padding-right: 10px;
@@ -150,24 +147,37 @@
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
-            padding: clamp(15px, 2.2vh, 20px) 20px;
+            padding: 20px;
             color: white; display: flex; flex-direction: column;
             overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
-        .menu-section h2 {
-            margin-top: clamp(15px, 2.1vh, 20px);
-            margin-bottom: clamp(8px, 1vh, 10px);
-            font-size: clamp(16px, 1.9vh, 18px);
-            color: #fff; border-bottom: 1px solid #444;
-            padding-bottom: clamp(6px, 0.8vh, 8px);
+        .menu-section {
+            padding-bottom: 10px;
         }
-        .menu-section:first-child h2 { margin-top: 0; }
+        .menu-section:first-child {
+             border-bottom: 1px solid #444;
+             margin-bottom: 10px;
+        }
+        .menu-section:nth-child(2) {
+            flex-grow: 1; /* Permite que a seção de opções cresça */
+            overflow-y: auto; /* Adiciona rolagem APENAS a esta seção se necessário */
+            scrollbar-width: thin;
+        }
+        .menu-section:nth-child(2)::-webkit-scrollbar { display: block; width: 8px; }
+        .menu-section:nth-child(2)::-webkit-scrollbar-track { background: #181818; }
+        .menu-section:nth-child(2)::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
+        .menu-section h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
         #side-menu ul { list-style: none; padding: 0; margin: 0;}
         #side-menu ul li a {
             color: #b3b3b3; text-decoration: none;
-            font-size: clamp(14px, 1.7vh, 16px);
-            padding: clamp(10px, 1.2vh, 12px) 10px;
+            font-size: 16px;
+            padding: 12px 10px;
             display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px;
         }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
@@ -178,20 +188,20 @@
         .menu-title-container { display: flex; align-items: center; }
         #menu-title-replay, #menu-title-volume, #menu-title-language {
             color:#b3b3b3;
-            font-size: clamp(13px, 1.4vh, 14px);
-            margin-top: clamp(12px, 1.5vh, 15px);
+            font-size: 14px;
+            margin-top: 15px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .info-popup {
-            position: relative; display: inline-block; width: 1.5vh; height: 1.5vh;
+            position: relative; display: inline-block; width: 15px; height: 15px;
             border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3;
-            font-size: 1.1vh; font-weight: bold; line-height: 1.5vh;
+            font-size: 11px; font-weight: bold; line-height: 15px;
             text-align: center; cursor: pointer; margin-left: 8px;
         }
         .info-popup::after {
             content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%;
             transform: translateX(-50%); background-color: #333; color: #fff;
-            padding: 5px 10px; border-radius: 5px; font-size: 1.5vh;
+            padding: 5px 10px; border-radius: 5px; font-size: 14px;
             white-space: nowrap; opacity: 0; visibility: hidden;
             transition: opacity 0.2s, visibility 0.2s;
         }
@@ -199,24 +209,17 @@
         .volume-control {
             display: flex;
             align-items: center;
-            padding: clamp(8px, 1.0vh, 10px) 0;
+            padding: 10px 0;
         }
         .volume-slider-container {
              flex-grow: 1;
              margin: 0 10px;
         }
-        .volume-icon { margin-right: 5px; font-size: clamp(18px, 2.1vh, 20px); }
-        .volume-value { font-size: clamp(14px, 1.7vh, 16px); min-width: 25px; text-align: right; }
+        .volume-icon { margin-right: 5px; font-size: 20px; }
+        .volume-value { font-size: 16px; min-width: 25px; text-align: right; }
 
         @media (max-width: 768px) {
-            #side-menu {
-                overflow-y: auto;
-                width: 70%;
-                scrollbar-width: thin;
-            }
-            #side-menu::-webkit-scrollbar { display: block; width: 8px; }
-            #side-menu::-webkit-scrollbar-track { background: #181818; }
-            #side-menu::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
+            #side-menu { width: 70%; }
         }
 
         .bottom-menu-container {
@@ -224,17 +227,16 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding-top: clamp(15px, 2.1vh, 20px);
-            padding-bottom: clamp(8px, 1vh, 10px);
-            flex-shrink: 0; /* CORREÇÃO: Impede que esta área seja espremida */
+            padding-top: 15px;
+            flex-shrink: 0;
         }
         .deezer-credit {
             margin-top: 0; padding-top: 0;
-            font-size: clamp(11px, 1.2vh, 12px);
+            font-size: 12px;
             color: #888;
         }
         .deezer-credit img {
-            height: clamp(18px, 2.1vh, 22px);
+            height: 22px;
         }
         #share-button {
             position: relative; background: none; border: none; cursor: pointer;
@@ -242,8 +244,8 @@
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: clamp(26px, 3.2vh, 30px);
-            height: clamp(26px, 3.2vh, 30px);
+            width: 30px;
+            height: 30px;
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -371,7 +373,7 @@
         "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_rnb_soul: "R&B e Soul", mode_classica: "Clássica", url_copied: "URL Copiada!" },
         "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_rnb_soul: "R&B & Soul", mode_classica: "Classical", url_copied: "URL Copied!" },
         "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_rnb_soul: "R&B y Soul", mode_classica: "Clásica", url_copied: "¡URL copiada!" },
-        "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivados", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_rnb_soul: "R&B et Soul", mode_classica: "Classique", url_copied: "URL copiée !" }
+        "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_rnb_soul: "R&B et Soul", mode_classica: "Classique", url_copied: "URL copiée !" }
     };
 
     let currentTexts = {};
@@ -690,10 +692,9 @@
                     loserButton.classList.remove('visible', 'result-visible');
                 }
                 
-                // CORREÇÃO: O tempo agora é contado a partir deste ponto para sincronia perfeita
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 7700); // 9200ms (total) - 1500ms (deste timeout) = 7700ms
+                }, 9200);
 
             }, 1500);
         }
