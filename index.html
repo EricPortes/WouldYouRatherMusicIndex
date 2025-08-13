@@ -88,7 +88,7 @@
 
         .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 1.0vh 0; }
         .switch-container span {
-            font-size: 1.7vh; color: #b3b3b3;
+            font-size: 16px; color: #b3b3b3;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px;
         }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
@@ -127,7 +127,7 @@
         }
 
         #menu-toggle {
-            position: absolute; top: 2.2vh; left: 20px; z-index: 1001; cursor: pointer;
+            position: absolute; top: 20px; left: 20px; z-index: 1001; cursor: pointer;
             background: none; border: none; padding: 10px;
             transition: opacity 0.3s;
         }
@@ -140,17 +140,24 @@
         #side-menu {
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
-            padding: 20px;
             color: white; display: flex; flex-direction: column;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+        
+        /* ALTERAÇÃO ESTRUTURAL: Container para o conteúdo principal do menu */
+        .menu-main-content {
+            flex-grow: 1; /* Faz esta área ocupar o espaço vertical disponível, empurrando o rodapé para baixo */
+            padding: 20px 20px 0 20px; /* Adiciona padding, garantindo alinhamento com o rodapé */
+            min-height: 0; /* Prevenção de bugs de overflow em flex-box */
+        }
+        
         .menu-section h2 {
-            margin-top: 2.1vh; margin-bottom: 1vh; font-size: 1.9vh; color: #fff; border-bottom: 1px solid #444; padding-bottom: 0.8vh;
+            margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;
         }
         .menu-section:first-child h2 { margin-top: 0; }
-        #side-menu ul { list-style: none; padding: 0; margin: 0;}
+        #side-menu ul { list-style: none; padding: 0; margin: 0; }
         #side-menu ul li a {
-            color: #b3b3b3; text-decoration: none; font-size: 1.7vh; padding: 1.2vh 10px;
+            color: #b3b3b3; text-decoration: none; font-size: 16px; padding: 10px;
             display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px;
         }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
@@ -160,19 +167,19 @@
 
         .menu-title-container { display: flex; align-items: center; }
         #menu-title-replay, #menu-title-volume, #menu-title-language {
-            color:#b3b3b3; font-size: 1.4vh; margin-top: 1.5vh;
+            color:#b3b3b3; font-size: 15px; margin-top: 15px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .info-popup {
-            position: relative; display: inline-block; width: 1.5vh; height: 1.5vh;
+            position: relative; display: inline-block; width: 15px; height: 15px;
             border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3;
-            font-size: 1.1vh; font-weight: bold; line-height: 1.5vh;
+            font-size: 11px; font-weight: bold; line-height: 15px;
             text-align: center; cursor: pointer; margin-left: 8px;
         }
         .info-popup::after {
             content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%;
             transform: translateX(-50%); background-color: #333; color: #fff;
-            padding: 5px 10px; border-radius: 5px; font-size: 1.5vh;
+            padding: 5px 10px; border-radius: 5px; font-size: 15px;
             white-space: nowrap; opacity: 0; visibility: hidden;
             transition: opacity 0.2s, visibility 0.2s;
         }
@@ -180,14 +187,14 @@
         .volume-control {
             display: flex;
             align-items: center;
-            padding: 1.0vh 0;
+            padding: 10px 0;
         }
         .volume-slider-container {
              flex-grow: 1;
              margin: 0 10px;
         }
-        .volume-icon { margin-right: 5px; font-size: 2.1vh; }
-        .volume-value { font-size: 1.7vh; min-width: 25px; text-align: right; }
+        .volume-icon { margin-right: 5px; font-size: 20px; }
+        .volume-value { font-size: 16px; min-width: 25px; text-align: right; }
 
         @media (max-width: 768px) {
             #side-menu {
@@ -197,6 +204,9 @@
         
         /* ALTERAÇÃO: Layout condicional para telas com altura reduzida */
         @media (max-height: 780px) {
+            .menu-main-content {
+                padding-top: 15px; /* Reduz padding em telas baixas */
+            }
             /* Centraliza os títulos */
             .menu-section h2, 
             #menu-title-volume, 
@@ -204,7 +214,7 @@
             #menu-title-language {
                 text-align: center;
             }
-            /* Organiza as listas de modo e idioma em colunas que quebram linha */
+            /* Organiza as listas de modo e idioma em 2 colunas */
             #game-modes-list, #lang-switcher {
                 display: flex;
                 flex-wrap: wrap;
@@ -212,35 +222,41 @@
                 gap: 5px;
             }
             #game-modes-list li, #lang-switcher li {
-                flex: 1 1 auto; /* Permite que os botões cresçam e ocupem espaço */
+                flex: 1 1 calc(50% - 10px); /* Força 2 itens por linha */
                 text-align: center;
+            }
+            #game-modes-list li a, #lang-switcher li a {
+                padding: 8px; /* Reduz padding dos botões */
             }
             /* Força o botão "Geral" a ocupar a linha inteira */
             #game-modes-list li:first-child {
                 flex-basis: 100%;
             }
+            /* Diminui o switch box */
+            .switch-container .switch {
+                transform: scale(0.9);
+            }
         }
 
         .bottom-menu-container {
-            margin-top: auto;
+            flex-shrink: 0; /* Impede que o rodapé encolha */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 2.1vh;
-            padding-bottom: 10px; /* Alterado: Respiro fixo e sutil na borda inferior */
-            flex-shrink: 0;
+            padding: 15px 20px; /* Garante alinhamento e respiro na borda inferior */
         }
         .deezer-credit {
             display: flex;
             flex-direction: column;
-            gap: 4px; /* Alterado: Espaço ajustado entre texto e logo */
+            gap: 3px; 
             color: #888;
         }
         .deezer-credit p {
             margin: 0;
+            font-size: 11px; /* Tamanho discreto e consistente */
         }
         .deezer-credit img {
-            height: 22px; /* Tamanho ajustado para equilíbrio */
+            height: 20px; /* Tamanho discreto e consistente */
             width: auto;
         }
         #share-button {
@@ -249,8 +265,8 @@
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: 32px; /* Alterado: Tamanho fixo e maior */
-            height: 32px; /* Alterado: Tamanho fixo e maior */
+            width: 28px; /* Tamanho moderado e consistente */
+            height: 28px;
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -271,49 +287,52 @@
     </button>
 
     <nav id="side-menu">
-        <div class="menu-section">
-            <h2 id="menu-title-mode">Modo de Jogo</h2>
-            <ul id="game-modes-list">
-                <li><a href="#" data-mode="geral">Geral</a></li>
-                <li><a href="#" data-mode="pop">Pop</a></li>
-                <li><a href="#" data-mode="rock">Rock</a></li>
-                <li><a href="#" data-mode="rap">Rap</a></li>
-                <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
-                <li><a href="#" data-mode="rnb_soul">R&B e Soul</a></li>
-                <li><a href="#" data-mode="classica">Clássica</a></li>
-            </ul>
-        </div>
-        <div class="menu-section">
-            <h2 id="menu-title-options">Opções</h2>
-            <h3 id="menu-title-volume">Volume</h3>
-            <div class="volume-control">
-                <span class="volume-icon">🔊</span>
-                <div class="volume-slider-container">
-                    <input type="range" min="0" max="100" value="100" id="volume-slider">
+        <div class="menu-main-content">
+            <div class="menu-section">
+                <h2 id="menu-title-mode">Modo de Jogo</h2>
+                <ul id="game-modes-list">
+                    <li><a href="#" data-mode="geral">Geral</a></li>
+                    <li><a href="#" data-mode="pop">Pop</a></li>
+                    <li><a href="#" data-mode="rock">Rock</a></li>
+                    <li><a href="#" data-mode="rap">Rap</a></li>
+                    <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
+                    <li><a href="#" data-mode="rnb_soul">R&B e Soul</a></li>
+                    <li><a href="#" data-mode="classica">Clássica</a></li>
+                </ul>
+            </div>
+            <div class="menu-section">
+                <h2 id="menu-title-options">Opções</h2>
+                <h3 id="menu-title-volume">Volume</h3>
+                <div class="volume-control">
+                    <span class="volume-icon">🔊</span>
+                    <div class="volume-slider-container">
+                        <input type="range" min="0" max="100" value="100" id="volume-slider">
+                    </div>
+                    <span class="volume-value" id="volume-value-display">100</span>
                 </div>
-                <span class="volume-value" id="volume-value-display">100</span>
-            </div>
 
-            <div class="menu-title-container">
-                <h3 id="menu-title-replay"></h3>
-                <span class="info-popup" id="replay-info" tabindex="0">?</span>
-            </div>
-            <div class="switch-container">
-                <span id="replay-status-text"></span>
-                <label class="switch">
-                    <input type="checkbox" id="replay-toggle">
-                    <span class="slider round"></span>
-                </label>
-            </div>
+                <div class="menu-title-container">
+                    <h3 id="menu-title-replay"></h3>
+                    <span class="info-popup" id="replay-info" tabindex="0">?</span>
+                </div>
+                <div class="switch-container">
+                    <span id="replay-status-text"></span>
+                    <label class="switch">
+                        <input type="checkbox" id="replay-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
 
-            <h3 id="menu-title-language">Idioma</h3>
-            <ul id="lang-switcher">
-                <li><a href="#" data-lang="de">Deutsch</a></li>
-                <li><a href="#" data-lang="en">English</a></li>
-                <li><a href="#" data-lang="es">Español</a></li>
-                <li><a href="#" data-lang="fr">Français</a></li>
-                <li><a href="#" data-lang="pt">Português</a></li>
-                <li><a href="#" data-lang="tr">Türkçe</a></li> </ul>
+                <h3 id="menu-title-language">Idioma</h3>
+                <ul id="lang-switcher">
+                    <li><a href="#" data-lang="de">Deutsch</a></li>
+                    <li><a href="#" data-lang="en">English</a></li>
+                    <li><a href="#" data-lang="es">Español</a></li>
+                    <li><a href="#" data-lang="fr">Français</a></li>
+                    <li><a href="#" data-lang="pt">Português</a></li>
+                    <li><a href="#" data-lang="tr">Türkçe</a></li>
+                </ul>
+            </div>
         </div>
         
         <div class="bottom-menu-container">
@@ -377,7 +396,7 @@
         "de": { menu_replay_title: "Wiedergabe während der Auswahl", replay_info: "10 Sekunden", replay_on: "Buttons Aktiviert", replay_off: "Buttons Deaktiviert", menu_mode: "Spielmodus", menu_options: "Optionen", menu_volume: "Lautstärke", menu_language: "Sprache", lang_code: "de", start_game: "▶ Spiel Starten", next_round: "Nächste Runde", approval_of: "Zustimmung von", vs: "VS", approval_error: "Zustimmung: Später erneut versuchen", error_loading_songs: "Songs konnten nicht geladen werden.", mode_geral: "Allgemein", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Elektronisch", mode_rnb_soul: "R&B & Soul", mode_classica: "Klassik", url_copied: "URL Kopiert!", share_dialog_text: "Schau dir dieses Spiel an!", share_error_copy: "URL konnte nicht kopiert werden.", share_aria_label: "Dieses Spiel teilen" },
         "pt": { menu_replay_title: "Replay Durante a Escolha", replay_info: "10 Segundos", replay_on: "Botões Ativados", replay_off: "Botões Desativados", menu_mode: "Modo de Jogo", menu_options: "Opções", menu_volume: "Volume", menu_language: "Idioma", lang_code: "pt-br", start_game: "▶ Iniciar Jogo", next_round: "Próxima Rodada", approval_of: "Aprovação de", vs: "VS", approval_error: "Aprovação: Tente Novamente", error_loading_songs: "Não foi possível carregar as músicas.", mode_geral: "Geral", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Eletrônica", mode_rnb_soul: "R&B e Soul", mode_classica: "Clássica", url_copied: "URL Copiada!", share_dialog_text: "Confira este jogo!", share_error_copy: "Falha ao copiar URL.", share_aria_label: "Compartilhar este jogo" },
         "en": { menu_replay_title: "Replay During Choice", replay_info: "10 Seconds", replay_on: "Buttons Enabled", replay_off: "Buttons Disabled", menu_mode: "Game Mode", menu_options: "Options", menu_volume: "Volume", menu_language: "Language", lang_code: "en", start_game: "▶ Start Game", next_round: "Next Round", approval_of: "Approval Rating", vs: "VS", approval_error: "Approval: Try Again Later", error_loading_songs: "Couldn't load songs.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electronic", mode_rnb_soul: "R&B & Soul", mode_classica: "Classical", url_copied: "URL Copied!", share_dialog_text: "Check out this game!", share_error_copy: "Failed to copy URL.", share_aria_label: "Share this game" },
-        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desactivados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_rnb_soul: "R&B y Soul", mode_classica: "Clásica", url_copied: "¡URL copiada!", share_dialog_text: "¡Mira este juego!", share_error_copy: "Error al copiar URL.", share_aria_label: "Compartir este juego" },
+        "es": { menu_replay_title: "Replay en la Elección", replay_info: "10 Segundos", replay_on: "Botones Activados", replay_off: "Botones Desativados", menu_mode: "Modo de Juego", menu_options: "Opciones", menu_volume: "Volumen", menu_language: "Idioma", lang_code: "es", start_game: "▶ Iniciar Juego", next_round: "Siguiente Ronda", approval_of: "Índice de Aprobación", vs: "VS", approval_error: "Aprobación: Inténtalo más tarde", error_loading_songs: "No se pudieron cargar las canciones.", mode_geral: "General", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Electrónica", mode_rnb_soul: "R&B y Soul", mode_classica: "Clásica", url_copied: "¡URL copiada!", share_dialog_text: "¡Mira este juego!", share_error_copy: "Error al copiar URL.", share_aria_label: "Compartir este jogo" },
         "fr": { menu_replay_title: "Replay au Choix", replay_info: "10 Secondes", replay_on: "Boutons Activés", replay_off: "Boutons Désactivés", menu_mode: "Mode de jeu", menu_options: "Options", menu_volume: "Volume", menu_language: "Langue", lang_code: "fr", start_game: "▶ Démarrer le jeu", next_round: "Tour suivant", approval_of: "Taux d'approbation", vs: "VS", approval_error: "Approbation : Réessayez plus tard", error_loading_songs: "Impossible de charger les chansons.", mode_geral: "Général", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Électronique", mode_rnb_soul: "R&B et Soul", mode_classica: "Classique", url_copied: "URL copiée !", share_dialog_text: "Découvrez ce jeu !", share_error_copy: "Échec de la copie de l'URL.", share_aria_label: "Partager ce jeu" },
         "tr": { menu_replay_title: "Seçim Sırasında Tekrar Oynat", replay_info: "10 Saniye", replay_on: "Butonlar Etkin", replay_off: "Butonlar Devre Dışı", menu_mode: "Oyun Modu", menu_options: "Seçenekler", menu_volume: "Ses Seviyesi", menu_language: "Dil", lang_code: "tr", start_game: "▶ Oyunu Başlat", next_round: "Sonraki Tur", approval_of: "Onay Oranı", vs: "VS", approval_error: "Onay: Daha Sonra Tekrar Dene", error_loading_songs: "Şarkılar yüklenemedi.", mode_geral: "Genel", mode_pop: "Pop", mode_rock: "Rock", mode_rap: "Rap", mode_eletronica: "Elektronik", mode_rnb_soul: "R&B & Soul", mode_classica: "Klasik", url_copied: "URL Kopyalandı!", share_dialog_text: "Bu oyuna göz at!", share_error_copy: "URL kopyalanamadı.", share_aria_label: "Bu oyunu paylaş" }
     };
@@ -700,7 +719,7 @@
                 
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 8000); /* Alteração: De 8500 para 8000 */
+                }, 8000); 
 
             }, 1500);
         }
@@ -829,7 +848,7 @@
         shareButton.addEventListener('click', async () => {
             const shareData = {
                 title: 'Would You Rather? Music',
-                text: currentTexts.share_dialog_text, /* Alterado: Usa tradução */
+                text: currentTexts.share_dialog_text, 
                 url: window.location.origin
             };
             if (navigator.share) {
@@ -847,7 +866,7 @@
                     }, 2000);
                 } catch (err) {
                     console.error('Falha ao copiar URL:', err);
-                    alert(currentTexts.share_error_copy); /* Alterado: Usa tradução */
+                    alert(currentTexts.share_error_copy);
                 }
             }
         });
