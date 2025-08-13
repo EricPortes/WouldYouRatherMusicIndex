@@ -211,6 +211,8 @@
             flex-shrink: 0;
         }
         .deezer-credit {
+            position: relative; /* ALTERAÇÃO 1: Adicionado */
+            bottom: 5px;       /* ALTERAÇÃO 1: Adicionado */
             display: flex;
             flex-direction: column;
             gap: 0.5vh;
@@ -228,8 +230,8 @@
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: 3.8vh;
-            height: 3.8vh;
+            width: 4.8vh;  /* ALTERAÇÃO 2: Aumentado de 3.8vh */
+            height: 4.8vh; /* ALTERAÇÃO 2: Aumentado de 3.8vh */
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -678,7 +680,7 @@
                 
                 replayButtonTimeoutId = setTimeout(() => {
                     winnerButton.classList.add('visible', 'result-visible');
-                }, 8500);
+                }, 8000);
 
             }, 1500);
         }
@@ -829,8 +831,13 @@
                 }
             }
         });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                toggleMenu();
+            }
+        });
     });
     </script>
 </body>
 </html>
-
