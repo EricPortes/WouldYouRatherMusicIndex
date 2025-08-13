@@ -151,7 +151,8 @@
         .menu-main-content {
             grid-area: main;
             padding: 20px 20px 0 20px;
-            overflow-y: auto;
+            overflow-y: auto; /* Barra de rolagem SÓ APARECE se o conteúdo for maior que a área */
+            overflow-x: hidden; /* Garante que JAMAIS haverá rolagem horizontal */
         }
 
         /* ADIÇÃO: ESTILO DA BARRA DE ROLAGEM DE EMERGÊNCIA */
@@ -236,16 +237,30 @@
             }
         }
 
-        /* ESTÁGIO 3: Encolhimento do conteúdo */
+        /* ESTÁGIO 3: Encolhimento progressivo em 5 passos */
         @media (max-height: 720px) {
-            .menu-main-content {
-                padding-top: 15px;
-            }
-            #side-menu ul li a { padding: 8px; font-size: 15px; }
-            .menu-section h2 { font-size: 17px; margin-top: 15px; }
-            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; }
-            .switch-container .switch { transform: scale(0.9); transform-origin: center; }
+            #side-menu ul li a { padding: 9px; font-size: 15px; }
+            .menu-section h2 { font-size: 17px; }
         }
+        @media (max-height: 680px) {
+            #side-menu ul li a { padding: 8px; }
+            .switch-container .switch { transform: scale(0.95); }
+        }
+        @media (max-height: 640px) {
+            #side-menu ul li a { padding: 7px; font-size: 14px; }
+            .menu-section h2 { font-size: 16px; margin-top: 15px; }
+            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; }
+        }
+        @media (max-height: 600px) {
+            #side-menu ul li a { padding: 6px; }
+            .switch-container { padding: 8px 0; }
+        }
+        @media (max-height: 560px) {
+            #side-menu ul li a { padding: 5px; font-size: 13px; }
+            .menu-section h2 { margin-top: 12px; margin-bottom: 8px; font-size: 15px; }
+            .switch-container .switch { transform: scale(0.9); }
+        }
+
 
         .bottom-menu-container {
             grid-area: footer;
@@ -255,7 +270,7 @@
             align-items: center;
             padding: 15px 20px;
             border-top: 1px solid #282828;
-            background-color: #181818; /* Garante que não fique transparente */
+            background-color: #181818;
         }
         .deezer-credit {
             display: flex;
