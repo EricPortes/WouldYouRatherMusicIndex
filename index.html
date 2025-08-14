@@ -140,17 +140,17 @@
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             color: white; 
+            /* ALTERADO: Removido o display: grid para usar position: absolute no rodapé */
             overflow: hidden;
-            position: relative; /* <- ALTERAÇÃO AQUI */
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         
         .menu-main-content {
-            padding: 20px 20px 0 20px;
+            /* ALTERADO: padding-bottom para criar espaço para o rodapé flutuante */
+            padding: 20px 20px 90px 20px;
             overflow-y: auto;
             overflow-x: hidden;
-            height: 100%; /* <- ALTERAÇÃO AQUI */
-            padding-bottom: 100px; /* <- ALTERAÇÃO AQUI: Espaço para o rodapé não cobrir o último item */
+            height: 100%;
         }
 
         .menu-main-content::-webkit-scrollbar { width: 8px; }
@@ -255,35 +255,29 @@
         }
 
         .bottom-menu-container {
-            position: absolute; /* <- ALTERAÇÃO AQUI */
-            bottom: 0; /* <- ALTERAÇÃO AQUI */
-            left: 0; /* <- ALTERAÇÃO AQUI */
-            width: 100%; /* <- ALTERAÇÃO AQUI */
+            position: absolute; /* ALTERADO */
+            bottom: 0; /* ALTERADO */
+            left: 0; /* ALTERADO */
+            width: 100%; /* ALTERADO */
+            flex-shrink: 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end; /* ALTERADO para alinhar pela base */
             padding: 15px 20px;
-            /* ALTERAÇÃO AQUI: Gradiente para o efeito de transparência no topo */
-            background: linear-gradient(to top, #181818 60%, transparent); 
-            pointer-events: none; /* Permite cliques "através" da área transparente */
+            background: transparent; /* ALTERADO */
         }
-        .deezer-credit, #share-button {
-            pointer-events: auto; /* Reativa os eventos de clique para os elementos do rodapé */
-        }
-
         .deezer-credit {
             display: flex;
             flex-direction: column;
             gap: 4px; 
             color: #888;
-            transform: translateY(4px); /* <- ALTERAÇÃO AQUI */
         }
         .deezer-credit p {
             margin: 0;
             font-size: 11px;
         }
         .deezer-credit img {
-            height: 26px; 
+            height: 26px;
             width: auto;
         }
         #share-button {
@@ -292,8 +286,8 @@
         }
         #share-button svg {
             transition: opacity 0.2s;
-            width: 40px; /* <- ALTERAÇÃO AQUI */
-            height: 40px; /* <- ALTERAÇÃO AQUI */
+            width: 44px; /* ALTERADO */
+            height: 44px; /* ALTERADO */
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
