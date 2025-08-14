@@ -158,55 +158,27 @@
         .menu-main-content::-webkit-scrollbar-track { background: #181818; }
         .menu-main-content::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
         
-        .menu-section h2 {
-            margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;
-        }
+        /* ESTÁGIO 1: Layout Padrão para Telas Altas */
+        .menu-section h2 { margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px; }
         .menu-section:first-child h2 { margin-top: 0; }
         #side-menu ul { list-style: none; padding: 0; margin: 0; }
-        #side-menu ul li a {
-            color: #b3b3b3; text-decoration: none; font-size: 16px; padding: 10px;
-            display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px;
-        }
+        #side-menu ul li a { color: #b3b3b3; text-decoration: none; font-size: 16px; padding: 10px; display: block; transition: color 0.2s, background-color 0.2s; border-radius: 5px; }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
         #side-menu ul li a.selected { color: white; font-weight: bold; background-color: #333; }
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
-
         .menu-title-container { display: flex; align-items: center; }
-        #menu-title-replay, #menu-title-volume, #menu-title-language {
-            color:#b3b3b3; font-size: 15px; margin-top: 15px;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .info-popup {
-            position: relative; display: inline-block; width: 15px; height: 15px;
-            border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3;
-            font-size: 11px; font-weight: bold; line-height: 15px;
-            text-align: center; cursor: pointer; margin-left: 8px;
-        }
-        .info-popup::after {
-            content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%;
-            transform: translateX(-50%); background-color: #333; color: #fff;
-            padding: 5px 10px; border-radius: 5px; font-size: 15px;
-            white-space: nowrap; opacity: 0; visibility: hidden;
-            transition: opacity 0.2s, visibility 0.2s;
-        }
+        #menu-title-replay, #menu-title-volume, #menu-title-language { color:#b3b3b3; font-size: 15px; margin-top: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .info-popup { position: relative; display: inline-block; width: 15px; height: 15px; border: 1.5px solid #b3b3b3; border-radius: 50%; color: #b3b3b3; font-size: 11px; font-weight: bold; line-height: 15px; text-align: center; cursor: pointer; margin-left: 8px; }
+        .info-popup::after { content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background-color: #333; color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 15px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; }
         .info-popup:hover::after, .info-popup:focus::after { opacity: 1; visibility: visible; }
-        .volume-control {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-        }
-        .volume-slider-container {
-             flex-grow: 1;
-             margin: 0 10px;
-        }
+        .volume-control { display: flex; align-items: center; padding: 10px 0; }
+        .volume-slider-container { flex-grow: 1; margin: 0 10px; }
         .volume-icon { margin-right: 5px; font-size: 20px; }
         .volume-value { font-size: 16px; min-width: 25px; text-align: right; }
 
         @media (max-width: 768px) {
-            #side-menu {
-                width: 70%;
-            }
+            #side-menu { width: 70%; }
         }
         
         /* ESTÁGIO 2: Reorganização para 2 colunas */
@@ -233,26 +205,27 @@
             }
         }
 
-        /* ESTÁGIO 3: Encolhimento progressivo em 5 passos */
+        /* ESTÁGIO 3: Encolhimento progressivo (mais agressivo) */
         @media (max-height: 750px) {
-            #side-menu ul li a { padding: 9px; font-size: 15px; }
+            #side-menu ul li a { padding: 8px; font-size: 15px; }
             .menu-section h2 { font-size: 17px; }
         }
-        @media (max-height: 700px) {
-            #side-menu ul li a { padding: 8px; }
+        @media (max-height: 680px) {
+            #side-menu ul li a { padding: 7px; }
+            .volume-control, .switch-container { padding: 8px 0; }
             .switch-container .switch { transform: scale(0.95); }
         }
-        @media (max-height: 660px) {
-            #side-menu ul li a { padding: 7px; font-size: 14px; }
+        @media (max-height: 640px) {
+            #side-menu ul li a { padding: 6px; font-size: 14px; }
             .menu-section h2 { font-size: 16px; margin-top: 15px; }
             #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; }
         }
-        @media (max-height: 620px) {
-            #side-menu ul li a { padding: 6px; }
-            .switch-container { padding: 8px 0; }
+        @media (max-height: 600px) {
+            #side-menu ul li a { padding: 5px; }
+            .volume-control, .switch-container { padding: 5px 0; }
         }
-        @media (max-height: 580px) {
-            #side-menu ul li a { padding: 5px; font-size: 13px; }
+        @media (max-height: 560px) {
+            #side-menu ul li a { padding: 4px; font-size: 13px; }
             .menu-section h2 { margin-top: 12px; margin-bottom: 8px; font-size: 15px; }
             .switch-container .switch { transform: scale(0.9); }
         }
@@ -265,37 +238,13 @@
             align-items: center;
             padding: 15px 20px;
         }
-        .deezer-credit {
-            display: flex;
-            flex-direction: column;
-            gap: 4px; 
-            color: #888;
-        }
-        .deezer-credit p {
-            margin: 0;
-            font-size: 11px;
-        }
-        .deezer-credit img {
-            height: 18px;
-            width: auto;
-        }
-        #share-button {
-            position: relative; background: none; border: none; cursor: pointer;
-            padding: 0; color: white;
-        }
-        #share-button svg {
-            transition: opacity 0.2s;
-            width: 28px;
-            height: 28px;
-        }
+        .deezer-credit { display: flex; flex-direction: column; gap: 3px; color: #888; }
+        .deezer-credit p { margin: 0; font-size: 10px; }
+        .deezer-credit img { height: 16px; width: auto; }
+        #share-button { position: relative; background: none; border: none; cursor: pointer; padding: 0; color: white; }
+        #share-button svg { transition: opacity 0.2s; width: 30px; height: 30px; }
         #share-button:hover { opacity: 0.7; }
-        #share-button::after {
-            content: attr(data-tooltip); position: absolute; bottom: 120%; left: 50%;
-            transform: translateX(-50%); background-color: #1DB954; color: white;
-            padding: 5px 10px; border-radius: 5px; font-size: 14px;
-            white-space: nowrap; opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
+        #share-button::after { content: attr(data-tooltip); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background-color: #1DB954; color: white; padding: 5px 10px; border-radius: 5px; font-size: 14px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         #share-button.show-tooltip::after { opacity: 1; visibility: visible; }
     </style>
 </head>
