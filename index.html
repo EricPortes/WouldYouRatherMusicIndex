@@ -238,19 +238,21 @@
             #side-menu ul li a { padding: 6px; font-size: 14px; }
             .menu-section h2 { font-size: 16px; margin-top: 15px; padding-bottom: 5px; }
             #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 10px; }
-            .bottom-menu-container { padding: 10px 15px; }
+            /* ALTERAÇÃO: Encolhimento do rodapé */
+            .bottom-menu-container { padding: 12px 15px; }
             .deezer-credit img { height: 22px; }
-            #share-button svg { width: 44px; height: 44px; }
+            #share-button { transform: scale(0.9); }
         }
 
         @media (max-height: 600px) {
             #side-menu ul li a { padding: 4px; font-size: 13px; }
             .menu-section h2 { font-size: 15px; margin-top: 12px; margin-bottom: 8px; }
             #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 13px; }
-            .bottom-menu-container { padding: 8px 12px; }
+             /* ALTERAÇÃO: Encolhimento do rodapé */
+            .bottom-menu-container { padding: 10px 12px; }
             .deezer-credit p { font-size: 10px; }
-            .deezer-credit img { height: 20px; }
-            #share-button svg { width: 40px; height: 40px; }
+            .deezer-credit img { height: 18px; }
+            #share-button { transform: scale(0.8); }
         }
 
         .bottom-menu-container {
@@ -258,7 +260,7 @@
             flex-shrink: 0;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end; /* Corrigido: Alinhamento pela base para estabilizar a posição */
+            align-items: flex-end; /* Garante alinhamento estável na base */
             padding: 15px 20px;
             transition: padding 0.2s ease-in-out;
         }
@@ -281,12 +283,15 @@
         #share-button {
             position: relative; background: none; border: none; cursor: pointer;
             padding: 0; color: white;
+            /* ALTERAÇÃO: Aumento proporcional com scale */
+            transform: scale(1.15); 
+            transform-origin: bottom right; /* Ponto de origem para o scale */
+            transition: transform 0.2s ease-in-out;
         }
         #share-button svg {
-            /* Corrigido: Tamanho aumentado e transição aplicada */
-            width: 52px; 
-            height: 52px;
-            transition: opacity 0.2s, width 0.2s ease-in-out, height 0.2s ease-in-out;
+            width: 44px; /* Tamanho base do SVG */
+            height: 44px;
+            transition: opacity 0.2s;
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
