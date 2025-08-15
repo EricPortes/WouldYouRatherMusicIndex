@@ -140,22 +140,28 @@
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             color: white; 
-            display: grid; /* Layout de Grid simples para um único container de conteúdo */
-            grid-template-rows: 1fr;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         
         .menu-main-content {
-            padding: 20px 20px; /* Adicionado padding inferior para dar respiro ao rodapé */
+            flex-grow: 1;
+            min-height: 0;
+            padding: 20px 20px 0 20px;
             overflow-y: auto;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .menu-main-content::-webkit-scrollbar { width: 8px; }
         .menu-main-content::-webkit-scrollbar-track { background: #181818; }
         .menu-main-content::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
         
+        .menu-section-wrapper {
+            flex-shrink: 0;
+        }
         .menu-section h2 {
             margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;
             transition: all 0.2s ease-in-out;
@@ -209,7 +215,15 @@
             }
         }
         
-        @media (max-height: 900px) {
+        /* ESTÁGIO 2: Mudança para 2 colunas */
+        @media (max-height: 840px) {
+            .menu-section h2, 
+            #menu-title-volume, 
+            #menu-title-language, 
+            .menu-title-container {
+                text-align: center;
+                justify-content: center;
+            }
             #game-modes-list, #lang-switcher {
                 display: flex;
                 flex-wrap: wrap;
@@ -224,29 +238,26 @@
                 flex-basis: 100%;
             }
         }
-        
-        /* LÓGICA DE ENCOLHIMENTO EM ESTÁGIOS */
-        @media (max-height: 780px) {
-            /* Estágio 1: Começa a encolher APENAS o rodapé */
+
+        /* ESTÁGIO 3: Encolhimento APENAS do rodapé */
+        @media (max-height: 720px) {
             .bottom-menu-container { padding: 12px 18px; margin-top: 15px; }
             .deezer-credit img { height: 24px; }
             #share-button svg { width: 36px; height: 36px; }
         }
 
-        @media (max-height: 720px) {
-            /* Estágio 2: Encolhe mais o rodapé, e AGORA começa a encolher o resto do menu */
+        /* ESTÁGIO 4: Encolhimento do RESTO do menu */
+        @media (max-height: 660px) {
             #side-menu ul li a { padding: 8px; font-size: 15px; }
             .menu-section h2 { font-size: 17px; }
             .bottom-menu-container { padding: 10px 15px; margin-top: 12px; }
             .deezer-credit img { height: 22px; }
-            #share-button svg { width: 34px; height: 34px; }
+            #share-button svg { width: 32px; height: 32px; }
         }
-
-        @media (max-height: 660px) {
-            /* Estágio 3: Encolhimento geral mais agressivo */
+        
+        @media (max-height: 600px) {
             #side-menu ul li a { padding: 6px; font-size: 14px; }
             .menu-section h2 { font-size: 16px; margin-top: 15px; }
-            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; }
             .bottom-menu-container { padding: 8px 12px; margin-top: 10px; }
             .deezer-credit p { font-size: 10px; }
             .deezer-credit img { height: 20px; }
@@ -254,11 +265,12 @@
         }
 
         .bottom-menu-container {
+            flex-shrink: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0px; /* Removido padding lateral para alinhar com o resto */
-            margin-top: 20px; /* Espaço padrão acima do rodapé */
+            padding: 15px 0px; 
+            margin-top: auto; /* Empurra o rodapé para a base */
             transition: all 0.2s ease-in-out;
         }
         .deezer-credit {
@@ -306,51 +318,54 @@
     
     <nav id="side-menu">
         <div class="menu-main-content">
-            <div class="menu-section">
-                <h2 id="menu-title-mode">Modo de Jogo</h2>
-                <ul id="game-modes-list">
-                    <li><a href="#" data-mode="geral">Geral</a></li>
-                    <li><a href="#" data-mode="pop">Pop</a></li>
-                    <li><a href="#" data-mode="rock">Rock</a></li>
-                    <li><a href="#" data-mode="rap">Rap</a></li>
-                    <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
-                    <li><a href="#" data-mode="rnb_soul">R&B e Soul</a></li>
-                    <li><a href="#" data-mode="classica">Clássica</a></li>
-                </ul>
-            </div>
-            <div class="menu-section">
-                <h2 id="menu-title-options">Opções</h2>
-                <h3 id="menu-title-volume">Volume</h3>
-                <div class="volume-control">
-                    <span class="volume-icon">🔊</span>
-                    <div class="volume-slider-container">
-                        <input type="range" min="0" max="100" value="100" id="volume-slider">
+            <div class="menu-section-wrapper">
+                <div class="menu-section">
+                    <h2 id="menu-title-mode">Modo de Jogo</h2>
+                    <ul id="game-modes-list">
+                        <li><a href="#" data-mode="geral">Geral</a></li>
+                        <li><a href="#" data-mode="pop">Pop</a></li>
+                        <li><a href="#" data-mode="rock">Rock</a></li>
+                        <li><a href="#" data-mode="rap">Rap</a></li>
+                        <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
+                        <li><a href="#" data-mode="rnb_soul">R&B e Soul</a></li>
+                        <li><a href="#" data-mode="classica">Clássica</a></li>
+                    </ul>
+                </div>
+                <div class="menu-section">
+                    <h2 id="menu-title-options">Opções</h2>
+                    <h3 id="menu-title-volume">Volume</h3>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <div class="volume-slider-container">
+                            <input type="range" min="0" max="100" value="100" id="volume-slider">
+                        </div>
+                        <span class="volume-value" id="volume-value-display">100</span>
                     </div>
-                    <span class="volume-value" id="volume-value-display">100</span>
-                </div>
 
-                <div class="menu-title-container">
-                    <h3 id="menu-title-replay"></h3>
-                    <span class="info-popup" id="replay-info" tabindex="0">?</span>
-                </div>
-                <div class="switch-container">
-                    <span id="replay-status-text"></span>
-                    <label class="switch">
-                        <input type="checkbox" id="replay-toggle">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
+                    <div class="menu-title-container">
+                        <h3 id="menu-title-replay"></h3>
+                        <span class="info-popup" id="replay-info" tabindex="0">?</span>
+                    </div>
+                    <div class="switch-container">
+                        <span id="replay-status-text"></span>
+                        <label class="switch">
+                            <input type="checkbox" id="replay-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
 
-                <h3 id="menu-title-language">Idioma</h3>
-                <ul id="lang-switcher">
-                    <li><a href="#" data-lang="de">Deutsch</a></li>
-                    <li><a href="#" data-lang="en">English</a></li>
-                    <li><a href="#" data-lang="es">Español</a></li>
-                    <li><a href="#" data-lang="fr">Français</a></li>
-                    <li><a href="#" data-lang="pt">Português</a></li>
-                    <li><a href="#" data-lang="tr">Türkçe</a></li>
-                </ul>
+                    <h3 id="menu-title-language">Idioma</h3>
+                    <ul id="lang-switcher">
+                        <li><a href="#" data-lang="de">Deutsch</a></li>
+                        <li><a href="#" data-lang="en">English</a></li>
+                        <li><a href="#" data-lang="es">Español</a></li>
+                        <li><a href="#" data-lang="fr">Français</a></li>
+                        <li><a href="#" data-lang="pt">Português</a></li>
+                        <li><a href="#" data-lang="tr">Türkçe</a></li>
+                    </ul>
+                </div>
             </div>
+            
             <div class="bottom-menu-container">
                 <div class="deezer-credit">
                     <p>Music data provided by</p>
