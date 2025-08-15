@@ -216,7 +216,7 @@
             }
         }
         
-        /* ESTÁGIO 2: Mudança para 2 colunas para economizar espaço */
+        /* ESTÁGIO 2: Mudança para 2 colunas */
         @media (max-height: 840px) {
             .menu-section h2, 
             #menu-title-volume, 
@@ -241,26 +241,63 @@
         }
 
         /* Regras de encolhimento ativadas por JavaScript */
-        #side-menu.menu-cramped .menu-section h2 {
+        /* Nível 1 de Compressão: Apenas o rodapé encolhe */
+        #side-menu.cramped-1 .bottom-menu-container {
+            padding: 12px 0px;
+            margin-top: 15px;
+        }
+        #side-menu.cramped-1 .deezer-credit img {
+            height: 24px;
+        }
+        #side-menu.cramped-1 #share-button svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        /* Nível 2: Rodapé encolhe mais, e o resto do menu começa a encolher */
+        #side-menu.cramped-2 .bottom-menu-container {
+            padding: 10px 0px;
+            margin-top: 12px;
+        }
+        #side-menu.cramped-2 .deezer-credit img {
+            height: 22px;
+        }
+        #side-menu.cramped-2 #share-button svg {
+            width: 32px;
+            height: 32px;
+        }
+        #side-menu.cramped-2 ul li a {
+            padding: 8px;
+            font-size: 15px;
+        }
+        #side-menu.cramped-2 .menu-section h2 {
+            font-size: 17px;
+        }
+        
+        /* Nível 3: Compressão máxima de tudo */
+        #side-menu.cramped-3 .bottom-menu-container {
+            padding: 8px 0px;
+            margin-top: 10px;
+        }
+        #side-menu.cramped-3 .deezer-credit p {
+            font-size: 10px;
+        }
+        #side-menu.cramped-3 .deezer-credit img {
+            height: 20px;
+        }
+        #side-menu.cramped-3 #share-button svg {
+            width: 30px;
+            height: 30px;
+        }
+        #side-menu.cramped-3 ul li a {
+            padding: 6px;
+            font-size: 14px;
+        }
+        #side-menu.cramped-3 .menu-section h2 {
             font-size: 16px;
             margin-top: 15px;
         }
-        #side-menu.menu-cramped ul li a {
-            font-size: 14px;
-            padding: 7px;
-        }
-        #side-menu.menu-cramped .bottom-menu-container {
-            padding: 10px 0px;
-            margin-top: 15px;
-        }
-        #side-menu.menu-cramped .deezer-credit img {
-            height: 22px;
-        }
-        #side-menu.menu-cramped #share-button svg {
-            width: 34px;
-            height: 34px;
-        }
-
+        
         .menu-spacer {
             flex-grow: 1; /* Este é o espaço vazio que encolhe primeiro */
             min-height: 20px; /* Garante um espaço mínimo */
@@ -378,7 +415,7 @@
                     </a>
                 </div>
                 <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
-                    <svg xmlns="http://www.w.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                         <g transform="scale(-1, 1) translate(-24, 0)">
                             <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
                         </g>
@@ -814,7 +851,6 @@
         updateReplayStatusText();
     });
 
-    // Função movida para fora do DOMContentLoaded para que possa ser chamada pelo Observer
     function toggleMenu() {
         sideMenu.classList.toggle('open');
         menuOverlay.classList.toggle('visible');
@@ -921,27 +957,36 @@
             }
         });
 
-        // NOVO CÓDIGO JAVASCRIPT PARA O GATILHO INTELIGENTE
         const menuContent = document.querySelector('.menu-main-content');
 
         const checkMenuOverflow = () => {
-            // Pequeno delay para garantir que as transições do CSS terminaram
-            setTimeout(() => {
-                const hasOverflow = menuContent.scrollHeight > menuContent.clientHeight;
-                if (hasOverflow) {
-                    sideMenu.classList.add('menu-cramped');
-                } else {
-                    sideMenu.classList.remove('menu-cramped');
+            const scrollHeight = menuContent.scrollHeight;
+            const clientHeight = menuContent.clientHeight;
+
+            sideMenu.classList.remove('cramped-1', 'cramped-2', 'cramped-3');
+            
+            void menuContent.offsetWidth; 
+
+            const newScrollHeight = menuContent.scrollHeight;
+            const overflowAmount = newScrollHeight - clientHeight;
+
+            if (overflowAmount > 0) {
+                if (overflowAmount > 70) { 
+                    sideMenu.classList.add('cramped-3');
+                } else if (overflowAmount > 35) { 
+                    sideMenu.classList.add('cramped-2');
+                } else { 
+                    sideMenu.classList.add('cramped-1');
                 }
-            }, 50); // 50ms é um delay seguro
+            }
         };
 
-        // Observador que dispara a checagem sempre que o tamanho do menu mudar
         const observer = new ResizeObserver(checkMenuOverflow);
-        observer.observe(sideMenu);
+        observer.observe(menuContent);
         
-        // Também checa quando o menu é aberto
-        menuToggle.addEventListener('click', checkMenuOverflow);
+        menuToggle.addEventListener('click', () => {
+            setTimeout(checkMenuOverflow, 50);
+        });
     });
     </script>
 </body>
