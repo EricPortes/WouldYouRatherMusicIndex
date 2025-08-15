@@ -147,9 +147,9 @@
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         
         .menu-main-content {
-            flex-grow: 1;
+            flex: 1;
             min-height: 0;
-            padding: 20px 20px 0 20px;
+            padding: 20px;
             overflow-y: auto;
             overflow-x: hidden;
             display: flex;
@@ -242,7 +242,7 @@
 
         /* ESTÁGIO 3: Encolhimento APENAS do rodapé */
         @media (max-height: 720px) {
-            .bottom-menu-container { padding: 12px 0px; margin-top: 15px; }
+            .bottom-menu-container { padding: 12px 0px; }
             .deezer-credit img { height: 24px; }
             #share-button svg { width: 36px; height: 36px; }
         }
@@ -251,7 +251,7 @@
         @media (max-height: 660px) {
             #side-menu ul li a { padding: 8px; font-size: 15px; }
             .menu-section h2 { font-size: 17px; }
-            .bottom-menu-container { padding: 10px 0px; margin-top: 12px; }
+            .bottom-menu-container { padding: 10px 0px; }
             .deezer-credit img { height: 22px; }
             #share-button svg { width: 32px; height: 32px; }
         }
@@ -259,7 +259,7 @@
         @media (max-height: 600px) {
             #side-menu ul li a { padding: 6px; font-size: 14px; }
             .menu-section h2 { font-size: 16px; margin-top: 15px; }
-            .bottom-menu-container { padding: 8px 0px; margin-top: 10px; }
+            .bottom-menu-container { padding: 8px 0px; }
             .deezer-credit p { font-size: 10px; }
             .deezer-credit img { height: 20px; }
             #share-button svg { width: 30px; height: 30px; }
@@ -267,6 +267,7 @@
 
         .menu-spacer {
             flex-grow: 1; /* Este é o espaço vazio que encolhe primeiro */
+            min-height: 10px; /* Garante um espaço mínimo */
         }
 
         .bottom-menu-container {
@@ -275,7 +276,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0px; 
-            margin-top: 20px; 
+            margin-top: 10px; /* Garante um espaço inicial */
             transition: all 0.2s ease-in-out;
         }
         .deezer-credit {
