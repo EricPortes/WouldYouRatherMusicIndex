@@ -240,67 +240,54 @@
             }
         }
 
-        /* Regras de encolhimento ativadas por JavaScript */
-        /* Nível 1 de Compressão: Apenas o rodapé encolhe */
-        #side-menu.cramped-1 .bottom-menu-container {
-            padding: 12px 0px;
-            margin-top: 15px;
-        }
-        #side-menu.cramped-1 .deezer-credit img {
-            height: 24px;
-        }
-        #side-menu.cramped-1 #share-button svg {
-            width: 36px;
-            height: 36px;
-        }
+        /* Níveis de compressão ativados via JavaScript */
+        #side-menu.cramped-1 .bottom-menu-container { padding-top: 14px; padding-bottom: 14px; }
+        #side-menu.cramped-1 .deezer-credit img { height: 25px; }
+        #side-menu.cramped-1 #share-button svg { width: 37px; height: 37px; }
 
-        /* Nível 2: Rodapé encolhe mais, e o resto do menu começa a encolher */
-        #side-menu.cramped-2 .bottom-menu-container {
-            padding: 10px 0px;
-            margin-top: 12px;
-        }
-        #side-menu.cramped-2 .deezer-credit img {
-            height: 22px;
-        }
-        #side-menu.cramped-2 #share-button svg {
-            width: 32px;
-            height: 32px;
-        }
-        #side-menu.cramped-2 ul li a {
-            padding: 8px;
-            font-size: 15px;
-        }
-        #side-menu.cramped-2 .menu-section h2 {
-            font-size: 17px;
-        }
+        #side-menu.cramped-2 .bottom-menu-container { padding-top: 13px; padding-bottom: 13px; }
+        #side-menu.cramped-2 .deezer-credit img { height: 24px; }
+        #side-menu.cramped-2 #share-button svg { width: 36px; height: 36px; }
+
+        #side-menu.cramped-3 .bottom-menu-container { padding-top: 12px; padding-bottom: 12px; }
+        #side-menu.cramped-3 .deezer-credit img { height: 23px; }
+        #side-menu.cramped-3 #share-button svg { width: 35px; height: 35px; }
         
-        /* Nível 3: Compressão máxima de tudo */
-        #side-menu.cramped-3 .bottom-menu-container {
-            padding: 8px 0px;
-            margin-top: 10px;
-        }
-        #side-menu.cramped-3 .deezer-credit p {
-            font-size: 10px;
-        }
-        #side-menu.cramped-3 .deezer-credit img {
-            height: 20px;
-        }
-        #side-menu.cramped-3 #share-button svg {
-            width: 30px;
-            height: 30px;
-        }
-        #side-menu.cramped-3 ul li a {
-            padding: 6px;
-            font-size: 14px;
-        }
-        #side-menu.cramped-3 .menu-section h2 {
-            font-size: 16px;
-            margin-top: 15px;
-        }
-        
+        #side-menu.cramped-4 .bottom-menu-container { padding-top: 11px; padding-bottom: 11px; }
+        #side-menu.cramped-4 .deezer-credit img { height: 22px; }
+        #side-menu.cramped-4 #share-button svg { width: 34px; height: 34px; }
+        #side-menu.cramped-4 ul li a { padding: 9px; }
+
+        #side-menu.cramped-5 .bottom-menu-container { padding-top: 10px; padding-bottom: 10px; }
+        #side-menu.cramped-5 .deezer-credit img { height: 21px; }
+        #side-menu.cramped-5 #share-button svg { width: 33px; height: 33px; }
+        #side-menu.cramped-5 ul li a { font-size: 15px; }
+
+        #side-menu.cramped-6 .bottom-menu-container { padding-top: 9px; padding-bottom: 9px; }
+        #side-menu.cramped-6 .deezer-credit p { font-size: 10px; }
+        #side-menu.cramped-6 .deezer-credit img { height: 20px; }
+        #side-menu.cramped-6 #share-button svg { width: 32px; height: 32px; }
+        #side-menu.cramped-6 ul li a { padding: 8px; }
+
+        #side-menu.cramped-7 .menu-section h2 { font-size: 17px; }
+        #side-menu.cramped-7 ul li a { font-size: 14px; }
+
+        #side-menu.cramped-8 .bottom-menu-container { padding-top: 8px; padding-bottom: 8px; }
+        #side-menu.cramped-8 .deezer-credit img { height: 19px; }
+        #side-menu.cramped-8 #share-button svg { width: 31px; height: 31px; }
+        #side-menu.cramped-8 ul li a { padding: 7px; }
+
+        #side-menu.cramped-9 .menu-section h2 { font-size: 16px; }
+        #side-menu.cramped-9 ul li a { font-size: 13px; }
+
+        #side-menu.cramped-10 .bottom-menu-container { padding-top: 7px; padding-bottom: 7px; }
+        #side-menu.cramped-10 .deezer-credit img { height: 18px; }
+        #side-menu.cramped-10 #share-button svg { width: 30px; height: 30px; }
+        #side-menu.cramped-10 ul li a { padding: 6px; }
+
         .menu-spacer {
-            flex-grow: 1; /* Este é o espaço vazio que encolhe primeiro */
-            min-height: 20px; /* Garante um espaço mínimo */
+            flex-grow: 1;
+            min-height: 20px;
         }
 
         .bottom-menu-container {
@@ -309,7 +296,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0px; 
-            margin-top: 20px; 
+            margin-top: 10px; 
             transition: all 0.2s ease-in-out;
         }
         .deezer-credit {
@@ -960,24 +947,18 @@
         const menuContent = document.querySelector('.menu-main-content');
 
         const checkMenuOverflow = () => {
-            const scrollHeight = menuContent.scrollHeight;
             const clientHeight = menuContent.clientHeight;
+            const threshold = clientHeight * 0.98; // Gatilho em 98% da altura
 
-            sideMenu.classList.remove('cramped-1', 'cramped-2', 'cramped-3');
-            
+            sideMenu.classList.remove('cramped-1', 'cramped-2', 'cramped-3', 'cramped-4', 'cramped-5', 'cramped-6', 'cramped-7', 'cramped-8', 'cramped-9', 'cramped-10');
             void menuContent.offsetWidth; 
 
-            const newScrollHeight = menuContent.scrollHeight;
-            const overflowAmount = newScrollHeight - clientHeight;
+            const scrollHeight = menuContent.scrollHeight;
 
-            if (overflowAmount > 0) {
-                if (overflowAmount > 70) { 
-                    sideMenu.classList.add('cramped-3');
-                } else if (overflowAmount > 35) { 
-                    sideMenu.classList.add('cramped-2');
-                } else { 
-                    sideMenu.classList.add('cramped-1');
-                }
+            if (scrollHeight > threshold) {
+                const overflowAmount = scrollHeight - threshold;
+                const crampLevel = Math.min(10, Math.ceil(overflowAmount / 15));
+                sideMenu.classList.add(`cramped-${crampLevel}`);
             }
         };
 
