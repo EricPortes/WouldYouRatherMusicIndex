@@ -140,24 +140,30 @@
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             color: white; 
-            display: flex;
+            display: flex; /* Alterado para Flexbox para layout interno flexível */
             flex-direction: column;
             overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         
         .menu-main-content {
-            flex-grow: 1;
-            min-height: 0;
+            flex-grow: 1; /* Permite que esta área cresça e encolha */
+            min-height: 0; /* Correção para rolagem em containers flex */
             padding: 20px 20px 0 20px;
             overflow-y: auto;
             overflow-x: hidden;
+            display: flex; /* Adicionado para que o rodapé dentro dele seja posicionado pela margem */
+            flex-direction: column;
         }
 
         .menu-main-content::-webkit-scrollbar { width: 8px; }
         .menu-main-content::-webkit-scrollbar-track { background: #181818; }
         .menu-main-content::-webkit-scrollbar-thumb { background-color: #555; border-radius: 4px; }
         
+        .menu-section {
+             flex-shrink: 0; /* Impede que as seções encolham sozinhas */
+        }
+
         .menu-section h2 {
             margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;
             transition: all 0.2s ease-in-out;
@@ -269,6 +275,7 @@
             align-items: center;
             padding: 15px 20px;
             transition: padding 0.2s ease-in-out;
+            margin-top: auto; /* A MÁGICA: Empurra o rodapé para a base do container flex */
         }
         .deezer-credit {
             display: flex;
@@ -315,67 +322,69 @@
     
     <nav id="side-menu">
         <div class="menu-main-content">
-            <div class="menu-section">
-                <h2 id="menu-title-mode">Modo de Jogo</h2>
-                <ul id="game-modes-list">
-                    <li><a href="#" data-mode="geral">Geral</a></li>
-                    <li><a href="#" data-mode="pop">Pop</a></li>
-                    <li><a href="#" data-mode="rock">Rock</a></li>
-                    <li><a href="#" data-mode="rap">Rap</a></li>
-                    <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
-                    <li><a href="#" data-mode="rnb_soul">R&B e Soul</a></li>
-                    <li><a href="#" data-mode="classica">Clássica</a></li>
-                </ul>
-            </div>
-            <div class="menu-section">
-                <h2 id="menu-title-options">Opções</h2>
-                <h3 id="menu-title-volume">Volume</h3>
-                <div class="volume-control">
-                    <span class="volume-icon">🔊</span>
-                    <div class="volume-slider-container">
-                        <input type="range" min="0" max="100" value="100" id="volume-slider">
+            <div class="menu-section-wrapper">
+                <div class="menu-section">
+                    <h2 id="menu-title-mode">Modo de Jogo</h2>
+                    <ul id="game-modes-list">
+                        <li><a href="#" data-mode="geral">Geral</a></li>
+                        <li><a href="#" data-mode="pop">Pop</a></li>
+                        <li><a href="#" data-mode="rock">Rock</a></li>
+                        <li><a href="#" data-mode="rap">Rap</a></li>
+                        <li><a href="#" data-mode="eletronica">Eletrônica</a></li>
+                        <li><a href="#" data-mode="rnb_soul">R&B e Soul</a></li>
+                        <li><a href="#" data-mode="classica">Clássica</a></li>
+                    </ul>
+                </div>
+                <div class="menu-section">
+                    <h2 id="menu-title-options">Opções</h2>
+                    <h3 id="menu-title-volume">Volume</h3>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <div class="volume-slider-container">
+                            <input type="range" min="0" max="100" value="100" id="volume-slider">
+                        </div>
+                        <span class="volume-value" id="volume-value-display">100</span>
                     </div>
-                    <span class="volume-value" id="volume-value-display">100</span>
-                </div>
 
-                <div class="menu-title-container">
-                    <h3 id="menu-title-replay"></h3>
-                    <span class="info-popup" id="replay-info" tabindex="0">?</span>
-                </div>
-                <div class="switch-container">
-                    <span id="replay-status-text"></span>
-                    <label class="switch">
-                        <input type="checkbox" id="replay-toggle">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
+                    <div class="menu-title-container">
+                        <h3 id="menu-title-replay"></h3>
+                        <span class="info-popup" id="replay-info" tabindex="0">?</span>
+                    </div>
+                    <div class="switch-container">
+                        <span id="replay-status-text"></span>
+                        <label class="switch">
+                            <input type="checkbox" id="replay-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
 
-                <h3 id="menu-title-language">Idioma</h3>
-                <ul id="lang-switcher">
-                    <li><a href="#" data-lang="de">Deutsch</a></li>
-                    <li><a href="#" data-lang="en">English</a></li>
-                    <li><a href="#" data-lang="es">Español</a></li>
-                    <li><a href="#" data-lang="fr">Français</a></li>
-                    <li><a href="#" data-lang="pt">Português</a></li>
-                    <li><a href="#" data-lang="tr">Türkçe</a></li>
-                </ul>
+                    <h3 id="menu-title-language">Idioma</h3>
+                    <ul id="lang-switcher">
+                        <li><a href="#" data-lang="de">Deutsch</a></li>
+                        <li><a href="#" data-lang="en">English</a></li>
+                        <li><a href="#" data-lang="es">Español</a></li>
+                        <li><a href="#" data-lang="fr">Français</a></li>
+                        <li><a href="#" data-lang="pt">Português</a></li>
+                        <li><a href="#" data-lang="tr">Türkçe</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        
-        <div class="bottom-menu-container">
-            <div class="deezer-credit">
-                <p>Music data provided by</p>
-                <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer">
-                    <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
-                </a>
+            
+            <div class="bottom-menu-container">
+                <div class="deezer-credit">
+                    <p>Music data provided by</p>
+                    <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer">
+                        <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
+                    </a>
+                </div>
+                <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                        <g transform="scale(-1, 1) translate(-24, 0)">
+                            <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+                        </g>
+                    </svg>
+                </button>
             </div>
-            <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <g transform="scale(-1, 1) translate(-24, 0)">
-                        <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
-                    </g>
-                </svg>
-            </button>
         </div>
     </nav>
     <div id="menu-overlay"></div>
