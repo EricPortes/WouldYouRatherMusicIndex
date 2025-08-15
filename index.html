@@ -165,24 +165,22 @@
         }
         .menu-section h2 {
             margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: #fff; border-bottom: 1px solid #444; padding-bottom: 8px;
-            transition: all 0.2s ease-in-out;
         }
         .menu-section:first-child h2 { margin-top: 0; }
         #side-menu ul { list-style: none; padding: 0; margin: 0; }
         #side-menu ul li a {
             color: #b3b3b3; text-decoration: none; font-size: 16px; padding: 10px;
-            display: block; transition: all 0.2s ease-in-out; border-radius: 5px;
+            display: block; border-radius: 5px;
         }
         #side-menu ul li a:hover { color: white; background-color: #282828; }
         #side-menu ul li a.selected { color: white; font-weight: bold; background-color: #333; }
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
 
-        .menu-title-container { display: flex; align-items: center; transition: all 0.2s ease-in-out; }
+        .menu-title-container { display: flex; align-items: center; }
         #menu-title-replay, #menu-title-volume, #menu-title-language {
             color:#b3b3b3; font-size: 15px; margin-top: 15px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            transition: all 0.2s ease-in-out;
         }
         .info-popup {
             position: relative; display: inline-block; width: 15px; height: 15px;
@@ -216,7 +214,7 @@
             }
         }
         
-        /* ESTÁGIO 2: Mudança para 2 colunas */
+        /* Layout de Duas Colunas ativado em telas mais baixas */
         @media (max-height: 840px) {
             .menu-section h2, 
             #menu-title-volume, 
@@ -240,54 +238,9 @@
             }
         }
 
-        /* Níveis de compressão ativados via JavaScript */
-        #side-menu.cramped-1 .bottom-menu-container { padding-top: 14px; padding-bottom: 14px; }
-        #side-menu.cramped-1 .deezer-credit img { height: 25px; }
-        #side-menu.cramped-1 #share-button svg { width: 37px; height: 37px; }
-
-        #side-menu.cramped-2 .bottom-menu-container { padding-top: 13px; padding-bottom: 13px; }
-        #side-menu.cramped-2 .deezer-credit img { height: 24px; }
-        #side-menu.cramped-2 #share-button svg { width: 36px; height: 36px; }
-
-        #side-menu.cramped-3 .bottom-menu-container { padding-top: 12px; padding-bottom: 12px; }
-        #side-menu.cramped-3 .deezer-credit img { height: 23px; }
-        #side-menu.cramped-3 #share-button svg { width: 35px; height: 35px; }
-        
-        #side-menu.cramped-4 .bottom-menu-container { padding-top: 11px; padding-bottom: 11px; }
-        #side-menu.cramped-4 .deezer-credit img { height: 22px; }
-        #side-menu.cramped-4 #share-button svg { width: 34px; height: 34px; }
-        #side-menu.cramped-4 ul li a { padding: 9px; }
-
-        #side-menu.cramped-5 .bottom-menu-container { padding-top: 10px; padding-bottom: 10px; }
-        #side-menu.cramped-5 .deezer-credit img { height: 21px; }
-        #side-menu.cramped-5 #share-button svg { width: 33px; height: 33px; }
-        #side-menu.cramped-5 ul li a { font-size: 15px; }
-
-        #side-menu.cramped-6 .bottom-menu-container { padding-top: 9px; padding-bottom: 9px; }
-        #side-menu.cramped-6 .deezer-credit p { font-size: 10px; }
-        #side-menu.cramped-6 .deezer-credit img { height: 20px; }
-        #side-menu.cramped-6 #share-button svg { width: 32px; height: 32px; }
-        #side-menu.cramped-6 ul li a { padding: 8px; }
-
-        #side-menu.cramped-7 .menu-section h2 { font-size: 17px; }
-        #side-menu.cramped-7 ul li a { font-size: 14px; }
-
-        #side-menu.cramped-8 .bottom-menu-container { padding-top: 8px; padding-bottom: 8px; }
-        #side-menu.cramped-8 .deezer-credit img { height: 19px; }
-        #side-menu.cramped-8 #share-button svg { width: 31px; height: 31px; }
-        #side-menu.cramped-8 ul li a { padding: 7px; }
-
-        #side-menu.cramped-9 .menu-section h2 { font-size: 16px; }
-        #side-menu.cramped-9 ul li a { font-size: 13px; }
-
-        #side-menu.cramped-10 .bottom-menu-container { padding-top: 7px; padding-bottom: 7px; }
-        #side-menu.cramped-10 .deezer-credit img { height: 18px; }
-        #side-menu.cramped-10 #share-button svg { width: 30px; height: 30px; }
-        #side-menu.cramped-10 ul li a { padding: 6px; }
-
         .menu-spacer {
             flex-grow: 1;
-            min-height: 20px;
+            min-height: 10px;
         }
 
         .bottom-menu-container {
@@ -296,8 +249,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0px; 
-            margin-top: 10px; 
-            transition: all 0.2s ease-in-out;
+            margin-top: 20px; 
         }
         .deezer-credit {
             display: flex;
@@ -308,12 +260,10 @@
         .deezer-credit p {
             margin: 0;
             font-size: 11px;
-            transition: font-size 0.2s ease-in-out;
         }
         .deezer-credit img {
             height: 26px;
             width: auto;
-            transition: height 0.2s ease-in-out;
         }
         #share-button {
             position: relative; background: none; border: none; cursor: pointer;
@@ -322,7 +272,6 @@
         #share-button svg {
             width: 38px;
             height: 38px;
-            transition: opacity 0.2s, width 0.2s ease-in-out, height 0.2s ease-in-out;
         }
         #share-button:hover { opacity: 0.7; }
         #share-button::after {
@@ -402,7 +351,7 @@
                     </a>
                 </div>
                 <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <svg xmlns="http://www.w.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                         <g transform="scale(-1, 1) translate(-24, 0)">
                             <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
                         </g>
@@ -947,17 +896,20 @@
         const menuContent = document.querySelector('.menu-main-content');
 
         const checkMenuOverflow = () => {
-            const clientHeight = menuContent.clientHeight;
-            const threshold = clientHeight * 0.98; // Gatilho em 98% da altura
+            if (!sideMenu.classList.contains('open')) return;
 
-            sideMenu.classList.remove('cramped-1', 'cramped-2', 'cramped-3', 'cramped-4', 'cramped-5', 'cramped-6', 'cramped-7', 'cramped-8', 'cramped-9', 'cramped-10');
+            const clientHeight = menuContent.clientHeight;
+            const threshold = clientHeight * 0.98;
+
+            sideMenu.className = sideMenu.className.replace(/\bcramped-\d+\b/g, '');
+            
             void menuContent.offsetWidth; 
 
             const scrollHeight = menuContent.scrollHeight;
 
             if (scrollHeight > threshold) {
                 const overflowAmount = scrollHeight - threshold;
-                const crampLevel = Math.min(10, Math.ceil(overflowAmount / 15));
+                const crampLevel = Math.min(10, Math.max(1, Math.ceil(overflowAmount / 12)));
                 sideMenu.classList.add(`cramped-${crampLevel}`);
             }
         };
@@ -966,7 +918,9 @@
         observer.observe(menuContent);
         
         menuToggle.addEventListener('click', () => {
-            setTimeout(checkMenuOverflow, 50);
+            if (sideMenu.classList.contains('open')) {
+                setTimeout(checkMenuOverflow, 300); 
+            }
         });
     });
     </script>
