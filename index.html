@@ -140,16 +140,14 @@
             position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #181818; z-index: 1000;
             transform: translateX(-100%); transition: transform 0.3s ease-in-out;
             color: white; 
-            display: grid;
-            grid-template-rows: 1fr auto;
-            grid-template-areas: "main" "footer";
+            display: grid; /* Layout de Grid simples para um único container de conteúdo */
+            grid-template-rows: 1fr;
             overflow: hidden;
         }
         #side-menu.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         
         .menu-main-content {
-            grid-area: main;
-            padding: 20px 20px 0 20px;
+            padding: 20px 20px; /* Adicionado padding inferior para dar respiro ao rodapé */
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -227,10 +225,10 @@
             }
         }
         
-        /* Lógica de encolhimento em estágios */
+        /* LÓGICA DE ENCOLHIMENTO EM ESTÁGIOS */
         @media (max-height: 780px) {
             /* Estágio 1: Começa a encolher APENAS o rodapé */
-            .bottom-menu-container { padding: 12px 18px; }
+            .bottom-menu-container { padding: 12px 18px; margin-top: 15px; }
             .deezer-credit img { height: 24px; }
             #share-button svg { width: 36px; height: 36px; }
         }
@@ -239,7 +237,7 @@
             /* Estágio 2: Encolhe mais o rodapé, e AGORA começa a encolher o resto do menu */
             #side-menu ul li a { padding: 8px; font-size: 15px; }
             .menu-section h2 { font-size: 17px; }
-            .bottom-menu-container { padding: 10px 15px; }
+            .bottom-menu-container { padding: 10px 15px; margin-top: 12px; }
             .deezer-credit img { height: 22px; }
             #share-button svg { width: 34px; height: 34px; }
         }
@@ -249,20 +247,19 @@
             #side-menu ul li a { padding: 6px; font-size: 14px; }
             .menu-section h2 { font-size: 16px; margin-top: 15px; }
             #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; }
-            .bottom-menu-container { padding: 8px 12px; }
+            .bottom-menu-container { padding: 8px 12px; margin-top: 10px; }
             .deezer-credit p { font-size: 10px; }
             .deezer-credit img { height: 20px; }
             #share-button svg { width: 30px; height: 30px; }
         }
 
         .bottom-menu-container {
-            grid-area: footer;
-            flex-shrink: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            transition: padding 0.2s ease-in-out;
+            padding: 15px 0px; /* Removido padding lateral para alinhar com o resto */
+            margin-top: 20px; /* Espaço padrão acima do rodapé */
+            transition: all 0.2s ease-in-out;
         }
         .deezer-credit {
             display: flex;
@@ -354,22 +351,21 @@
                     <li><a href="#" data-lang="tr">Türkçe</a></li>
                 </ul>
             </div>
-        </div>
-        
-        <div class="bottom-menu-container">
-            <div class="deezer-credit">
-                <p>Music data provided by</p>
-                <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer">
-                    <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
-                </a>
+            <div class="bottom-menu-container">
+                <div class="deezer-credit">
+                    <p>Music data provided by</p>
+                    <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer">
+                        <img src="/static/Horizontal-cw-rgb.png" alt="Deezer Logo">
+                    </a>
+                </div>
+                <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                        <g transform="scale(-1, 1) translate(-24, 0)">
+                            <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+                        </g>
+                    </svg>
+                </button>
             </div>
-            <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <g transform="scale(-1, 1) translate(-24, 0)">
-                        <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
-                    </g>
-                </svg>
-            </button>
         </div>
     </nav>
     <div id="menu-overlay"></div>
