@@ -149,7 +149,7 @@
         .menu-main-content {
             flex: 1;
             min-height: 0;
-            padding: 20px;
+            padding: 20px 20px;
             overflow-y: auto;
             overflow-x: hidden;
             display: flex;
@@ -178,7 +178,7 @@
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         #menu-overlay.visible { opacity: 1; visibility: visible; }
 
-        .menu-title-container { display: flex; align-items: center; }
+        .menu-title-container { display: flex; align-items: center; transition: all 0.2s ease-in-out; }
         #menu-title-replay, #menu-title-volume, #menu-title-language {
             color:#b3b3b3; font-size: 15px; margin-top: 15px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -216,7 +216,7 @@
             }
         }
         
-        /* ESTÁGIO 2: Mudança para 2 colunas */
+        /* ESTÁGIO 2: Mudança para 2 colunas para economizar espaço */
         @media (max-height: 840px) {
             .menu-section h2, 
             #menu-title-volume, 
@@ -240,34 +240,30 @@
             }
         }
 
-        /* ESTÁGIO 3: Encolhimento APENAS do rodapé */
-        @media (max-height: 720px) {
-            .bottom-menu-container { padding: 12px 0px; }
-            .deezer-credit img { height: 24px; }
-            #share-button svg { width: 36px; height: 36px; }
+        /* Regras de encolhimento ativadas por JavaScript */
+        #side-menu.menu-cramped .menu-section h2 {
+            font-size: 16px;
+            margin-top: 15px;
         }
-
-        /* ESTÁGIO 4: Encolhimento do RESTO do menu */
-        @media (max-height: 660px) {
-            #side-menu ul li a { padding: 8px; font-size: 15px; }
-            .menu-section h2 { font-size: 17px; }
-            .bottom-menu-container { padding: 10px 0px; }
-            .deezer-credit img { height: 22px; }
-            #share-button svg { width: 32px; height: 32px; }
+        #side-menu.menu-cramped ul li a {
+            font-size: 14px;
+            padding: 7px;
         }
-        
-        @media (max-height: 600px) {
-            #side-menu ul li a { padding: 6px; font-size: 14px; }
-            .menu-section h2 { font-size: 16px; margin-top: 15px; }
-            .bottom-menu-container { padding: 8px 0px; }
-            .deezer-credit p { font-size: 10px; }
-            .deezer-credit img { height: 20px; }
-            #share-button svg { width: 30px; height: 30px; }
+        #side-menu.menu-cramped .bottom-menu-container {
+            padding: 10px 0px;
+            margin-top: 15px;
+        }
+        #side-menu.menu-cramped .deezer-credit img {
+            height: 22px;
+        }
+        #side-menu.menu-cramped #share-button svg {
+            width: 34px;
+            height: 34px;
         }
 
         .menu-spacer {
             flex-grow: 1; /* Este é o espaço vazio que encolhe primeiro */
-            min-height: 10px; /* Garante um espaço mínimo */
+            min-height: 20px; /* Garante um espaço mínimo */
         }
 
         .bottom-menu-container {
@@ -276,7 +272,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0px; 
-            margin-top: 10px; /* Garante um espaço inicial */
+            margin-top: 20px; 
             transition: all 0.2s ease-in-out;
         }
         .deezer-credit {
@@ -382,7 +378,7 @@
                     </a>
                 </div>
                 <button id="share-button" aria-label="Share page" data-tooltip="URL Copiada!">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <svg xmlns="http://www.w.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                         <g transform="scale(-1, 1) translate(-24, 0)">
                             <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
                         </g>
@@ -818,9 +814,15 @@
         updateReplayStatusText();
     });
 
+    // Função movida para fora do DOMContentLoaded para que possa ser chamada pelo Observer
+    function toggleMenu() {
+        sideMenu.classList.toggle('open');
+        menuOverlay.classList.toggle('visible');
+        document.body.classList.toggle('menu-open');
+    }
     menuToggle.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', toggleMenu);
-
+    
     langSwitcher.addEventListener('click', (event) => {
         if (event.target.tagName === 'A') {
             event.preventDefault();
@@ -913,9 +915,33 @@
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
-                toggleMenu();
+                if(sideMenu.classList.contains('open')) {
+                   toggleMenu();
+                }
             }
         });
+
+        // NOVO CÓDIGO JAVASCRIPT PARA O GATILHO INTELIGENTE
+        const menuContent = document.querySelector('.menu-main-content');
+
+        const checkMenuOverflow = () => {
+            // Pequeno delay para garantir que as transições do CSS terminaram
+            setTimeout(() => {
+                const hasOverflow = menuContent.scrollHeight > menuContent.clientHeight;
+                if (hasOverflow) {
+                    sideMenu.classList.add('menu-cramped');
+                } else {
+                    sideMenu.classList.remove('menu-cramped');
+                }
+            }, 50); // 50ms é um delay seguro
+        };
+
+        // Observador que dispara a checagem sempre que o tamanho do menu mudar
+        const observer = new ResizeObserver(checkMenuOverflow);
+        observer.observe(sideMenu);
+        
+        // Também checa quando o menu é aberto
+        menuToggle.addEventListener('click', checkMenuOverflow);
     });
     </script>
 </body>
