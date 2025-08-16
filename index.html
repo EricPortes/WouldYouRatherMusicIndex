@@ -202,8 +202,8 @@
              flex-grow: 1;
              margin: 0 10px;
         }
-        .volume-icon { margin-right: 5px; font-size: 20px; }
-        .volume-value { font-size: 16px; min-width: 25px; text-align: right; }
+        .volume-icon { margin-right: 5px; font-size: 20px; flex-shrink: 0; }
+        .volume-value { font-size: 16px; min-width: 25px; text-align: right; flex-shrink: 0; }
 
         @media (max-width: 768px) {
             #side-menu {
@@ -225,43 +225,19 @@
             #game-modes-list li:first-child {
                 flex-basis: 100%;
             }
-        }
-        
-        /* LÓGICA DE ENCOLHIMENTO MAIS AGRESSIVA */
-        @media (max-height: 820px) {
-            #side-menu ul li a { padding: 8px; font-size: 15px; }
-            .menu-section h2 { font-size: 17px; }
-        }
-
-        @media (max-height: 760px) {
+            #side-menu h2,
+            #menu-title-volume,
+            #menu-title-replay,
+            #menu-title-language {
+                text-align: center;
+            }
+            .menu-title-container {
+                justify-content: center;
+            }
             #side-menu ul li a { padding: 7px; font-size: 14px; }
             .menu-section h2 { font-size: 16px; margin-top: 18px; }
-            .bottom-menu-container { padding: 12px 18px; }
-            .deezer-credit img { height: 24px; }
-            #share-button svg { width: 36px; height: 36px; }
-        }
-
-        @media (max-height: 700px) {
-            #side-menu ul li a { padding: 6px; font-size: 13px; }
-            .menu-section h2 { margin-top: 15px; margin-bottom: 8px; font-size: 15px; }
-            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 14px; margin-top: 12px;}
-            .switch-container .switch { transform: scale(0.95); }
-            .bottom-menu-container { padding: 10px 15px; }
-            .deezer-credit img { height: 22px; }
-            #share-button svg { width: 32px; height: 32px; }
         }
         
-        @media (max-height: 640px) {
-            #side-menu ul li a { padding: 5px; font-size: 12px; }
-            .menu-section h2 { margin-top: 12px; margin-bottom: 6px; font-size: 14px; }
-            #menu-title-replay, #menu-title-volume, #menu-title-language { font-size: 13px; margin-top: 10px;}
-            .switch-container .switch { transform: scale(0.9); }
-            .bottom-menu-container { padding: 8px 12px; }
-            .deezer-credit p { font-size: 10px; }
-            .deezer-credit img { height: 20px; }
-            #share-button svg { width: 30px; height: 30px; }
-        }
-
         .bottom-menu-container {
             flex-shrink: 0;
             display: flex;
