@@ -549,7 +549,7 @@
         let lang = urlParams.get('lang');
         if (!translations[lang]) {
             const browserLang = (navigator.language || navigator.userLanguage).split('-')[0];
-            lang = translations[browserLang] ? browserLang : 'pt';
+            lang = translations[browserLang] ? browserLang : 'en';
         }
         setLanguage(lang);
 
@@ -608,4 +608,5 @@
     </script>
 </body>
 </html>
+
 
