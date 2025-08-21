@@ -184,17 +184,27 @@ body.menu-open #menu-toggle {
     transition: opacity 0.2s, visibility 0.2s;
 }
 .info-popup:hover::after, .info-popup:focus::after { opacity: 1; visibility: visible; }
+
+/* --- INÍCIO DA CORREÇÃO DEFINITIVA PARA O CONTROLE DE VOLUME --- */
 .volume-control {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    gap: 10px;
     padding: 10px 0;
 }
+
 .volume-slider-container {
-    flex-grow: 1;
-    margin: 0 10px;
+    min-width: 0;
 }
+
+.volume-value {
+    font-size: 16px;
+    text-align: right;
+}
+/* --- FIM DA CORREÇÃO --- */
+
 .volume-icon { margin-right: 5px; font-size: 20px; flex-shrink: 0; }
-.volume-value { font-size: 16px; min-width: 25px; text-align: right; flex-shrink: 0; }
 
 @media (max-width: 768px) {
     #side-menu {
@@ -272,7 +282,6 @@ body.menu-open #menu-toggle {
 }
 #share-button.show-tooltip::after { opacity: 1; visibility: visible; }
 
-/* REGRAS ADICIONADAS PARA O HOVER DO TECLADO */
 .game-container.choices-active .side.keyboard-hover::after {
     opacity: 1;
 }
