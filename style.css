@@ -7,9 +7,13 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
 
 .divider { width: 2px; height: 100%; background-color: #282828; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; opacity: 0.6; border: none; }
 .vs-circle { width: 100px; height: 100px; background-color: black; border-radius: 50%; color: white; font-size: 48px; font-weight: bold; display: flex; justify-content: center; align-items: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; border: 5px solid white; }
-.side { width: 50%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; }
+.side { width: 50%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; }
 .side.left { background-color: #007BFF; }
 .side.right { background-color: #E60023; }
+
+.game-container.choices-active .side {
+    cursor: pointer;
+}
 
 .side::after {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
