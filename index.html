@@ -151,6 +151,7 @@
     const gameModesList = document.getElementById('game-modes-list');
     const volumeSlider = document.getElementById('volume-slider');
     const volumeValueDisplay = document.getElementById('volume-value-display');
+    const volumeControl = document.querySelector('.volume-control');
     const replayLeftButton = document.getElementById('replay-left');
     const replayRightButton = document.getElementById('replay-right');
     const replayToggle = document.getElementById('replay-toggle');
@@ -281,6 +282,7 @@
         if (isRoundLoading) return;
         isRoundLoading = true;
 
+        gameContainer.classList.add('mouse-controls-active');
         keyboardHoverSide = null;
         updateKeyboardHover();
 
@@ -404,6 +406,7 @@
         if (!roundOver && isChoiceEnabled) {
             roundOver = true;
             isChoiceEnabled = false;
+            gameContainer.classList.add('mouse-controls-active');
             keyboardHoverSide = null;
             updateKeyboardHover();
             gameContainer.classList.remove('choices-active');
@@ -559,7 +562,7 @@
         }
         localStorage.setItem('gameVolume', currentVolume);
     });
-
+    
     document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         let lang = urlParams.get('lang');
@@ -568,6 +571,8 @@
             lang = translations[browserLang] ? browserLang : 'en';
         }
         setLanguage(lang);
+
+        gameContainer.classList.add('mouse-controls-active');
 
         const savedMode = localStorage.getItem('gameMode');
         if (savedMode) {
@@ -581,6 +586,20 @@
         }
         volumeSlider.value = currentVolume * 100;
         volumeValueDisplay.textContent = Math.round(currentVolume * 100);
+
+        volumeControl.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            const currentValue = parseInt(volumeSlider.value, 10);
+            const step = 5;
+            let newValue;
+            if (event.deltaY < 0) {
+                newValue = currentValue + step;
+            } else {
+                newValue = currentValue - step;
+            }
+            volumeSlider.value = Math.max(0, Math.min(100, newValue));
+            volumeSlider.dispatchEvent(new Event('input'));
+        });
 
         const savedReplayPref = localStorage.getItem('replayEnabled');
         if (savedReplayPref === 'true') {
@@ -615,9 +634,15 @@
             }
         });
 
-        // Event listener para controles de teclado
+        document.addEventListener('mousemove', () => {
+            gameContainer.classList.add('mouse-controls-active');
+            if (keyboardHoverSide !== null) {
+                keyboardHoverSide = null;
+                updateKeyboardHover();
+            }
+        });
+
         document.addEventListener('keydown', (event) => {
-            // Impede ações se o menu estiver aberto, exceto para fechar com Esc
             if (sideMenu.classList.contains('open')) {
                 if (event.key === 'Escape') {
                     toggleMenu();
@@ -625,9 +650,8 @@
                 return;
             }
 
-            // Ação para a tecla ESPAÇO
             if (event.key === ' ' || event.key === 'Spacebar') {
-                event.preventDefault(); // Impede a rolagem da página
+                event.preventDefault();
                 if (startButton.style.display !== 'none') {
                     startButton.click();
                 } else if (nextRoundButton.style.display !== 'none') {
@@ -635,10 +659,8 @@
                 }
             }
             
-            // Ação para a tecla R (Replay)
             if (event.key === 'r' || event.key === 'R') {
                 event.preventDefault();
-                // Contexto 1: Durante a fase de escolha
                 if (isChoiceEnabled && replayButtonsEnabled && keyboardHoverSide) {
                     if (keyboardHoverSide === 'left') {
                         replayLeftButton.click();
@@ -646,7 +668,6 @@
                         replayRightButton.click();
                     }
                 }
-                // Contexto 2: Após a escolha (apenas o botão do vencedor está visível)
                 else if (roundOver) {
                     if (replayLeftButton.classList.contains('result-visible')) {
                         replayLeftButton.click();
@@ -656,14 +677,15 @@
                 }
             }
 
-            // Ações para SETAS e ENTER (apenas quando a escolha está ativa)
             if (isChoiceEnabled) {
                 if (event.key === 'ArrowLeft') {
                     event.preventDefault();
+                    gameContainer.classList.remove('mouse-controls-active');
                     keyboardHoverSide = 'left';
                     updateKeyboardHover();
                 } else if (event.key === 'ArrowRight') {
                     event.preventDefault();
+                    gameContainer.classList.remove('mouse-controls-active');
                     keyboardHoverSide = 'right';
                     updateKeyboardHover();
                 } else if (event.key === 'Enter') {
@@ -674,7 +696,6 @@
                 }
             }
 
-            // Ação para a tecla ESCAPE (fora do menu)
             if (event.key === 'Escape') {
                 toggleMenu();
             }
