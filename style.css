@@ -187,20 +187,20 @@ body.menu-open #menu-toggle {
 
 /* --- INÍCIO DA CORREÇÃO DEFINITIVA PARA O CONTROLE DE VOLUME --- */
 .volume-control {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
     align-items: center;
-    gap: 10px;
     padding: 10px 0;
 }
 
 .volume-slider-container {
-    min-width: 0;
+    flex: 1; /* Faz o slider ser o único elemento flexível */
+    margin: 0 10px;
 }
 
 .volume-value {
     font-size: 16px;
     text-align: right;
+    width: 35px; /* Define uma largura fixa para impedir que seja cortado */
 }
 /* --- FIM DA CORREÇÃO --- */
 
