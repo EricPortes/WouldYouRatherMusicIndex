@@ -185,7 +185,7 @@ body.menu-open #menu-toggle {
 }
 .info-popup:hover::after, .info-popup:focus::after { opacity: 1; visibility: visible; }
 
-/* --- INÍCIO DA CORREÇÃO DEFINITIVA PARA O CONTROLE DE VOLUME --- */
+/* --- CONTROLE DE VOLUME (ESTILO PADRÃO PARA TELAS GRANDES) --- */
 .volume-control {
     display: flex;
     align-items: center;
@@ -193,18 +193,18 @@ body.menu-open #menu-toggle {
 }
 
 .volume-slider-container {
-    flex: 1; /* Faz o slider ser o único elemento flexível */
+    flex: 1;
     margin: 0 10px;
 }
 
 .volume-value {
     font-size: 16px;
     text-align: right;
-    width: 35px; /* Define uma largura fixa para impedir que seja cortado */
+    /* Largura será definida na media query para telas menores */
 }
-/* --- FIM DA CORREÇÃO --- */
+/* --- FIM DO ESTILO PADRÃO --- */
 
-.volume-icon { margin-right: 5px; font-size: 20px; flex-shrink: 0; }
+.volume-icon { font-size: 20px; }
 
 @media (max-width: 768px) {
     #side-menu {
@@ -287,4 +287,10 @@ body.menu-open #menu-toggle {
 }
 .game-container.choices-active .side.keyboard-hover .song-content-wrapper {
     transform: scale(1.05) translateY(-5px);
+}
+
+@media (max-width: 1280px) {
+    .volume-value {
+        width: 35px; 
+    }
 }
