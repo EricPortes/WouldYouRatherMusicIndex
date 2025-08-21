@@ -172,6 +172,7 @@
     let currentVolume = 1.0;
     let revealTimeoutId = null;
     let replayButtonTimeoutId = null;
+    let keyboardHoverSide = null; 
 
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioContext = new AudioContext();
@@ -260,6 +261,16 @@
         });
     }
 
+    function updateKeyboardHover() {
+        sideLeft.classList.remove('keyboard-hover');
+        sideRight.classList.remove('keyboard-hover');
+        if (keyboardHoverSide === 'left') {
+            sideLeft.classList.add('keyboard-hover');
+        } else if (keyboardHoverSide === 'right') {
+            sideRight.classList.add('keyboard-hover');
+        }
+    }
+
     function toggleMenu() {
         sideMenu.classList.toggle('open');
         menuOverlay.classList.toggle('visible');
@@ -269,6 +280,9 @@
     async function startRound() {
         if (isRoundLoading) return;
         isRoundLoading = true;
+
+        keyboardHoverSide = null;
+        updateKeyboardHover();
 
         clearTimeout(revealTimeoutId);
         clearTimeout(replayButtonTimeoutId);
@@ -390,6 +404,8 @@
         if (!roundOver && isChoiceEnabled) {
             roundOver = true;
             isChoiceEnabled = false;
+            keyboardHoverSide = null;
+            updateKeyboardHover();
             gameContainer.classList.remove('choices-active');
 
             const winnerSong = currentSongs[side];
@@ -599,7 +615,66 @@
             }
         });
 
+        // Event listener para controles de teclado
         document.addEventListener('keydown', (event) => {
+            // Impede ações se o menu estiver aberto, exceto para fechar com Esc
+            if (sideMenu.classList.contains('open')) {
+                if (event.key === 'Escape') {
+                    toggleMenu();
+                }
+                return;
+            }
+
+            // Ação para a tecla ESPAÇO
+            if (event.key === ' ' || event.key === 'Spacebar') {
+                event.preventDefault(); // Impede a rolagem da página
+                if (startButton.style.display !== 'none') {
+                    startButton.click();
+                } else if (nextRoundButton.style.display !== 'none') {
+                    nextRoundButton.click();
+                }
+            }
+            
+            // Ação para a tecla R (Replay)
+            if (event.key === 'r' || event.key === 'R') {
+                event.preventDefault();
+                // Contexto 1: Durante a fase de escolha
+                if (isChoiceEnabled && replayButtonsEnabled && keyboardHoverSide) {
+                    if (keyboardHoverSide === 'left') {
+                        replayLeftButton.click();
+                    } else if (keyboardHoverSide === 'right') {
+                        replayRightButton.click();
+                    }
+                }
+                // Contexto 2: Após a escolha (apenas o botão do vencedor está visível)
+                else if (roundOver) {
+                    if (replayLeftButton.classList.contains('result-visible')) {
+                        replayLeftButton.click();
+                    } else if (replayRightButton.classList.contains('result-visible')) {
+                        replayRightButton.click();
+                    }
+                }
+            }
+
+            // Ações para SETAS e ENTER (apenas quando a escolha está ativa)
+            if (isChoiceEnabled) {
+                if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    keyboardHoverSide = 'left';
+                    updateKeyboardHover();
+                } else if (event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    keyboardHoverSide = 'right';
+                    updateKeyboardHover();
+                } else if (event.key === 'Enter') {
+                    event.preventDefault();
+                    if (keyboardHoverSide) {
+                        handleChoice(keyboardHoverSide);
+                    }
+                }
+            }
+
+            // Ação para a tecla ESCAPE (fora do menu)
             if (event.key === 'Escape') {
                 toggleMenu();
             }
@@ -608,5 +683,3 @@
     </script>
 </body>
 </html>
-
-
