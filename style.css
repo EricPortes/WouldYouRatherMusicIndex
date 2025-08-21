@@ -41,7 +41,7 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
 
 .song-content.visible { opacity: 1; transform: scale(1); }
 .song-content-wrapper {
-     transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.3s ease-in-out;
 }
 
 .side.playing .song-content-wrapper,
@@ -190,8 +190,8 @@ body.menu-open #menu-toggle {
     padding: 10px 0;
 }
 .volume-slider-container {
-     flex-grow: 1;
-     margin: 0 10px;
+    flex-grow: 1;
+    margin: 0 10px;
 }
 .volume-icon { margin-right: 5px; font-size: 20px; flex-shrink: 0; }
 .volume-value { font-size: 16px; min-width: 25px; text-align: right; flex-shrink: 0; }
@@ -271,3 +271,11 @@ body.menu-open #menu-toggle {
     transition: opacity 0.3s, visibility 0.3s;
 }
 #share-button.show-tooltip::after { opacity: 1; visibility: visible; }
+
+/* REGRAS ADICIONADAS PARA O HOVER DO TECLADO */
+.game-container.choices-active .side.keyboard-hover::after {
+    opacity: 1;
+}
+.game-container.choices-active .side.keyboard-hover .song-content-wrapper {
+    transform: scale(1.05) translateY(-5px);
+}
