@@ -16,8 +16,8 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
     background-color: rgba(0, 0, 0, 0.5); opacity: 0;
     transition: opacity 0.3s ease-in-out; z-index: 0;
 }
-.game-container.choices-active .side:hover::after { opacity: 1; }
-.game-container.choices-active .side:hover .song-content-wrapper { transform: scale(1.05) translateY(-5px); }
+.game-container.mouse-controls-active.choices-active .side:hover::after { opacity: 1; }
+.game-container.mouse-controls-active.choices-active .side:hover .song-content-wrapper { transform: scale(1.05) translateY(-5px); }
 
 .song-content {
     position: relative; text-align: center; color: white; z-index: 1;
@@ -185,7 +185,6 @@ body.menu-open #menu-toggle {
 }
 .info-popup:hover::after, .info-popup:focus::after { opacity: 1; visibility: visible; }
 
-/* --- CONTROLE DE VOLUME (ESTILO PADRÃO PARA TELAS GRANDES) --- */
 .volume-control {
     display: flex;
     align-items: center;
@@ -200,10 +199,7 @@ body.menu-open #menu-toggle {
 .volume-value {
     font-size: 16px;
     text-align: right;
-    /* Largura será definida na media query para telas menores */
 }
-/* --- FIM DO ESTILO PADRÃO --- */
-
 .volume-icon { font-size: 20px; }
 
 @media (max-width: 768px) {
