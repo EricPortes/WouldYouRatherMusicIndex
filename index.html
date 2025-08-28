@@ -173,7 +173,8 @@
     let currentVolume = 1.0;
     let revealTimeoutId = null;
     let replayButtonTimeoutId = null;
-    let keyboardHoverSide = null; 
+    let keyboardHoverSide = null;
+    let lastInputMethod = 'mouse';
 
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioContext = new AudioContext();
@@ -282,7 +283,9 @@
         if (isRoundLoading) return;
         isRoundLoading = true;
 
-        gameContainer.classList.add('mouse-controls-active');
+        if (lastInputMethod === 'mouse') {
+            gameContainer.classList.add('mouse-controls-active');
+        }
         keyboardHoverSide = null;
         updateKeyboardHover();
 
@@ -635,6 +638,7 @@
         });
 
         document.addEventListener('mousemove', () => {
+            lastInputMethod = 'mouse';
             gameContainer.classList.add('mouse-controls-active');
             if (keyboardHoverSide !== null) {
                 keyboardHoverSide = null;
@@ -678,13 +682,16 @@
             }
 
             if (isChoiceEnabled) {
-                if (event.key === 'ArrowLeft') {
+                const key = event.key.toLowerCase();
+                if (key === 'arrowleft' || key === 'a') {
                     event.preventDefault();
+                    lastInputMethod = 'keyboard';
                     gameContainer.classList.remove('mouse-controls-active');
                     keyboardHoverSide = 'left';
                     updateKeyboardHover();
-                } else if (event.key === 'ArrowRight') {
+                } else if (key === 'arrowright' || key === 'd') {
                     event.preventDefault();
+                    lastInputMethod = 'keyboard';
                     gameContainer.classList.remove('mouse-controls-active');
                     keyboardHoverSide = 'right';
                     updateKeyboardHover();
